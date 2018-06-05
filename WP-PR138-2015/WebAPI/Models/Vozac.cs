@@ -1,22 +1,23 @@
-﻿using Common;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebAPI.Interfaces;
 
 namespace WebAPI.Models
 {
     public class Vozac : Korisnik
     {
-        public string Username { get => Username; set => Username=value; }
-        public string Password { get => Password; set => Password=value; }
-        public string Name { get => Name; set => Name=value; }
-        public string Lastname { get => Lastname; set => Lastname=value; }
-        public Enums.Genders Gender { get => Gender; set => Gender=value; }
-        public string Jmbg { get => Jmbg; set => Jmbg = value; }
-        public string PhoneNumber { get => PhoneNumber; set => PhoneNumber = value; }
-        public string Email { get => Email; set => Email = value; }
-        public Enums.Roles Role { get => Role; set => Role=value; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public string Lastname { get; set; }
+        public Enums.Genders Gender { get; set; }
+        public string Jmbg { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public Enums.Roles Role { get; set; }
         public Lokacija Location { get; set; }
         public Automobil Car { get; set; }
     }
