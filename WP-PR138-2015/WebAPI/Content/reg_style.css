@@ -28,7 +28,7 @@ div.main {
     font-size: 13px;
 }
 
-input[type=text], [type=password] {
+input[type=text], [type=password], [type=email] {
     width: 97.7%;
     height: 34px;
     padding-left: 5px;
@@ -64,3 +64,4 @@ label {
     #register:hover {
         background: linear-gradient(#36caf0 5%, #22abe9 100%);
     }
+

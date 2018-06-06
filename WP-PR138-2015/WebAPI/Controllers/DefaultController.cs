@@ -16,5 +16,12 @@ namespace WebAPI.Controllers
             var requestUri = Request.RequestUri;
             return Redirect(requestUri.AbsoluteUri + "/HTML/Registration.html");
         }
+
+        [HttpGet]
+        [Route("test")]
+        public String test()
+        {
+            return "REST is working.";
+        }
     }
 }

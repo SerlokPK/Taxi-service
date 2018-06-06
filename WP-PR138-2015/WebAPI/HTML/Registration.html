@@ -3,8 +3,10 @@
 <head>
     <title>Welcome to taxi</title>
     <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="pragma" content="no-cache" />
     <!-- Include CSS File Here -->
-    <link rel="stylesheet" href="../Content/reg_style.css" />
+    <link href="../Content/reg_style.css" rel="stylesheet" />
+    <!--<link href="../Content/bootstrap.min.css" rel="stylesheet" />-->
     <!-- Include JS File Here -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--Pazi da mozda nece raditi bez neta-->
     <script src="../Scripts/Registration.js"></script>
@@ -12,34 +14,52 @@
 <body>
     <div class="container">
         <div class="main">
-            <form class="form" method="post" action="#">
-                <h2>Registration form</h2>
-                <label>Username :</label>
-                <input type="text" name="Username" id="username">
-                <label>Name :</label>
-                <input type="text" name="Name" id="name">
-                <label>Lastname :</label>
-                <input type="text" name="Lastname" id="lastname">
-                <label>Email :</label>
-                <input type="email" name="Email" id="email">
-                <label>Password :</label>
-                <input type="password" name="Password" id="password">
-                <label>Confirm Password :</label>
-                <input type="password" name="Cpassword" id="cpassword">
-                <div>
-                    <input type="radio" name="gender" value="Male" checked> Male<br>
-                    <input type="radio" name="gender" value="Female"> Female<br>
+            <!--<form class="form" method="post" action="#">-->
+            <h2>Registration form</h2>
+            <label>Username :</label>
+            <input type="text" name="Username" id="username">
+            <label>Name :</label>
+            <input type="text" name="Name" id="name">
+            <label>Lastname :</label>
+            <input type="text" name="Lastname" id="lastname">
+            <label>Email :</label>
+            <input type="email" name="Email" id="email">
+            <label>Password :</label>
+            <input type="password" name="Password" id="password">
+            <label>Confirm Password :</label>
+            <input type="password" name="Cpassword" id="cpassword">
+            <label>Identification number :</label>
+            <input type="text" name="Jmbg" id="jmbg">
+            <label>Phnone number :</label>
+            <input type="text" name="PhoneNumber" id="phone">
+            <div>
+                <label>Role :</label><br />
+                <input type="radio" name="Role" value="Customer" checked> Customer<br>
+                <input type="radio" name="Role" value="Driver"> Driver<br><br />
+            </div>
+            <div>
+                <label>Gender :</label><br />
+                <input type="radio" name="Gender" value="Male" checked> Male<br>
+                <input type="radio" name="Gender" value="Female"> Female<br>
+            </div>
+            <input type="button" name="register" id="register" value="Register">
+            <!--</form>-->
+            <!--<div class="modal fade" tabindex="-1" id="successModal" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4>Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h2>Registration succesfful</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-success">Close</button>
+                        </div>
+                    </div>
                 </div>
-                <label>Identification number :</label>
-                <input type="text" name="Jmbg" id="jmbg">
-                <label>Phnone number :</label>
-                <input type="text" name="Phone" id="phone">
-                <div>
-                    <input type="radio" name="type" value="Customer" checked> Customer<br>
-                    <input type="radio" name="type" value="Driver"> Driver<br>
-                </div>
-                <input type="button" name="register" id="register" value="Register">
-            </form>
+            </div>-->
         </div>
     </div>
 </body>
