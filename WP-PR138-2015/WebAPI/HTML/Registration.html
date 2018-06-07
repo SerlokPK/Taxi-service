@@ -12,9 +12,14 @@
     <script src="../Scripts/Registration.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div name="headerDiv">
+        <button name="btnSign" id="btnsign">Sign in</button>
+        <button name="btnLog" id="btnlog">Log in</button>
+    </div>
+    <hr />
+    <!--strana za registraciju-->
+    <div class="container" id="regDiv">
         <div class="main">
-            <!--<form class="form" method="post" action="#">-->
             <h2>Registration form</h2>
             <label>Username :</label>
             <input type="text" name="Username" id="username">
@@ -33,33 +38,22 @@
             <label>Phnone number :</label>
             <input type="text" name="PhoneNumber" id="phone">
             <div>
-                <label>Role :</label><br />
-                <input type="radio" name="Role" value="Customer" checked> Customer<br>
-                <input type="radio" name="Role" value="Driver"> Driver<br><br />
-            </div>
-            <div>
                 <label>Gender :</label><br />
                 <input type="radio" name="Gender" value="Male" checked> Male<br>
                 <input type="radio" name="Gender" value="Female"> Female<br>
             </div>
             <input type="button" name="register" id="register" value="Register">
-            <!--</form>-->
-            <!--<div class="modal fade" tabindex="-1" id="successModal" data-keyboard="false" data-backdrop="static">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4>Success</h4>
-                        </div>
-                        <div class="modal-body">
-                            <h2>Registration succesfful</h2>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-success">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
+        </div>
+    </div>
+    <!--strana za logovanje-->
+    <div class="container" id="logDiv">
+        <div class="main">
+            <h2>Log in form</h2>
+            <label>Username :</label>
+            <input type="text" name="Username" id="usernameLog">
+            <label>Password :</label>
+            <input type="password" name="Password" id="passwordLog">
+            <input type="button" name="Login" id="login" value="Log in">
         </div>
     </div>
 </body>

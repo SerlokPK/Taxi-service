@@ -18,6 +18,6 @@ namespace WebAPI.Interfaces
         string PhoneNumber { get; set; }
         string Email { get; set; }
         Roles Role { get; set; }
-        //dodati tip voznje
+        DrivingStatus DriveStatus { get; set; }
     }
 }

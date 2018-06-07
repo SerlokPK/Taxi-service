@@ -37,7 +37,7 @@ input[type=text], [type=password], [type=email] {
     box-shadow: 0 0 5px #00F5FF;
     border: 2px solid #00F5FF;
     color: #4f4f4f;
-    font-size: 16px;
+    font-size: 13px;
 }
 
 label {
@@ -61,7 +61,11 @@ label {
     width: 100%;
 }
 
-    #register:hover {
-        background: linear-gradient(#36caf0 5%, #22abe9 100%);
-    }
+#register:hover {
+       background: linear-gradient(#36caf0 5%, #22abe9 100%);
+}
+
+#regDiv{
+    display:none;
+}
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebAPI.Interfaces;
+using static WebAPI.Models.Enums;
 
 namespace WebAPI.Models
 {
@@ -13,12 +14,13 @@ namespace WebAPI.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
-        public Enums.Genders Gender { get; set; }
+        public Genders Gender { get; set; }
         public string Jmbg { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public Enums.Roles Role { get; set; }
+        public Roles Role { get; set; }
         public Lokacija Location { get; set; }
         public Automobil Car { get; set; }
+        public DrivingStatus DriveStatus { get; set; }
     }
 }

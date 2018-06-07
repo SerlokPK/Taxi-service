@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
+using WebAPI.DBClasses;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -21,7 +23,7 @@ namespace WebAPI.Controllers
         [Route("test")]
         public String test()
         {
-            return "REST is working.";
+           return "REST is working.";
         }
     }
 }

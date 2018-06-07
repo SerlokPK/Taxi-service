@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebAPI.DBClasses;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -12,29 +13,33 @@ namespace WebAPI.Controllers
     public class RegistrationController : ApiController
     {
         [HttpPost]
-        public HttpResponseMessage PostUser([FromBody] Musterija k)
+        public HttpResponseMessage PostMusterija([FromBody] Musterija k)
         {
-            var msg = Request.CreateResponse(HttpStatusCode.Created, k);
-            msg.Headers.Location = new Uri(Request.RequestUri + k.Username);
+            HttpResponseMessage msg;
 
-            string CS = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Serlok\source\repos\TaxiSluzba\WP-PR138-2015\WebAPI\App_Data\Database1.mdf;Integrated Security=True";
-
-            using (SqlConnection con = new SqlConnection(CS))
+            try
             {
-                con.Open();
-                SqlCommand cmd;
+                using (var db = new SystemDBContext())
+                {
+                    if (!db.Musterije.Contains(k))
+                    {
+                        db.Musterije.Add(k);
+                        db.SaveChanges();
 
-                string query = $"INSERT INTO [Korisnici](Id, ime) VALUES(5, '{k.Name}')";
+                        msg = Request.CreateResponse(HttpStatusCode.Created, k);
+                        msg.Headers.Location = new Uri(Request.RequestUri + k.Username);
+                    }
+                    else
+                    {
+                        msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Korisnik already exist");
+                    }
 
-                cmd = new SqlCommand(query, con);
-                cmd.ExecuteNonQuery();
-
+                    return msg;
+                }
+            }catch(Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-
-
-
-
-            return msg;
         }
     }
 }
