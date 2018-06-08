@@ -10,6 +10,6 @@ namespace WebAPI.DBClasses
     public class SystemDBContext : DbContext
     {
         public DbSet<Musterija> Musterije { get; set; }
-        //public DbSet<Vozac> Vozaci { get; set; }
+        public DbSet<Admin> Admini { get; set; }
     }
 }

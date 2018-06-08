@@ -15,11 +15,11 @@
             alert("All fields are required.");
             status = false;
         } else {
-            if ((password.length) < 8 || password.length > 25) {
+            if ((password.length) < 6 || password.length > 25) {
                 $("#password").css('background-color', '#F9D3D3');
                 $('#password')[0].type = 'text';
                 $('#password').val("");
-                $("#password").attr("placeholder", "Lenght: 8 - 25 characters");
+                $("#password").attr("placeholder", "Lenght: 6 - 25 characters");
                 status = false;
             } else {
                 $("#password").css('background-color', "white");
@@ -67,11 +67,11 @@
                 $("#jmbg").attr("placeholder", "");
             }
 
-            if (phone.length !== 10) {
+            if (phone.length !== 10 || isNaN(phone)) {
                 $("#phone").css('background-color', '#F9D3D3');
                 status = false;
                 $('#phone').val("");
-                $("#phone").attr("placeholder", "Phone number must have 10 characters");
+                $("#phone").attr("placeholder", "Phone number must have 10 numbers");
             }
             else {
                 $("#phone").css('background-color', "white");
@@ -87,10 +87,13 @@
                 $('#cpassword').val("");
                 $("#cpassword").attr("placeholder", "Mismatch in password");
             } else {
-                $("#password").css('background-color', "white");
-                $("#cpassword").css('background-color', "white");
-                $('#cpassword')[0].type = 'password';
-                $("#phone").attr("placeholder", "");
+                if (status) {
+                    $("#password").css('background-color', "white");
+                    $("#cpassword").css('background-color', "white");
+                    $('#cpassword')[0].type = 'password';
+                    $("#phone").attr("placeholder", "");
+                }
+                
             }
 
             let info = [];
@@ -127,6 +130,7 @@
                 dataType: "json",
                 success: function () {
                     alert("Succesffully registered");
+                    EmptyAllInputs();
                     $("#logDiv").show();
                     $("#regDiv").hide();
                 },
@@ -150,7 +154,7 @@
             $.ajax({
                 method: "POST",
                 url: "/api/LogIn",
-                data: JSON.stringify({ uname: username, pw: password}),
+                data: JSON.stringify({ Username: username, Password: password}),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
@@ -174,3 +178,15 @@
         $("#regDiv").hide();
     });
 });
+
+//da ispraznim sva polja unutar regstracione forme nakon uspesnog registrovanja
+function EmptyAllInputs() {
+    var name = $("#name").val("");
+    var email = $("#email").val("");
+    var password = $("#password").val("");
+    var cpassword = $("#cpassword").val("");
+    var username = $("#username").val("");
+    var lastname = $("#lastname").val("");
+    var identification = $("#jmbg").val("");
+    var phone = $("#phone").val("");
+}

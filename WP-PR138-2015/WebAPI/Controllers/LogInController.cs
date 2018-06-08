@@ -15,13 +15,11 @@ namespace WebAPI.Controllers
          public HttpResponseMessage PostMusterija([FromBody]Musterija mus)
         {
             HttpResponseMessage msg;
-            SystemRepository repo = new SystemRepository();
+            MusterijaRepository repo = new MusterijaRepository();
 
-            List<Musterija> musterije = repo.GetMusterije();
+            Musterija m = repo.GetOneMusterija(mus.Username);
 
-            Musterija m=musterije.FirstOrDefault(x => x.Username == mus.Username && x.Password == mus.Password);
-
-            if(m != null)
+            if(m != null && mus.Password == m.Password)
             {
                 msg = Request.CreateResponse(HttpStatusCode.Created, m);
                 msg.Headers.Location = new Uri(Request.RequestUri + m.Username);

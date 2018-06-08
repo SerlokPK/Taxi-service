@@ -59,6 +59,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -128,6 +129,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Register\" />
   </ItemGroup>
@@ -167,8 +169,9 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="DBClasses\StringExtensions.cs" />
     <Compile Include="DBClasses\SystemDBContext.cs" />
-    <Compile Include="DBClasses\SystemRepository.cs" />
+    <Compile Include="DBClasses\MusterijaRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,14 +188,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Database1.mdf" />
-    <Content Include="App_Data\Database1_log.ldf">
-      <DependentUpon>Database1.mdf</DependentUpon>
-    </Content>
-    <Content Include="App_Data\MusterijaDB.mdf" />
-    <Content Include="App_Data\MusterijaDB_log.ldf">
-      <DependentUpon>MusterijaDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />

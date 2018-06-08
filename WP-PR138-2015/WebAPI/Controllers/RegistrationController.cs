@@ -16,12 +16,15 @@ namespace WebAPI.Controllers
         public HttpResponseMessage PostMusterija([FromBody] Musterija k)
         {
             HttpResponseMessage msg;
+            MusterijaRepository repo = new MusterijaRepository();
 
             try
             {
                 using (var db = new SystemDBContext())
                 {
-                    if (!db.Musterije.Contains(k))
+                    Musterija must = repo.GetOneMusterija(k.Username);
+
+                    if (must == null)
                     {
                         db.Musterije.Add(k);
                         db.SaveChanges();

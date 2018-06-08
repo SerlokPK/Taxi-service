@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         [Route("test")]
         public String test()
         {
-           return "REST is working.";
+                return "REST is working.";
         }
     }
 }
