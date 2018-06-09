@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
                     }
                     else
                     {
-                        msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Korisnik already exist");
+                        msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User already exist");
                     }
 
                     return msg;

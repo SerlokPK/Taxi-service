@@ -168,7 +168,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
+    <Compile Include="Controllers\MusterijaController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="DBClasses\AdminRepository.cs" />
     <Compile Include="DBClasses\StringExtensions.cs" />
     <Compile Include="DBClasses\SystemDBContext.cs" />
     <Compile Include="DBClasses\MusterijaRepository.cs" />

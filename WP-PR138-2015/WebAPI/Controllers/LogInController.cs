@@ -15,15 +15,22 @@ namespace WebAPI.Controllers
          public HttpResponseMessage PostMusterija([FromBody]Musterija mus)
         {
             HttpResponseMessage msg;
-            MusterijaRepository repo = new MusterijaRepository();
+            MusterijaRepository musRepo = new MusterijaRepository();
+            AdminRepository adminRepo = new AdminRepository();
 
-            Musterija m = repo.GetOneMusterija(mus.Username);
+            Musterija m = musRepo.GetOneMusterija(mus.Username);
+            Admin a = adminRepo.GetOneAdmin(mus.Username);
 
-            if(m != null && mus.Password == m.Password)
+            if(musRepo.MusterijaLogged(m,mus.Password))
             {
                 msg = Request.CreateResponse(HttpStatusCode.Created, m);
                 msg.Headers.Location = new Uri(Request.RequestUri + m.Username);
-            }else
+            }else if(adminRepo.AdminLogged(a,mus.Password))
+            {
+                msg = Request.CreateResponse(HttpStatusCode.Created, a);
+                msg.Headers.Location = new Uri(Request.RequestUri + a.Username);
+            }
+            else
             {
                 msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Korisnik isn't registered.");
             }

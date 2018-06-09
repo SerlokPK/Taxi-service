@@ -6,25 +6,25 @@ using WebAPI.Models;
 
 namespace WebAPI.DBClasses
 {
-    public class MusterijaRepository
+    public class AdminRepository
     {
-        public List<Musterija> GetMusterije()
+        public List<Admin> GetAdmins()
         {
             SystemDBContext context = new SystemDBContext();
 
-            return context.Musterije.ToList();
+            return context.Admini.ToList();
         }
 
-        public Musterija GetOneMusterija(string username)
+        public Admin GetOneAdmin(string username)
         {
-            List<Musterija> list = GetMusterije();
+            List<Admin> list = GetAdmins();
 
             return list.FirstOrDefault(x => x.Username == username);
         }
 
-        public bool MusterijaLogged(Musterija m,string pw)
+        public bool AdminLogged(Admin a, string pw)
         {
-            if(m != null && pw == m.Password)
+            if (a != null && pw == a.Password)
             {
                 return true;
             }
