@@ -57,7 +57,7 @@
                 $("#lastname").attr("placeholder", "");
             }
 
-            if (identification.length !== 13) {
+            if (identification.length !== 13 || isNaN(identification)) {
                 $("#jmbg").css('background-color', '#F9D3D3');
                 status = false;
                 $('#jmbg').val("");
@@ -158,7 +158,8 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    sessionStorage.setItem("logged", response); //cuvam ulogovanu musteriju
+                    sessionStorage.setItem("logged", JSON.stringify(response)); //cuvam ulogovanu musteriju kao string
+                    console.log("Ovo pise -" + sessionStorage["logged"]);
                     alert("Succesffully logged in");
                     window.location.href = "/HTML/Main.html"; //kada se uspesno ulogujem, idem na main stranicu
                 },

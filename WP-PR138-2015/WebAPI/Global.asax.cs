@@ -29,14 +29,14 @@ namespace WebAPI
 
             //programsko ucitavanje admina
             string[] info = new string[10];
-            string path = AppDomain.CurrentDomain.BaseDirectory + "Admini.txt";//Path.Combine(Directory.GetCurrentDirectory(), "Admini.txt");
+            string path = AppDomain.CurrentDomain.BaseDirectory + "Admini.txt";
             using (StreamReader sr = File.OpenText(path))
             {
                 string s = String.Empty;
                 while ((s = sr.ReadLine()) != null)
                 {
                     info = s.Split(';');
-                    try
+                    try //samo jendom ce dodati admine, sledeci put nece, zbog jedinstvenosti kljuca
                     {
                         using (SystemDBContext db = new SystemDBContext())
                         {

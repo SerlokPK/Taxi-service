@@ -22,7 +22,7 @@
             <table class="widther" border="1">
                 <tr>
                     <td>Username :</td>
-                    <td id="tdusername">&nbsp;</td>
+                    <td id="tdusername"></td>
                 </tr>
                 <tr>
                     <td>Name :</td>
@@ -61,38 +61,39 @@
     <div class="container hideDivs" name="divUpdate" id="divupdate">
         <div class="main">
             <h3>User info</h3>
-            <table border="1">
-                <tr>
-                    <td>Username :</td>
-                    <td><input type="text" name="Username" id="username"></td>
-                </tr>
+            <table class="widther" border="1">
                 <tr>
                     <td>Name :</td>
-                    <td><input  type="text" name="Name" id="name"></td>
+                    <td><input type="text" name="Name" id="name"></td>
                 </tr>
                 <tr>
                     <td>Lastname :</td>
-                    <td><input  type="text" name="Lastname" id="lastname" /></td>
+                    <td><input type="text" name="Lastname" id="lastname" /></td>
                 </tr>
                 <tr>
                     <td>Email :</td>
-                    <td><input  type="text" name="Email" id="email"></td>
+                    <td><input type="text" name="Email" id="email"></td>
                 </tr>
                 <tr>
                     <td>Password :</td>
-                    <td><input  type="text" name="Password" id="password"></td>
+                    <td><input type="text" name="Password" id="password"></td>
                 </tr>
                 <tr>
                     <td>Identification number :</td>
-                    <td><input  type="text" name="Jmbg" id="jmbg"></td>
+                    <td><input type="text" name="Jmbg" id="jmbg"></td>
                 </tr>
                 <tr>
                     <td>Phone number :</td>
-                    <td><input  type="text" name="PhoneNumber" id="phone"></td>
+                    <td><input type="text" name="PhoneNumber" id="phone"></td>
                 </tr>
                 <tr>
                     <td>Gender :</td>
-                    <td><input  type="text" name="Gender" id="gender"></td> <!--namesti da bude dropdownlista, kasnije-->
+                    <td>
+                        <select id="gender"> <!--defaultna vrednost-->
+                            <option selected>Male</option> 
+                            <option>Female</option>
+                        </select>
+                    </td> 
                 </tr>
                 <tr>
                     <td colspan="2"><input type="button" name="Update" id="btnupdate" value="Save changes"></td>
