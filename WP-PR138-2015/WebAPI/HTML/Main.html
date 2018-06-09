@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="../Content/main_style.css" rel="stylesheet" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--Pazi da mozda nece raditi bez neta-->
+    <script src="../Scripts/MainButtonSwitching.js"></script>
+    <title></title>
+</head>
+<body>
+    <span>Welcome to Z-Taxi</span>
+    <button name="btnHome" id="btnhome">Home</button>
+    <button name="btnProfile" id="btnprofile">Profile</button>
+    <button name="btnLogOff" id="btnlogoff">Log Off</button>
+    <hr />
+    <div name="divHome" id="divhome">
+        <h2>This is home page</h2>
+    </div>
+    <div class="container hideDivs" name="divProfile" id="divprofile">
+        <div class="main">
+            <h3>User info</h3>
+            <table class="widther" border="1">
+                <tr>
+                    <td>Username :</td>
+                    <td id="tdusername">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Name :</td>
+                    <td id="tdname"></td>
+                </tr>
+                <tr>
+                    <td>Lastname :</td>
+                    <td id="tdlastname"></td>
+                </tr>
+                <tr>
+                    <td>Email :</td>
+                    <td id="tdemail"></td>
+                </tr>
+                <tr>
+                    <td>Password :</td>
+                    <td id="tdpw"></td>
+                </tr>
+                <tr>
+                    <td>Identification number :</td>
+                    <td id="tdjmbg"></td>
+                </tr>
+                <tr>
+                    <td>Phone number :</td>
+                    <td id="tdphone"></td>
+                </tr>
+                <tr>
+                    <td>Gender :</td>
+                    <td id="tdgender"></td> <!--namesti da bude dropdownlista, kasnije-->
+                </tr>
+                <tr>
+                    <td colspan="2"><button id="btnChange">Make changes</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="container hideDivs" name="divUpdate" id="divupdate">
+        <div class="main">
+            <h3>User info</h3>
+            <table border="1">
+                <tr>
+                    <td>Username :</td>
+                    <td><input type="text" name="Username" id="username"></td>
+                </tr>
+                <tr>
+                    <td>Name :</td>
+                    <td><input  type="text" name="Name" id="name"></td>
+                </tr>
+                <tr>
+                    <td>Lastname :</td>
+                    <td><input  type="text" name="Lastname" id="lastname" /></td>
+                </tr>
+                <tr>
+                    <td>Email :</td>
+                    <td><input  type="text" name="Email" id="email"></td>
+                </tr>
+                <tr>
+                    <td>Password :</td>
+                    <td><input  type="text" name="Password" id="password"></td>
+                </tr>
+                <tr>
+                    <td>Identification number :</td>
+                    <td><input  type="text" name="Jmbg" id="jmbg"></td>
+                </tr>
+                <tr>
+                    <td>Phone number :</td>
+                    <td><input  type="text" name="PhoneNumber" id="phone"></td>
+                </tr>
+                <tr>
+                    <td>Gender :</td>
+                    <td><input  type="text" name="Gender" id="gender"></td> <!--namesti da bude dropdownlista, kasnije-->
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" name="Update" id="btnupdate" value="Save changes"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

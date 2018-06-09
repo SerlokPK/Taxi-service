@@ -160,6 +160,7 @@
                 success: function (response) {
                     sessionStorage.setItem("logged", response); //cuvam ulogovanu musteriju
                     alert("Succesffully logged in");
+                    window.location.href = "/HTML/Main.html"; //kada se uspesno ulogujem, idem na main stranicu
                 },
                 error: function (msg) {
                     alert("Error - " + msg.responseText);
