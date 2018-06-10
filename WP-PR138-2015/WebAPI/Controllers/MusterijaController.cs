@@ -12,6 +12,32 @@ namespace WebAPI.Controllers
 {
     public class MusterijaController : ApiController
     {
+        [HttpGet]
+        public HttpResponseMessage GetMusterija()
+        {
+            HttpResponseMessage msg;
+            MusterijaRepository repo = new MusterijaRepository();
+
+            try
+            {
+                List<Musterija> list = repo.GetMusterije();
+
+                if(list == null)
+                {
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
+                }else
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK,list);
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
+            }
+
+            return msg;
+        }
+
         [HttpPut]
         public HttpResponseMessage PutMusterija(Musterija m) //ako prosledjujes u PUT-u objekat, ne moras da stavljas frombody, a ako hoces, moras prvi ID param
         {
@@ -34,7 +60,7 @@ namespace WebAPI.Controllers
 
                     db.SaveChanges();
 
-                    msg = Request.CreateResponse(HttpStatusCode.Created, mus);
+                    msg = Request.CreateResponse(HttpStatusCode.OK, mus);
                     msg.Headers.Location = new Uri(Request.RequestUri + mus.Username);
                 }
 

@@ -5,18 +5,21 @@
     <link href="../Content/main_style.css" rel="stylesheet" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--Pazi da mozda nece raditi bez neta-->
     <script src="../Scripts/MainButtonSwitching.js"></script>
+    <script src="../Scripts/AdminRoleChanging.js"></script>
     <title></title>
 </head>
 <body>
     <span>Welcome to Z-Taxi</span>
     <button name="btnHome" id="btnhome">Home</button>
     <button name="btnProfile" id="btnprofile">Profile</button>
+    <button id="btnchangeroles" class="hideButtons">Change role</button>
     <button name="btnLogOff" id="btnlogoff">Log Off</button>
     <hr />
     <div name="divHome" id="divhome">
         <h2>This is home page</h2>
     </div>
     <div class="container hideDivs" name="divProfile" id="divprofile">
+        <!--profile-->
         <div class="main">
             <h3>User info</h3>
             <table class="widther" border="1">
@@ -50,7 +53,7 @@
                 </tr>
                 <tr>
                     <td>Gender :</td>
-                    <td id="tdgender"></td> <!--namesti da bude dropdownlista, kasnije-->
+                    <td id="tdgender"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><button id="btnChange">Make changes</button></td>
@@ -59,6 +62,7 @@
         </div>
     </div>
     <div class="container hideDivs" name="divUpdate" id="divupdate">
+        <!--update profila-->
         <div class="main">
             <h3>User info</h3>
             <table class="widther" border="1">
@@ -89,11 +93,12 @@
                 <tr>
                     <td>Gender :</td>
                     <td>
-                        <select id="gender"> <!--defaultna vrednost-->
-                            <option selected>Male</option> 
+                        <select id="gender">
+                            <!--defaultna vrednost-->
+                            <option selected>Male</option>
                             <option>Female</option>
                         </select>
-                    </td> 
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="button" name="Update" id="btnupdate" value="Save changes"></td>
@@ -101,6 +106,12 @@
             </table>
         </div>
     </div>
+    <div class="container hideDivs" id="divallcustomers">
+        <div class="main">
+            <ol id="listallcustomers" class="olist">
 
+            </ol>
+        </div>
+    </div>
 </body>
 </html>

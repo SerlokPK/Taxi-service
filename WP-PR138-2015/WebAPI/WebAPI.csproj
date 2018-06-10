@@ -56,6 +56,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MlkPwgen, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MlkPwgen.0.3.0\lib\net45\MlkPwgen.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -170,10 +173,12 @@
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\MusterijaController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\VozacController.cs" />
     <Compile Include="DBClasses\AdminRepository.cs" />
     <Compile Include="DBClasses\StringExtensions.cs" />
     <Compile Include="DBClasses\SystemDBContext.cs" />
     <Compile Include="DBClasses\MusterijaRepository.cs" />
+    <Compile Include="DBClasses\VozacRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -200,6 +205,7 @@
     <Content Include="HTML\Main.html" />
     <Content Include="index.html" />
     <Content Include="HTML\Registration.html" />
+    <Content Include="Scripts\AdminRoleChanging.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

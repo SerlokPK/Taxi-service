@@ -5,6 +5,10 @@
 
     let logUser = JSON.parse(sessionStorage.getItem("logged")); //vadim iz sesije korisnika i parsiram u JSON obj
 
+    if (logUser.RoleString === 'Admin') {
+        $('#btnchangeroles').show();
+    }
+
     $('#tdusername').html(logUser.Username);
     $('#tdname').html(logUser.Name);
     $('#tdlastname').html(logUser.Lastname);
@@ -18,18 +22,21 @@
         $('#divhome').show();
         $('#divprofile').hide();
         $('#divupdate').hide();
+        $('#divallcustomers').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
         $('#divprofile').show();
         $('#divhome').hide();
         $('#divupdate').hide();
+        $('#divallcustomers').hide();
     });
 
     $('#btnChange').click(function () { //update forma
         $('#divprofile').hide();
         $('#divhome').hide();
         $('#divupdate').show();
+        $('#divallcustomers').hide();
     });
 
     $('#btnlogoff').click(function () {

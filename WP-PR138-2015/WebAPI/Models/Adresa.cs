@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace WebAPI.Models
 {
     public class Adresa
-    {//Ulica broj, Naseljeno mesto Pozivni broj mesta (npr. Sutjeska 3, Novi Sad 21000)
+    {
+        //[Key]
+        //public int Id { get; set; }
         public string FullAddress { get; set; }
-        public Adresa(string address,int number1,string city,int number2,string phoneNumber)
+        public Adresa(string address,int number1,string city,int number2,int phoneNumber)
         {
             this.FullAddress = $"{address} {number1}, {city} {number2} - {phoneNumber}";
         }

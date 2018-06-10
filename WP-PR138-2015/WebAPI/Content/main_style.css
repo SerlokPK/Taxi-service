@@ -73,6 +73,10 @@ label {
     display: none;
 }
 
+.hideButtons {
+    display: none;
+}
+
 table.widther {
     width: 100%;
     height: 100%;
@@ -80,4 +84,8 @@ table.widther {
 
 td {
     width: 50%;
+}
+
+ol.olist {
+    font-size: 15px;
 }

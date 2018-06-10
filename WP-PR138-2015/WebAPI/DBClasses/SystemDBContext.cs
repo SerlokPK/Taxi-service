@@ -11,5 +11,6 @@ namespace WebAPI.DBClasses
     {
         public DbSet<Musterija> Musterije { get; set; }
         public DbSet<Admin> Admini { get; set; }
+        public DbSet<Vozac> Vozaci { get; set; }
     }
 }
