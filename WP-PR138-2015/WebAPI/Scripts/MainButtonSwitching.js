@@ -117,6 +117,7 @@
                 GenderString: gender,
                 Jmbg: identification,
                 PhoneNumber: phone,
+                Gender: logUser.Gender
             };
 
             SetStartingProfile(logUser, musterija);
@@ -155,9 +156,11 @@ function SetStartingProfile(logUser, musterija) {
         case 'Male':
             {
                 logUser.Gender = 0;
+                musterija.Gender = 0;
             } break;
         case 'Female':
             {
+                musterija.Gender = 1;
                 logUser.Gender = 1;
             }
     }

@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             }
             else
             {
-                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Korisnik isn't registered.");
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User isn't registered.");
             }
 
             return msg;

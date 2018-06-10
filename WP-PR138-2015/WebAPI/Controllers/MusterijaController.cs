@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     public class MusterijaController : ApiController
     {
         [HttpPut]
-        public HttpResponseMessage PutMusterija(string uname,[FromBody]Musterija m)
+        public HttpResponseMessage PutMusterija(Musterija m) //ako prosledjujes u PUT-u objekat, ne moras da stavljas frombody, a ako hoces, moras prvi ID param
         {
             HttpResponseMessage msg;
             MusterijaRepository repo = new MusterijaRepository();
@@ -22,13 +22,17 @@ namespace WebAPI.Controllers
             {
                 using (SystemDBContext db = new SystemDBContext())
                 {
-                    Musterija mus = repo.GetOneMusterija(m.Username);
+                    Musterija mus = db.Musterije.FirstOrDefault(x => x.Username == m.Username);
+
                     mus.PhoneNumber = m.PhoneNumber;
                     mus.Password = m.Password;
                     mus.Name = m.Name;
                     mus.Lastname = m.Lastname;
                     mus.Jmbg = m.Jmbg;
-                    //mus.Gender = GetEnum(m.Gender);
+                    mus.Gender = m.Gender;
+                    mus.Email = m.Email;
+
+                    db.SaveChanges();
 
                     msg = Request.CreateResponse(HttpStatusCode.Created, mus);
                     msg.Headers.Location = new Uri(Request.RequestUri + mus.Username);
@@ -43,23 +47,23 @@ namespace WebAPI.Controllers
             return msg;
         }
 
-        private Genders GetEnum(int number)
-        {
-            switch (number)
-            {
-                case 0:
-                    {
-                        return Genders.Male;
-                    }
-                case 1:
-                    {
-                        return Genders.Female;
-                    }
-                default:
-                    {
-                        return Genders.Male;
-                    }
-            }
-        }
+        //private Genders GetEnum(int number)
+        //{
+        //    switch (number)
+        //    {
+        //        case 0:
+        //            {
+        //                return Genders.Male;
+        //            }
+        //        case 1:
+        //            {
+        //                return Genders.Female;
+        //            }
+        //        default:
+        //            {
+        //                return Genders.Male;
+        //            }
+        //    }
+        //}
     }
 }
