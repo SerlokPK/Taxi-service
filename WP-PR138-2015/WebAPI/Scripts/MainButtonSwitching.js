@@ -1,4 +1,8 @@
 ﻿$(document).ready(function (status = true) {
+    if (sessionStorage.getItem("logged") === null) {
+        window.location.href = "/HTML/Registration.html";
+    }
+
     let logUser = JSON.parse(sessionStorage.getItem("logged")); //vadim iz sesije korisnika i parsiram u JSON obj
 
     $('#tdusername').html(logUser.Username);
@@ -26,6 +30,11 @@
         $('#divprofile').hide();
         $('#divhome').hide();
         $('#divupdate').show();
+    });
+
+    $('#btnlogoff').click(function () {
+        sessionStorage.removeItem('logged');
+        window.location.href = "/HTML/Registration.html";
     });
 
     $('#btnupdate').click(function () { //izvrsi update
