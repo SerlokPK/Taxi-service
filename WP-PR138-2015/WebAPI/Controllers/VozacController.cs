@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
 
                 if (list == null)
                 {
-                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error in GET");
                 }
                 else
                 {
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception e)
             {
-                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error in GET");
             }
 
             return msg;
@@ -71,7 +71,7 @@ namespace WebAPI.Controllers
                 {
                     if (m.Role == Enums.Roles.Customer)
                     {
-                        DeleteEntityMusterija(mus, m);
+                        DeleteEntityVozac(voz, m);
 
                         msg = Request.CreateResponse(HttpStatusCode.OK, voz);
                         msg.Headers.Location = new Uri(Request.RequestUri + voz.Username);
@@ -121,17 +121,21 @@ namespace WebAPI.Controllers
                         Type = Enums.TypeOfCar.RegularCar,
                         YearOfCar = GetRandomTime(ran)
                     },
-                    Location = new Lokacija()
-                    {
-                        CoordinateX = 0.0,
-                        CoordinateY = 0.0,
-                        Address = new Adresa("Partizanska", 19, "Novi Sad", 21000, 838531),
-                        Id = db.Musterije.Count()+1
-                    }
+                    LocationID = db.Vozaci.Count() + 1,
+                    Location = null
+                };
+
+                Lokacija Location = new Lokacija()
+                {
+                    CoordinateX = 0.0,
+                    CoordinateY = 0.0,
+                    Address = new Adresa("Partizanska", 19, "Novi Sad", 21000, 838531),
+                    LocationId = v.LocationID
                 };
 
                 db.Vozaci.Add(v);
                 db.Musterije.Remove(mus);
+                db.Lokacije.Add(Location);
 
                 db.SaveChanges();
             }

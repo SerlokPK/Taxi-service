@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $("#register").click(function () {
+    $("#register").click(function () { //registrovanje
         var name = $("#name").val();
         var email = $("#email").val();
         var password = $("#password").val();
@@ -141,7 +141,8 @@
         }
     });
 
-    $("#login").click(function () {
+    //logovanje
+    $("#login").click(function () { 
         let username = $("#usernameLog").val();
         let password = $("#passwordLog").val();
         let status = true;
@@ -159,7 +160,7 @@
                 dataType: "json",
                 success: function (response) {
                     sessionStorage.setItem("logged", JSON.stringify(response)); //cuvam ulogovanu musteriju kao string
-                    console.log("Ovo pise -" + sessionStorage["logged"]);
+                    //console.log("Ovo pise -" + sessionStorage["logged"]);
                     alert("Succesffully logged in");
                     window.location.href = "/HTML/Main.html"; //kada se uspesno ulogujem, idem na main stranicu
                 },

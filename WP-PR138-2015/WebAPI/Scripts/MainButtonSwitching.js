@@ -18,6 +18,23 @@
     $('#tdphone').html(logUser.PhoneNumber);
     $('#tdgender').html(logUser.GenderString);
 
+    if (logUser.RoleString === 'Driver') {      //ako je vozac, popunim location
+        $.ajax({
+            method: "GET",
+            url: "/api/Address",
+            data: { id: logUser.LocationID },
+            dataType: "json",
+            success: function (data) {
+                $('#tdlocation').html(data);
+            },
+            error: function (msg) {
+                alert("Fail - " + msg.responseText);
+            }
+        });
+
+
+    }
+
     $('#btnhome').click(function () { //home btn
         $('#divhome').show();
         $('#divprofile').hide();
@@ -27,6 +44,9 @@
 
     $('#btnprofile').click(function () { //pocetni podaci
         $('#divprofile').show();
+        if (logUser.RoleString === 'Driver') {
+            $('#trlocationdef').show();
+        }
         $('#divhome').hide();
         $('#divupdate').hide();
         $('#divallcustomers').hide();
@@ -36,6 +56,9 @@
         $('#divprofile').hide();
         $('#divhome').hide();
         $('#divupdate').show();
+        if (logUser.RoleString === 'Driver') {      //ako je vozac, prikazem location
+            $('#trlocationupd').show();
+        }
         $('#divallcustomers').hide();
     });
 
@@ -121,6 +144,70 @@
                 $("#email").css('background-color', 'white');
                 $("#email").attr("placeholder", "");
             }
+
+            if (logUser.RoleString === 'Driver') {      //ako je vozac, update location
+                let location = $('#location').val();
+
+                if (location === "") {
+                    alert("All fields are required.");
+                    status = false;
+                } else {
+                    //if (/^[A-Z0-9]+$/i.test(location)) { da mogu samo brojevi
+
+                    //}
+                    let radnikStatus = true;
+                    location = location.replace(/\s\s+/g, ' '); //da spoji vise razmaka
+
+                    if (!location.includes('-') || !location.includes(',')) {
+                        $("#location").css('background-color', '#F9D3D3');
+                        $('#location').val("");
+                        $("#location").attr("placeholder", "Incorect format");
+                        alert("Format: Address Number, City Postal - PhoneNumber");
+                        status = false;
+                    } else {
+                        $("#location").css('background-color', 'white');
+                        $("#location").attr("placeholder", "");
+
+                        info = splitMulti(location, ['-', ',']);
+                        let temp = info[0].split(' ');
+
+                        temp=CheckArray(temp);
+
+                        if (temp.length < 2 || isNaN(temp[temp.length - 1]) || !hasNumber(temp) || temp[temp.length - 1] === "") {
+                            $("#location").css('background-color', '#F9D3D3');
+                            $('#location').val("");
+                            $("#location").attr("placeholder", "Incorect format");
+                            
+                            status = false;
+                            radnikStatus = false;
+                        }
+
+                        temp = info[1].split(' ');
+
+                        if (temp.length < 2 || isNaN(temp[temp.length - 1]) || !hasNumber(temp) || temp[temp.length - 1] === "") {
+                            $("#location").css('background-color', '#F9D3D3');
+                            $('#location').val("");
+                            $("#location").attr("placeholder", "Incorect format");
+                            
+                            status = false;
+                            radnikStatus = false;
+                        }
+
+                        if (isNaN(info[2])) {
+                            $("#location").css('background-color', '#F9D3D3');
+                            $('#location').val("");
+                            $("#location").attr("placeholder", "Incorect format");
+                            
+                            status = false;
+                            radnikStatus = false;
+                        }
+
+                        if (!radnikStatus) {
+                            alert("Format: Address Number, City Postal - PhoneNumber");
+                        }
+                    }
+                }
+            }
         }
 
         if (status) {
@@ -130,6 +217,8 @@
                 Password: password,
                 Username: logUser.Username,
                 Lastname: lastname,
+                Role: logUser.Role,
+                RoleString: logUser.RoleString,
                 GenderString: gender,
                 Jmbg: identification,
                 PhoneNumber: phone,
@@ -157,6 +246,31 @@
         }
     });
 });
+
+function CheckArray(array) {
+    var result = array.filter(function (elem) {
+        return elem != "";
+    });
+    return result;
+}
+
+function hasNumber(myString) {
+    for (i = 0; i < myString.length - 1; ++i) {
+        if (/\d/.test(myString[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function splitMulti(str, tokens) {
+    var tempChar = tokens[0]; // We can use the first token as a temporary join character
+    for (var i = 1; i < tokens.length; i++) {
+        str = str.split(tokens[i]).join(tempChar);
+    }
+    str = str.split(tempChar);
+    return str;
+}
 
 function SetStartingProfile(logUser, musterija) {
     logUser.Name = musterija.Name;

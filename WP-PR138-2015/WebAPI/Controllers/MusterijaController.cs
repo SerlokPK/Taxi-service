@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
 
                 if(list == null)
                 {
-                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User doesn't exist");
                 }else
                 {
                     msg = Request.CreateResponse(HttpStatusCode.OK,list);
@@ -32,38 +32,20 @@ namespace WebAPI.Controllers
             }
             catch (Exception e)
             {
-                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User doesn't exist");
             }
 
             return msg;
         }
 
         [HttpPut]
-        public HttpResponseMessage PutMusterija(Musterija m) //ako prosledjujes u PUT-u objekat, ne moras da stavljas frombody, a ako hoces, moras prvi ID param
+        public HttpResponseMessage PutMusterija(Vozac m) //ako prosledjujes u PUT-u objekat, ne moras da stavljas frombody, a ako hoces, moras prvi ID param
         {
-            HttpResponseMessage msg;
-            MusterijaRepository repo = new MusterijaRepository();
+            HttpResponseMessage msg=new HttpResponseMessage();
 
             try
             {
-                using (SystemDBContext db = new SystemDBContext())
-                {
-                    Musterija mus = db.Musterije.FirstOrDefault(x => x.Username == m.Username);
-
-                    mus.PhoneNumber = m.PhoneNumber;
-                    mus.Password = m.Password;
-                    mus.Name = m.Name;
-                    mus.Lastname = m.Lastname;
-                    mus.Jmbg = m.Jmbg;
-                    mus.Gender = m.Gender;
-                    mus.Email = m.Email;
-
-                    db.SaveChanges();
-
-                    msg = Request.CreateResponse(HttpStatusCode.OK, mus);
-                    msg.Headers.Location = new Uri(Request.RequestUri + mus.Username);
-                }
-
+                msg = UpdateUser(m,m.Role,msg);                
             }
             catch (Exception e)
             {
@@ -73,23 +55,63 @@ namespace WebAPI.Controllers
             return msg;
         }
 
-        //private Genders GetEnum(int number)
-        //{
-        //    switch (number)
-        //    {
-        //        case 0:
-        //            {
-        //                return Genders.Male;
-        //            }
-        //        case 1:
-        //            {
-        //                return Genders.Female;
-        //            }
-        //        default:
-        //            {
-        //                return Genders.Male;
-        //            }
-        //    }
-        //}
+        private HttpResponseMessage UpdateUser(Vozac sentObj,Roles role, HttpResponseMessage msg)
+        { 
+            using (SystemDBContext db = new SystemDBContext())
+            {
+                if (role == Roles.Admin)
+                {
+                    Admin a = db.Admini.FirstOrDefault(x => x.Username == sentObj.Username);
+
+                    a.PhoneNumber = sentObj.PhoneNumber;
+                    a.Password = sentObj.Password;
+                    a.Name = sentObj.Name;
+                    a.Lastname = sentObj.Lastname;
+                    a.Jmbg = sentObj.Jmbg;
+                    a.Gender = sentObj.Gender;
+                    a.Email = sentObj.Email;
+
+                    msg = Request.CreateResponse(HttpStatusCode.OK, a);
+                    msg.Headers.Location = new Uri(Request.RequestUri + a.Username);
+                }
+                else if(role == Roles.Customer)
+                {
+                    Musterija m = db.Musterije.FirstOrDefault(x => x.Username == sentObj.Username);
+
+                    m.PhoneNumber = sentObj.PhoneNumber;
+                    m.Password = sentObj.Password;
+                    m.Name = sentObj.Name;
+                    m.Lastname = sentObj.Lastname;
+                    m.Jmbg = sentObj.Jmbg;
+                    m.Gender = sentObj.Gender;
+                    m.Email = sentObj.Email;
+
+                    msg = Request.CreateResponse(HttpStatusCode.OK, m);
+                    msg.Headers.Location = new Uri(Request.RequestUri + m.Username);
+                }
+                else
+                {
+                    Vozac v = db.Vozaci.FirstOrDefault(x => x.Username == sentObj.Username);
+
+                    v.PhoneNumber = sentObj.PhoneNumber;
+                    v.Password = sentObj.Password;
+                    v.Name = sentObj.Name;
+                    v.Lastname = sentObj.Lastname;
+                    v.Jmbg = sentObj.Jmbg;
+                    v.Gender = sentObj.Gender;
+                    v.Email = sentObj.Email;
+
+                    v.Location = sentObj.Location;
+
+                    msg = Request.CreateResponse(HttpStatusCode.OK, v);
+                    msg.Headers.Location = new Uri(Request.RequestUri + v.Username);
+                }         
+
+                db.SaveChanges();
+            }
+
+            return msg;
+        }
+
     }
 }

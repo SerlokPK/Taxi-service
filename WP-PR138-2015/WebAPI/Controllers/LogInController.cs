@@ -17,9 +17,11 @@ namespace WebAPI.Controllers
             HttpResponseMessage msg;
             MusterijaRepository musRepo = new MusterijaRepository();
             AdminRepository adminRepo = new AdminRepository();
+            VozacRepository vozacRepo = new VozacRepository();
 
             Musterija m = musRepo.GetOneMusterija(mus.Username);
             Admin a = adminRepo.GetOneAdmin(mus.Username);
+            Vozac v = vozacRepo.GetOneVozac(mus.Username);
 
             if(musRepo.MusterijaLogged(m,mus.Password))
             {
@@ -29,6 +31,10 @@ namespace WebAPI.Controllers
             {
                 msg = Request.CreateResponse(HttpStatusCode.Created, a);
                 msg.Headers.Location = new Uri(Request.RequestUri + a.Username);
+            }else if(vozacRepo.VozacLogged(v,mus.Password))
+            {
+                msg = Request.CreateResponse(HttpStatusCode.Created, v);
+                msg.Headers.Location = new Uri(Request.RequestUri + v.Username);
             }
             else
             {

@@ -12,5 +12,13 @@ namespace WebAPI.DBClasses
         public DbSet<Musterija> Musterije { get; set; }
         public DbSet<Admin> Admini { get; set; }
         public DbSet<Vozac> Vozaci { get; set; }
+        public DbSet<Lokacija> Lokacije { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Vozac>().HasRequired(x => x.Location).WithMany().HasForeignKey(y => y.LocationID);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

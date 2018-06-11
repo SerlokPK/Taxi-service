@@ -25,6 +25,7 @@ namespace WebAPI.Models
         public string Email { get; set; }
         [NotMapped]
         public Roles Role { get; set; }
+        public int LocationID { get; set; }
         public Lokacija Location { get; set; }
         public Automobil Car { get; set; }
         [NotMapped]
