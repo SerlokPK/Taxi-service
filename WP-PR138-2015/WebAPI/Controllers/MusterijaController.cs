@@ -13,6 +13,35 @@ namespace WebAPI.Controllers
     public class MusterijaController : ApiController
     {
         [HttpGet]
+        public HttpResponseMessage GetMusterija(string carType)
+        {
+            HttpResponseMessage msg;
+            VozacRepository repo = new VozacRepository();
+
+            try
+            {
+                List<Vozac> list = repo.GetVozace();
+                Vozac v=list.Find(x => x.Car.TypeString == carType);
+
+                if (v == null)
+                {
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Selected car is not available.");
+                }
+                else
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
+
+        [HttpGet]
         public HttpResponseMessage GetMusterija()
         {
             HttpResponseMessage msg;

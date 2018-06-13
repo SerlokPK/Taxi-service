@@ -175,6 +175,7 @@
     <Compile Include="Controllers\MusterijaController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\VozacController.cs" />
+    <Compile Include="Controllers\VoznjaController.cs" />
     <Compile Include="DBClasses\AdminRepository.cs" />
     <Compile Include="DBClasses\LokacijaRepository.cs" />
     <Compile Include="DBClasses\StringExtensions.cs" />
@@ -230,6 +231,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\DriveRequest.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\MainButtonSwitching.js" />

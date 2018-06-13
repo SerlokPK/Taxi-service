@@ -9,6 +9,10 @@
         $('#btnchangeroles').show();
     }
 
+    if (logUser.RoleString === 'Customer') {
+        $('#btnrequestdrive').show();
+    }
+
     $('#tdusername').html(logUser.Username);
     $('#tdname').html(logUser.Name);
     $('#tdlastname').html(logUser.Lastname);
@@ -40,6 +44,7 @@
         $('#divprofile').hide();
         $('#divupdate').hide();
         $('#divallcustomers').hide();
+        $('#divrequest').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
@@ -50,6 +55,7 @@
         $('#divhome').hide();
         $('#divupdate').hide();
         $('#divallcustomers').hide();
+        $('#divrequest').hide();
     });
 
     $('#btnChange').click(function () { //update forma
@@ -60,6 +66,7 @@
             $('#trlocationupd').show();
         }
         $('#divallcustomers').hide();
+        $('#divrequest').hide();
     });
 
     $('#btnlogoff').click(function () {
@@ -260,7 +267,7 @@
 
 function CheckArray(array) {
     var result = array.filter(function (elem) {
-        return elem != "";
+        return elem !== "";
     });
     return result;
 }

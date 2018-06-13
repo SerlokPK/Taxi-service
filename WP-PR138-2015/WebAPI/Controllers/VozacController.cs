@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using WebAPI.DBClasses;
 using WebAPI.Models;
+using static WebAPI.Models.Enums;
 
 namespace WebAPI.Controllers
 {
@@ -118,7 +119,7 @@ namespace WebAPI.Controllers
                         Driver = mus.Username,
                         Registration = $"NS{ran.Next(1000, 9999)}{PasswordGenerator.Generate(length: 2, allowed: Sets.Upper)}",
                         UniqueID = System.Web.Security.Membership.GeneratePassword(6, 2),
-                        Type = Enums.TypeOfCar.RegularCar,
+                        Type = GetRandomCar(),
                         YearOfCar = GetRandomTime(ran)
                     },
                     LocationID = db.Vozaci.Count() + 1,
@@ -139,6 +140,15 @@ namespace WebAPI.Controllers
 
                 db.SaveChanges();
             }
+        }
+
+        private TypeOfCar GetRandomCar()
+        {
+            Array values = Enum.GetValues(typeof(TypeOfCar));
+            System.Random random = new System.Random();
+            TypeOfCar randomBar = (TypeOfCar)values.GetValue(random.Next(values.Length));
+
+            return randomBar;
         }
 
         private DateTime GetRandomTime(System.Random gen)

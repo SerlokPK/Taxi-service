@@ -6,6 +6,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--Pazi da mozda nece raditi bez neta-->
     <script src="../Scripts/MainButtonSwitching.js"></script>
     <script src="../Scripts/AdminRoleChanging.js"></script>
+    <script src="../Scripts/DriveRequest.js"></script>
     <title></title>
 </head>
 <body>
@@ -13,6 +14,7 @@
     <button name="btnHome" id="btnhome">Home</button>
     <button name="btnProfile" id="btnprofile">Profile</button>
     <button id="btnchangeroles" class="hideButtons">Change role</button>
+    <button id="btnrequestdrive" class="hideButtons">Request drive</button>
     <button name="btnLogOff" id="btnlogoff">Log Off</button>
     <hr />
     <div name="divHome" id="divhome">
@@ -56,7 +58,8 @@
                     <td>Gender :</td>
                     <td id="tdgender"></td>
                 </tr>
-                <tr class="hideDivs" id="trlocationdef">   <!--za vozaca - lokacija-->
+                <tr class="hideDivs" id="trlocationdef">
+                    <!--za vozaca - lokacija-->
                     <td>Location :</td>
                     <td id="tdlocation"></td>
                 </tr>
@@ -115,11 +118,35 @@
             </table>
         </div>
     </div>
+    <!--Lista svih customera i drivera u role changing-->
     <div class="container hideDivs" id="divallcustomers">
         <div class="main">
-            <ol id="listallcustomers" class="olist">
-
-            </ol>
+            <ol id="listallcustomers" class="olist"></ol>
+        </div>
+    </div>
+    <!--Prikaz za rezervaciju voznje-->
+    <div class="container hideDivs" id="divrequest">
+        <div class="main">
+            <h3>Driving application</h3>
+            <table class="widther" border="1">
+                <tr>
+                    <td>Current location :</td>
+                    <td><input type="text" name="CurrLocation" id="curloc"></td>
+                </tr>
+                <tr>
+                    <td>Type of car :</td>
+                    <td>
+                        <select id="typeofcar">
+                            <!--defaultna vrednost-->
+                            <option selected>Regular car</option>
+                            <option>Mini Van</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" id="btncreatedrive" value="Create drive"></td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>
