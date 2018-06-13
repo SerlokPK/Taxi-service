@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -33,6 +34,33 @@ namespace WebAPI.Controllers
             catch (Exception e)
             {
                 msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Location doesn't exist");
+            }
+
+            return msg;
+        }
+
+        [HttpPut]
+        public HttpResponseMessage PutLocation([FromBody]JToken token) //klasa da mozes da iscitavas prosledjene primitivne tipove
+        {
+            HttpResponseMessage msg = new HttpResponseMessage();
+
+            var id = token.Value<int>("id");
+            var address = token.Value<string>("address");
+
+            try
+            {
+                using (SystemDBContext db = new SystemDBContext())
+                {
+                    Lokacija lk= db.Lokacije.FirstOrDefault(x => x.LocationId == id);
+
+                    lk.Address.FullAddress = address;
+
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
             }
 
             return msg;

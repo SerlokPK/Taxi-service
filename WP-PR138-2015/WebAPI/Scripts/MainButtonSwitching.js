@@ -26,13 +26,13 @@
             dataType: "json",
             success: function (data) {
                 $('#tdlocation').html(data);
+                $("#lblhome").empty();
+                $('#lblhome').append('Current location: '+data);
             },
             error: function (msg) {
                 alert("Fail - " + msg.responseText);
             }
         });
-
-
     }
 
     $('#btnhome').click(function () { //home btn
@@ -171,39 +171,45 @@
                         info = splitMulti(location, ['-', ',']);
                         let temp = info[0].split(' ');
 
-                        temp=CheckArray(temp);
+                        temp = CheckArray(temp);
 
                         if (temp.length < 2 || isNaN(temp[temp.length - 1]) || !hasNumber(temp) || temp[temp.length - 1] === "") {
                             $("#location").css('background-color', '#F9D3D3');
                             $('#location').val("");
                             $("#location").attr("placeholder", "Incorect format");
-                            
+
                             status = false;
                             radnikStatus = false;
                         }
 
                         temp = info[1].split(' ');
+                        temp = CheckArray(temp);
 
                         if (temp.length < 2 || isNaN(temp[temp.length - 1]) || !hasNumber(temp) || temp[temp.length - 1] === "") {
                             $("#location").css('background-color', '#F9D3D3');
                             $('#location').val("");
                             $("#location").attr("placeholder", "Incorect format");
-                            
+
                             status = false;
                             radnikStatus = false;
                         }
 
-                        if (isNaN(info[2])) {
+                        temp = info[2].split(' ');
+                        temp = CheckArray(temp);
+
+                        if (temp.length > 1 || isNaN(temp)) {
                             $("#location").css('background-color', '#F9D3D3');
                             $('#location').val("");
                             $("#location").attr("placeholder", "Incorect format");
-                            
+
                             status = false;
                             radnikStatus = false;
                         }
 
                         if (!radnikStatus) {
                             alert("Format: Address Number, City Postal - PhoneNumber");
+                        } else {
+                            sessionStorage.setItem("location", JSON.stringify(info));
                         }
                     }
                 }
@@ -211,6 +217,8 @@
         }
 
         if (status) {
+            let location = JSON.parse(sessionStorage.getItem("location"));
+
             let musterija = {
                 Name: name,
                 Email: email,
@@ -222,10 +230,13 @@
                 GenderString: gender,
                 Jmbg: identification,
                 PhoneNumber: phone,
-                Gender: logUser.Gender
+                Gender: logUser.Gender,
             };
 
             SetStartingProfile(logUser, musterija);
+            if (logUser.RoleString === 'Driver') {
+                SetLocation(location, logUser.LocationID);
+            }
 
             $.ajax({
                 method: "PUT",
@@ -272,6 +283,30 @@ function splitMulti(str, tokens) {
     return str;
 }
 
+function SetLocation(locat, locID) {
+
+    let l = locat[0] + ',' + locat[1] + '-' + locat[2]
+    $('#tdlocation').html(l);
+    let temp = {
+        id: locID,
+        address: l
+    }
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/Address",
+        data: JSON.stringify(temp),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function () {
+            //alert("Location updated");
+        },
+        error: function (msg) {
+            //alert("Error with PUT location - " + msg.responseText);
+        }
+    });
+}
+
 function SetStartingProfile(logUser, musterija) {
     logUser.Name = musterija.Name;
     logUser.Lastname = musterija.Lastname;
@@ -315,4 +350,5 @@ function EmptyAllInputs() {
     $('#email').val("");
     $('#jmbg').val("");
     $('#phone').val("");
+    $('#location').val("");
 }
