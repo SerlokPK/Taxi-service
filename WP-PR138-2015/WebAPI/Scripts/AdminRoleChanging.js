@@ -16,31 +16,32 @@
                 $.each(data, function (index, val) {
                     $('#listallcustomers').append(`<li>${val.Username} - ${val.RoleString}<button id='btnchangerole'>Change</button></li>`);
                 });
-                
-            },
-            error: function (msg) {
-                alert("Fail - " + msg.responseText);
-            }
-        });
 
-        $.ajax({
-            method: "GET",
-            url: "/api/Vozac",
-            dataType: "json",
-            success: function (data) {
-                
-                let users = JSON.parse(sessionStorage.getItem("users"));    //spojim customere i drivere
-                $.merge(users, data);
-                sessionStorage.setItem("users", JSON.stringify(users));
-                $.each(data, function (index, val) {
-                    $('#listallcustomers').append(`<li>${val.Username} - ${val.RoleString}<button id='btnchangerole'>Change</button></li>`);
+                $.ajax({
+                    method: "GET",
+                    url: "/api/Vozac",
+                    dataType: "json",
+                    success: function (data) {
+
+                        let users = JSON.parse(sessionStorage.getItem("users"));    //spojim customere i drivere
+                        $.merge(users, data);
+                        sessionStorage.setItem("users", JSON.stringify(users));
+                        $.each(data, function (index, val) {
+                            $('#listallcustomers').append(`<li>${val.Username} - ${val.RoleString}<button class='helper' id='btnchangerole'>Change</button></li>`);
+                        });
+
+                    },
+                    error: function (msg) {
+                        alert("Fail - " + msg.responseText);
+                    }
                 });
-
             },
             error: function (msg) {
                 alert("Fail - " + msg.responseText);
             }
         });
+
+        
     });
 
     
@@ -48,6 +49,7 @@
     $("#listallcustomers").delegate("#btnchangerole", "click", function (e) {
 
         $(this).hide();
+        $('.helper').hide();
         $(this).parent().append(`<select id="role">
                             <option selected>Customer</option>
                             <option>Driver</option>
@@ -62,10 +64,11 @@
             let info = temp.split('-');
             let user = JSON.parse(sessionStorage.getItem("users"));
             let role = $('#role').val();
+            $('.helper').show();
             $.each(user, function (key, value) {
                 
                 if (value.Username === info[0].substr(0, info[0].length-1)) { //kod username imam razmak, pa skratim
-                    $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - ${role}<button id='btnchangerole'>Change</button></li>`);
+                    $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - ${role}<button class='helper' id='btnchangerole'>Change</button></li>`);
 
                     let musterija = {
                         Username: value.Username,

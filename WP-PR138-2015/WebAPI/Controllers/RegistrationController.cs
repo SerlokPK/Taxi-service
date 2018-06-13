@@ -17,14 +17,16 @@ namespace WebAPI.Controllers
         {
             HttpResponseMessage msg;
             MusterijaRepository repo = new MusterijaRepository();
+            VozacRepository vrep = new VozacRepository();
 
             try
             {
                 using (var db = new SystemDBContext())
                 {
                     Musterija must = repo.GetOneMusterija(k.Username);
+                    Vozac v = vrep.GetOneVozac(k.Username);
 
-                    if (must == null)
+                    if (must == null && v == null)
                     {
                         db.Musterije.Add(k);
                         db.SaveChanges();
