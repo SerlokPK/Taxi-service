@@ -18,6 +18,7 @@ namespace WebAPI.Controllers
             HttpResponseMessage msg;
             MusterijaRepository repo = new MusterijaRepository();
             VozacRepository vrep = new VozacRepository();
+            AdminRepository arep = new AdminRepository();
 
             try
             {
@@ -25,8 +26,9 @@ namespace WebAPI.Controllers
                 {
                     Musterija must = repo.GetOneMusterija(k.Username);
                     Vozac v = vrep.GetOneVozac(k.Username);
+                    Admin ad = arep.GetOneAdmin(k.Username);
 
-                    if (must == null && v == null)
+                    if (must == null && v == null && ad == null)
                     {
                         db.Musterije.Add(k);
                         db.SaveChanges();
@@ -41,7 +43,8 @@ namespace WebAPI.Controllers
 
                     return msg;
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }

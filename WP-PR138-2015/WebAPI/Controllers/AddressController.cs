@@ -51,10 +51,40 @@ namespace WebAPI.Controllers
             {
                 using (SystemDBContext db = new SystemDBContext())
                 {
-                    Lokacija lk= db.Lokacije.FirstOrDefault(x => x.LocationId == id);
+                    Lokacija lk = db.Lokacije.FirstOrDefault(x => x.LocationId == id);
 
                     lk.Address.FullAddress = address;
 
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error occured while updating");
+            }
+
+            return msg;
+        }
+
+        [HttpPost]
+        public HttpResponseMessage PostLocation([FromBody]Adresa address)
+        {
+            HttpResponseMessage msg = new HttpResponseMessage();
+            LokacijaRepository repo = new LokacijaRepository();
+
+            try
+            {
+                using (SystemDBContext db = new SystemDBContext())
+                {
+                    Lokacija lk = new Lokacija()
+                    {
+                        Address = new Adresa() { FullAddress = address.FullAddress },
+                        CoordinateX = 0,
+                        CoordinateY = 0,
+                        LocationId = repo.GetLokacije().Count + 1
+                    };
+
+                    db.Lokacije.Add(lk);
                     db.SaveChanges();
                 }
             }

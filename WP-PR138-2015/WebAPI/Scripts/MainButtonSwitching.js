@@ -292,7 +292,7 @@ function splitMulti(str, tokens) {
 
 function SetLocation(locat, locID) {
 
-    let l = locat[0] + ',' + locat[1] + '-' + locat[2]
+    let l = locat[0] + ',' + locat[1] + '-' + locat[2];
     $('#tdlocation').html(l);
     let temp = {
         id: locID,

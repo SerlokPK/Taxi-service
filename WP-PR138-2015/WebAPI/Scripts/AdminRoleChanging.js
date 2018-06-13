@@ -27,7 +27,7 @@
                         $.merge(users, data);
                         sessionStorage.setItem("users", JSON.stringify(users));
                         $.each(data, function (index, val) {
-                            $('#listallcustomers').append(`<li>${val.Username} - ${val.RoleString}<button class='helper' id='btnchangerole'>Change</button></li>`);
+                            $('#listallcustomers').append(`<li>${val.Username} - ${val.RoleString}<button class="helper" id='btnchangerole'>Change</button></li>`);
                         });
 
                     },
@@ -49,7 +49,7 @@
     $("#listallcustomers").delegate("#btnchangerole", "click", function (e) {
 
         $(this).hide();
-        $('.helper').hide();
+        $(".helper").hide();
         $(this).parent().append(`<select id="role">
                             <option selected>Customer</option>
                             <option>Driver</option>
@@ -68,7 +68,7 @@
             $.each(user, function (key, value) {
                 
                 if (value.Username === info[0].substr(0, info[0].length-1)) { //kod username imam razmak, pa skratim
-                    $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - ${role}<button class='helper' id='btnchangerole'>Change</button></li>`);
+                    $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - ${role}<button class="helper" id='btnchangerole'>Change</button></li>`);
 
                     let musterija = {
                         Username: value.Username,
