@@ -73,6 +73,7 @@
         $('#divupdate').hide();
         $('#divallcustomers').hide();
         $('#divrequest').hide();
+        $('#divmodifyrequest').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
@@ -84,6 +85,7 @@
         $('#divupdate').hide();
         $('#divallcustomers').hide();
         $('#divrequest').hide();
+        $('#divmodifyrequest').hide();
     });
 
     $('#btnChange').click(function () { //update forma
@@ -95,6 +97,7 @@
         }
         $('#divallcustomers').hide();
         $('#divrequest').hide();
+        $('#divmodifyrequest').hide();
     });
 
     $('#btnlogoff').click(function () {
