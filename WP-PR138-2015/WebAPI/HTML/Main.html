@@ -149,5 +149,30 @@
             </table>
         </div>
     </div>
+    <!--Div za modifikovanje voznje-->
+    <div class="container hideDivs" id="divmodifyrequest">
+        <div class="main">
+            <h3>Modify application</h3>
+            <table class="widther" border="1">
+                <tr>
+                    <td>Current location :</td>
+                    <td><input type="text" name="CurrLocation" id="modloc"></td>
+                </tr>
+                <tr>
+                    <td>Type of car :</td>
+                    <td>
+                        <select id="modtypeofcar">
+                            <!--defaultna vrednost-->
+                            <option selected>RegularCar</option>
+                            <option>MiniVan</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" id="btnmdfdrive" value="Modify drive"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

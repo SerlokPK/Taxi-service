@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
                 }
                 else
                 {
-                    msg = Request.CreateResponse(HttpStatusCode.OK, v);
+                    msg = Request.CreateResponse(HttpStatusCode.OK, v.Username);
                 }
             }
             catch (Exception e)

@@ -11,6 +11,34 @@
 
     if (logUser.RoleString === 'Customer') {
         $('#btnrequestdrive').show();
+        let user = JSON.parse(sessionStorage.getItem('logged'));
+
+        $.ajax({
+            method: "GET",
+            url: "/api/Voznja",
+            data: { UserCaller: user.Username },
+            dataType: "json",
+            success: function (data) {
+                $.ajax({
+                    method: "GET",
+                    url: "/api/Address",
+                    data: { id: data.StartPointID },
+                    dataType: "json",
+                    success: function (response) {
+                        $("#lblhome").empty();
+                        $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Driver: ${data.DriverID}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                                <br /><button id='btnmodifydrive'>Modify</button><button id='btncanceldrive'>Cancel</button>`);
+                        $('#divhome').show();
+                    },
+                    error: function (msg) {
+                        //alert("Fail - " + msg.responseText);
+                    }
+                });
+            },
+            error: function (msg) {
+                alert('Error - ' + msg.responseText);
+            }
+        });
     }
 
     $('#tdusername').html(logUser.Username);
@@ -31,7 +59,7 @@
             success: function (data) {
                 $('#tdlocation').html(data);
                 $("#lblhome").empty();
-                $('#lblhome').append('Current location: '+data);
+                $('#lblhome').append('Current location: ' + data);
             },
             error: function (msg) {
                 alert("Fail - " + msg.responseText);

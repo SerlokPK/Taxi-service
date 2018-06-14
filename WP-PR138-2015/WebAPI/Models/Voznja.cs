@@ -39,7 +39,7 @@ namespace WebAPI.Models
         }
 
         [Column("Status")]
-        public string DriveString
+        public string StatusString
         {
             get { return Status.ToString(); }
             private set { Status = value.ParseEnum<DrivingStatus>(); }

@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     public class AddressController : ApiController
     {
         [HttpGet]
-        public HttpResponseMessage GetVozac(int id)
+        public HttpResponseMessage GetAddress(int id)
         {
             HttpResponseMessage msg;
             LokacijaRepository repo = new LokacijaRepository();
@@ -56,6 +56,9 @@ namespace WebAPI.Controllers
                     lk.Address.FullAddress = address;
 
                     db.SaveChanges();
+
+                    msg = Request.CreateResponse(HttpStatusCode.OK,lk);
+                    
                 }
             }
             catch (Exception e)
@@ -86,6 +89,9 @@ namespace WebAPI.Controllers
 
                     db.Lokacije.Add(lk);
                     db.SaveChanges();
+
+                    msg = Request.CreateResponse(HttpStatusCode.Created, lk.LocationId); //vracam ID sacuvane pocetne lokacije
+                    msg.Headers.Location = new Uri(Request.RequestUri + lk.LocationId.ToString());
                 }
             }
             catch (Exception e)

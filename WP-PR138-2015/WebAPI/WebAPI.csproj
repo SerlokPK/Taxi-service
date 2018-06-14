@@ -182,6 +182,7 @@
     <Compile Include="DBClasses\SystemDBContext.cs" />
     <Compile Include="DBClasses\MusterijaRepository.cs" />
     <Compile Include="DBClasses\VozacRepository.cs" />
+    <Compile Include="DBClasses\VoznjaRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
