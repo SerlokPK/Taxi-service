@@ -14,6 +14,7 @@ namespace WebAPI.DBClasses
         public DbSet<Vozac> Vozaci { get; set; }
         public DbSet<Lokacija> Lokacije { get; set; }
         public DbSet<Voznja> Voznje { get; set; }
+        public DbSet<Komentar> Komentari { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

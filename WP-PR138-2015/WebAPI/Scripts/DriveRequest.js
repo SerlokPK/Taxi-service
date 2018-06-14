@@ -93,8 +93,22 @@
         $('#divrequest').hide();
     });
 
+    $('#lblhome').on('click', '#btncanceldrive', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
+        $('#divcancelride').show();                          //pozivas
+        $('#divhome').hide();
+        $('#divprofile').hide();
+        $('#divupdate').hide();
+        $('#divallcustomers').hide(); 
+        $('#divrequest').hide();
+    });
+
     $('#btnmdfdrive').click(function () {
         ValidationForModification();
+    });
+
+    $('#btncnldrive').click(function () {
+        let text = $('#txtacomment').val();
+
 
     });
 });
