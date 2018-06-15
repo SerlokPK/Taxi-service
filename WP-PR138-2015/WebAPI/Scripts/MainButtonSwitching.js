@@ -26,7 +26,7 @@
                     dataType: "json",
                     success: function (response) {
                         $("#lblhome").empty();
-                        $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Driver: ${data.DriverID}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                        $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Car type: ${data.TypeString}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
                                                 <br /><button id='btnmodifydrive'>Modify</button><button id='btncanceldrive'>Cancel</button>`);
                         $('#divhome').show();
                     },
@@ -36,7 +36,7 @@
                 });
             },
             error: function (msg) {
-                alert('Error - ' + msg.responseText);
+                //alert('Error - ' + msg.responseText);
             }
         });
     }
@@ -74,6 +74,7 @@
         $('#divallcustomers').hide();
         $('#divrequest').hide();
         $('#divmodifyrequest').hide();
+        $('#divcancelride').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
@@ -86,6 +87,7 @@
         $('#divallcustomers').hide();
         $('#divrequest').hide();
         $('#divmodifyrequest').hide();
+        $('#divcancelride').hide();
     });
 
     $('#btnChange').click(function () { //update forma
@@ -98,6 +100,7 @@
         $('#divallcustomers').hide();
         $('#divrequest').hide();
         $('#divmodifyrequest').hide();
+        $('#divcancelride').hide();
     });
 
     $('#btnlogoff').click(function () {

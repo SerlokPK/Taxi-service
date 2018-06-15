@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     public class VoznjaController : ApiController
     {
         [HttpPut]
-        public HttpResponseMessage PutDriveRequest([FromBody] JToken token)  //kada admin menja ulogu korisnika (musterija - vozac)
+        public HttpResponseMessage PutDriveRequest([FromBody] JToken token)  
         {
             HttpResponseMessage msg;
             LokacijaRepository repo = new LokacijaRepository();
@@ -56,6 +56,38 @@ namespace WebAPI.Controllers
             return msg;
         }
 
+        [HttpDelete]
+        public HttpResponseMessage DeleteAddress([FromBody]Komentar kom)
+        {
+            HttpResponseMessage msg;
+
+            try
+            {
+                using (SystemDBContext db = new SystemDBContext())
+                {
+                    Voznja v = db.Voznje.FirstOrDefault(x => x.Id == kom.Id);
+
+                    if(v == null)
+                    {
+                        msg = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"There's no drive with this id.");
+                    }
+                    else
+                    {
+                        db.Voznje.Remove(v);
+                        db.SaveChanges();
+
+                        msg = Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
         [HttpGet]
         public HttpResponseMessage GetAddress(string UserCaller)
         {
@@ -92,10 +124,10 @@ namespace WebAPI.Controllers
 
             var start = token.Value<int>("start");
             var user = token.Value<string>("user");
-            var driver = token.Value<string>("driver");
+            //var driver = token.Value<string>("driver");
             var type = token.Value<string>("type");
 
-            TypeOfCar typeC = GetTypeInEnum(type);
+            TypeOfCar typeC = GetTypeInEnum(type);;
 
             try
             {
@@ -103,7 +135,7 @@ namespace WebAPI.Controllers
                 {
                     Voznja v = new Voznja()
                     {
-                        DriverID = driver,
+                        //DriverID = driver,
                         StartPointID = start,
                         UserCallerID = user,
                         TypeOfCar = typeC,
@@ -111,6 +143,9 @@ namespace WebAPI.Controllers
                         Status = DrivingStatus.Created,
                         TimeOfReservation = DateTime.Now
                     };
+
+                    Musterija m = db.Musterije.FirstOrDefault(x => x.Username == user); //mora se i korisniku promeniti status kad inicira poziv
+                    m.DriveStatus = DrivingStatus.Created;
 
                     db.Voznje.Add(v);
                     db.SaveChanges();

@@ -38,7 +38,6 @@
                     let DriverCustomerLocation = {
                         start: JSON.parse(sessionStorage.getItem('startLocation')),
                         user: loggedUser.Username,
-                        driver: data,
                         type: car
                     }
 
@@ -61,7 +60,7 @@
                                 dataType: "json",
                                 success: function (response) {
                                     $("#lblhome").empty();
-                                    $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Driver: ${data.DriverID}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                    $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Car type: ${data.TypeString}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
                                                             <br /><button id='btnmodifydrive'>Modify</button><button id='btncanceldrive'>Cancel</button>`);
                                     $('#divhome').show();
                                 },
@@ -72,7 +71,7 @@
 
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert("Request ready, click again to send.");
                         }
                     });
                 },
@@ -84,7 +83,7 @@
 
     });
     //za menjanje postojece voznje      
-    $('#lblhome').on('click','#btnmodifydrive',function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
+    $('#lblhome').on('click', '#btnmodifydrive', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
         $('#divmodifyrequest').show();                          //pozivas
         $('#divhome').hide();
         $('#divprofile').hide();
@@ -92,13 +91,13 @@
         $('#divallcustomers').hide();
         $('#divrequest').hide();
     });
-
+    //cancel 'created' voznje
     $('#lblhome').on('click', '#btncanceldrive', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
         $('#divcancelride').show();                          //pozivas
         $('#divhome').hide();
         $('#divprofile').hide();
         $('#divupdate').hide();
-        $('#divallcustomers').hide(); 
+        $('#divallcustomers').hide();
         $('#divrequest').hide();
     });
 
@@ -108,8 +107,71 @@
 
     $('#btncnldrive').click(function () {
         let text = $('#txtacomment').val();
+        let status = true;
+
+        if (text.length < 5) {
+            alert('Please leave more than one word, so we can improve our work, thank you!');
+            status = false;
+        }
+
+        if (status) {
+            let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
+
+            $.ajax({                    //uzimamo voznju koja se brise
+                method: "GET",
+                url: "/api/Voznja",
+                data: { UserCaller: loggedUser.Username },
+                dataType: "json",
+                success: function (data) {
+                    let komentar = {
+                        Description: text,
+                        UserID: loggedUser.Username,
+                        DriveID: data.StartPointID
+                    }
+
+                    $.ajax({                // cuvamo komentar
+                        method: "POST",
+                        url: "/api/Komentar",
+                        data: JSON.stringify(komentar),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    });
+
+                    let voznja = {
+                        Id: data.Id
+                    }
+
+                    $.ajax({                // brisemo voznju
+                        method: "DELETE",
+                        url: "/api/Voznja",
+                        data: JSON.stringify(voznja),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            alert('Requested drive canceled');
+                            $('#txtacomment').val("");
+                            $('#divcancelride').hide();
+                            $("#lblhome").empty();
+                            $('#divhome').show();
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    });
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            });
 
 
+        }
     });
 });
 

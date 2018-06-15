@@ -20,8 +20,29 @@ namespace WebAPI.Controllers
 
             try
             {
-                List<Vozac> list = repo.GetVozace();
-                Vozac v=list.Find(x => x.Car.TypeString == carType);
+                List<Vozac> list = repo.GetVozace().FindAll(x => x.Car.TypeString == carType);
+                Vozac v = null;
+
+                foreach(Vozac vo in list)
+                {
+                    if(vo.DriveStatus != DrivingStatus.InProgress && vo.DriveStatus != DrivingStatus.Accepted)
+                    {
+                        v = new Vozac();
+                        v.Car = vo.Car;
+                        v.DriveStatus = vo.DriveStatus;
+                        v.Email = vo.Email;
+                        v.Gender = vo.Gender;
+                        v.Jmbg = vo.Jmbg;
+                        v.Lastname = vo.Lastname;
+                        v.Location = vo.Location;
+                        v.LocationID = vo.LocationID;
+                        v.Name = vo.Name;
+                        v.Password = vo.Password;
+                        v.PhoneNumber = vo.PhoneNumber;
+                        v.Role = vo.Role;
+                        v.Username = vo.Username;
+                    }
+                }
 
                 if (v == null)
                 {
