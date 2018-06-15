@@ -65,6 +65,34 @@
                 alert("Fail - " + msg.responseText);
             }
         });
+
+        $.ajax({
+            method: "GET",
+            url: "/api/Voznja",
+            data: { UserCaller: logUser.Username },
+            dataType: "json",
+            success: function (data) {
+                $.ajax({
+                    method: "GET",
+                    url: "/api/Address",
+                    data: { id: data.StartPointID },
+                    dataType: "json",
+                    success: function (response) {
+                        $("#lblfordriver").empty();
+                        $('#lblfordriver').append(`<br/><br/>====Accepted drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                                            <br /><button id='btnfnsdrv'>Finish</button>`);
+                    },
+                    error: function (msg) {
+                        alert("Fail - " + msg.responseText);
+                    }
+                });
+            },
+            error: function (msg) {
+                alert('Error - ' + msg.responseText);
+            }
+        });
+
+        $('#btnacptreq').show();
     }
 
     $('#btnhome').click(function () { //home btn
@@ -75,6 +103,7 @@
         $('#divrequest').hide();
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
+        $('#divallreqcreated').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
@@ -88,6 +117,7 @@
         $('#divrequest').hide();
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
+        $('#divallreqcreated').hide();
     });
 
     $('#btnChange').click(function () { //update forma
@@ -101,6 +131,7 @@
         $('#divrequest').hide();
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
+        $('#divallreqcreated').hide();
     });
 
     $('#btnlogoff').click(function () {

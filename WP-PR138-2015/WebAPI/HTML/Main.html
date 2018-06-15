@@ -7,6 +7,7 @@
     <script src="../Scripts/MainButtonSwitching.js"></script>
     <script src="../Scripts/AdminRoleChanging.js"></script>
     <script src="../Scripts/DriveRequest.js"></script>
+    <script src="../Scripts/DriverManagingRequests.js"></script>
     <title></title>
 </head>
 <body>
@@ -15,11 +16,13 @@
     <button name="btnProfile" id="btnprofile">Profile</button>
     <button id="btnchangeroles" class="hideButtons">Change role</button>
     <button id="btnrequestdrive" class="hideButtons">Request drive</button>
+    <button id="btnacptreq" class="hideButtons">All requests</button>
     <button name="btnLogOff" id="btnlogoff">Log Off</button>
     <hr />
     <div name="divHome" id="divhome">
         <h2>This is home page</h2>
         <label id="lblhome"></label>
+        <label id="lblfordriver"></label>
     </div>
     <div class="container hideDivs" name="divProfile" id="divprofile">
         <!--profile-->
@@ -203,6 +206,15 @@
                     <td colspan="2"><input type="button" id="btncnldrive" value="Cancel drive"></td>
                 </tr>
             </table>
+        </div>
+    </div>
+    <!--div za prikaz svih vozaca koji imaju 'created' status voznje-->
+    <div class="container hideDivs" id="divallreqcreated">
+        <div class="main">
+            <h3>Users with status 'Created'</h3>
+            <ol id="olforcrtreq">
+
+            </ol>
         </div>
     </div>
 </body>

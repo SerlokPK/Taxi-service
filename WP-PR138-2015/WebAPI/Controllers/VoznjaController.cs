@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     public class VoznjaController : ApiController
     {
         [HttpPut]
-        public HttpResponseMessage PutDriveRequest([FromBody] JToken token)  
+        public HttpResponseMessage PutDriveRequest([FromBody] JToken token)
         {
             HttpResponseMessage msg;
             LokacijaRepository repo = new LokacijaRepository();
@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             {
                 Vozac vozac = vrepo.GetVozace().Find(x => x.Car.TypeString == type);
 
-                if(vozac == null)
+                if (vozac == null)
                 {
                     msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"That type of car isn't available.");
                 }
@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
                 {
                     Voznja v = db.Voznje.FirstOrDefault(x => x.Id == kom.Id);
 
-                    if(v == null)
+                    if (v == null)
                     {
                         msg = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"There's no drive with this id.");
                     }
@@ -97,15 +97,47 @@ namespace WebAPI.Controllers
             try
             {
                 List<Voznja> list = repo.GetVoznje();
-                Voznja v = list.Find(x => x.UserCallerID == UserCaller);
+                Voznja v = list.Find(x => x.UserCallerID == UserCaller);    //za musteriju
+                Voznja voz = list.Find(x => x.DriverID == UserCaller);      //za vozaca
 
-                if (v == null)
+                if (v != null)
                 {
-                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No request in database.");
+                    msg = Request.CreateResponse(HttpStatusCode.OK, v);
+                }
+                else if (voz != null)
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, voz);
                 }
                 else
                 {
-                    msg = Request.CreateResponse(HttpStatusCode.OK, v);
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No request in database.");
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetAddress()
+        {
+            HttpResponseMessage msg;
+            VoznjaRepository repo = new VoznjaRepository();
+
+            try
+            {
+                List<Voznja> list = repo.GetVoznje();
+
+                if (list.Count == 0)
+                {
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "There's no available drive right now.");
+                }
+                else
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, list);
                 }
             }
             catch (Exception e)
@@ -127,7 +159,7 @@ namespace WebAPI.Controllers
             //var driver = token.Value<string>("driver");
             var type = token.Value<string>("type");
 
-            TypeOfCar typeC = GetTypeInEnum(type);;
+            TypeOfCar typeC = GetTypeInEnum(type); ;
 
             try
             {
