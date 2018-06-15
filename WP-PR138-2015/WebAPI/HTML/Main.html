@@ -212,9 +212,51 @@
     <div class="container hideDivs" id="divallreqcreated">
         <div class="main">
             <h3>Users with status 'Created'</h3>
-            <ol id="olforcrtreq">
-
-            </ol>
+            <ol id="olforcrtreq"></ol>
+        </div>
+    </div>
+    <!--div za finish vozacevog posla-->
+    <div class="container hideDivs" id="divfnsjob">
+        <div class="main">
+            <h3>Finishing application</h3>
+            <table class="widther" border="1">
+                <tr>
+                    <td>Choose :</td>
+                    <td>
+                        <select id="fnsmethod">
+                            <!--defaultna vrednost-->
+                            <option selected>Successful</option>
+                            <option>Failed</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" id="btnfnsjob" value="Send"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--div za voznju koja je gotova uspesno-->
+    <div class="container hideDivs" id="divsuccdrv">
+        <div class="main">
+            <h3>Drive completed successfully</h3>
+            <table class="widther" border="1">
+                <tr>
+                    <td>Price :</td>
+                    <td>
+                        <input type="text" id="amount" name="Amount" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Final destination :</td>
+                    <td>
+                        <input type="text" id="fdest" name="Fdest" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" id="btnsuccfnsjob" value="Finish drive"></td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>

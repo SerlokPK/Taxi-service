@@ -104,6 +104,8 @@
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
         $('#divallreqcreated').hide();
+        $('#divfnsjob').hide();
+        $('#divsuccdrv').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
@@ -118,6 +120,8 @@
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
         $('#divallreqcreated').hide();
+        $('#divfnsjob').hide();
+        $('#divsuccdrv').hide();
     });
 
     $('#btnChange').click(function () { //update forma
@@ -132,6 +136,8 @@
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
         $('#divallreqcreated').hide();
+        $('#divfnsjob').hide();
+        $('#divsuccdrv').hide();
     });
 
     $('#btnlogoff').click(function () {

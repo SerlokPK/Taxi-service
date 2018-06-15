@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
                     db.Lokacije.Add(lk);
                     db.SaveChanges();
 
-                    msg = Request.CreateResponse(HttpStatusCode.Created, lk.LocationId); //vracam ID sacuvane pocetne lokacije
+                    msg = Request.CreateResponse(HttpStatusCode.Created, lk.LocationId); //vracam ID sacuvane lokacije
                     msg.Headers.Location = new Uri(Request.RequestUri + lk.LocationId.ToString());
                 }
             }

@@ -82,13 +82,182 @@
                     error: function (msg) {
                         alert("Fail - " + msg.responseText);
                     }
-                });                
+                });
             },
             error: function (msg) {
                 alert("Fail - " + msg.responseText);
                 $('#divallreqcreated').hide();
+                $("#lblfordriver").empty();
                 $('#divhome').show();
             }
         });
-    }); 
+    });
+    //div za biranje ishoda voznje
+    $('#lblfordriver').on('click', '#btnfnsdrv', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
+        $('#divfnsjob').show();
+        $('#divhome').hide();
+        $('#divprofile').hide();
+        $('#divupdate').hide();
+        $('#divallcustomers').hide();
+        $('#divrequest').hide();
+        $('#divmodifyrequest').hide();
+        $('#divcancelride').hide();
+        $('#divallreqcreated').hide();
+    });
+
+    $('#btnfnsjob').click(function () {
+        let option = $('#fnsmethod').val();
+
+        if (option === 'Successful') {                  //kada je izabrano 'successful'
+            $('#divsuccdrv').show();
+            $('#divfnsjob').hide();
+            $('#divhome').hide();
+            $('#divprofile').hide();
+            $('#divupdate').hide();
+            $('#divallcustomers').hide();
+            $('#divrequest').hide();
+            $('#divmodifyrequest').hide();
+            $('#divcancelride').hide();
+            $('#divallreqcreated').hide();
+        } else {
+            //TO DO IF FAILED SHOW DIV
+        }
+    });
+
+    $('#btnsuccfnsjob').click(function () {
+        let amount = $('#amount').val();
+        let fdest = $('#fdest').val();
+
+        let driver = JSON.parse(sessionStorage.getItem('logged'));
+        let final;
+
+        fdest = ValidationForFinalDest(fdest, amount);
+        let send = { FullAddress: fdest };
+
+        if (fdest !== "") {
+            $.when(
+                $.ajax({
+                    method: "POST",
+                    url: "/api/Address",
+                    data: JSON.stringify(send),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        final = data; //ID krajnje lokacije
+                        // sessionStorage.setItem("startLocation", JSON.stringify(data)) //moram cuvati ID poslednje lokacije, kako bih stavio u 'voznju'
+                    },
+                    error: function (msg) {
+                        alert("Fail - " + msg.responseText);
+                    }
+                }),
+            ).then(function () {
+                $.ajax({            //uzmi voznju
+                    method: "GET",
+                    url: "/api/Voznja",
+                    data: { UserCaller: driver.Username },
+                    dataType: "json",
+                    success: function (data) {
+                        let send = {
+                            Payment: amount,
+                            FinalPointID: final,
+                            Id: data.Id
+                        }
+
+                        $.ajax({        //dodaj joj cenu i krajnju lokaciju
+                            method: "PUT",
+                            url: "/api/LogIn",
+                            data: JSON.stringify(send),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                alert('Drive is completed, good job!');
+                                //TO DO   PRIKAZI HOME, PROVERI ZASTO OPET ISPISUJE VOZNJU
+                            },
+                            error: function (msg) {
+                                alert("Fail - " + msg.responseText);
+                            }
+                        });
+                    },
+                    error: function (msg) {
+                        alert('Error - ' + msg.responseText);
+                    }
+                });
+            }); 
+        }
+    });
 });
+
+function ValidationForFinalDest(location, amount) {
+    let radnikStatus = true;
+    let status = true;
+    let ret = "";
+    location = location.replace(/\s\s+/g, ' '); //da spoji vise razmaka
+
+    if (!location.includes('-') || !location.includes(',')) {
+        $("#fdest").css('background-color', '#F9D3D3');
+        $('#fdest').val("");
+        $("#fdest").attr("placeholder", "Incorect format");
+        alert("Format: Address Number, City Postal - PhoneNumber");
+    } else {
+        $("#fdest").css('background-color', 'white');
+        $("#fdest").attr("placeholder", "");
+
+        let info = splitMulti(location, ['-', ',']);
+        let temp = info[0].split(' ');
+
+        temp = CheckArray(temp);
+
+        if (temp.length < 2 || isNaN(temp[temp.length - 1]) || !hasNumber(temp) || temp[temp.length - 1] === "") {
+            $("#fdest").css('background-color', '#F9D3D3');
+            $('#fdest').val("");
+            $("#fdest").attr("placeholder", "Incorect format");
+
+            radnikStatus = false;
+        }
+
+        temp = info[1].split(' ');
+        temp = CheckArray(temp);
+
+        if (temp.length < 2 || isNaN(temp[temp.length - 1]) || !hasNumber(temp) || temp[temp.length - 1] === "") {
+            $("#fdest").css('background-color', '#F9D3D3');
+            $('#fdest').val("");
+            $("#fdest").attr("placeholder", "Incorect format");
+
+            radnikStatus = false;
+        }
+
+        temp = info[2].split(' ');
+        temp = CheckArray(temp);
+
+        if (temp.length > 1 || isNaN(temp)) {
+            $("#fdest").css('background-color', '#F9D3D3');
+            $('#fdest').val("");
+            $("#fdest").attr("placeholder", "Incorect format");
+
+            radnikStatus = false;
+        }
+
+        if (isNaN(amount) || amount === "") {
+            $("#amount").css('background-color', '#F9D3D3');
+            $('#amount').val("");
+            $("#amount").attr("placeholder", "Must be number");
+
+            status = false;
+        } else {
+            $("#amount").css('background-color', 'white');
+            $("#amount").attr("placeholder", "");
+        }
+
+        if (!radnikStatus) {
+            alert("Format: Address Number, City Postal - PhoneNumber");
+        } else if (!status) {
+
+        } else {
+            let l = info[0] + ',' + info[1] + '-' + info[2];
+            ret = l;
+        }
+    }
+
+    return ret;
+}
+
