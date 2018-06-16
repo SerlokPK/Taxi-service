@@ -14,6 +14,34 @@ namespace WebAPI.Controllers
 {
     public class RegistrationController : ApiController
     {
+        [HttpGet]
+        public HttpResponseMessage GetVoznja(int id)
+        {
+            HttpResponseMessage msg;
+            VoznjaRepository repo = new VoznjaRepository();
+
+            try
+            {
+                Voznja v = repo.GetOneVoznja(id);
+
+                if (v == null)
+                {
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Drive doesn't exist");
+                }
+                else
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, v);
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
+
         [HttpPost]
         public HttpResponseMessage PostMusterija([FromBody] Musterija k)
         {
@@ -78,7 +106,7 @@ namespace WebAPI.Controllers
 
                         db.SaveChanges();
 
-                        msg = Request.CreateResponse(HttpStatusCode.NoContent,v);
+                        msg = Request.CreateResponse(HttpStatusCode.OK,v);
                     }
                     else
                     {

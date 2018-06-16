@@ -66,6 +66,7 @@ namespace WebAPI.Controllers
                 using (SystemDBContext db = new SystemDBContext())
                 {
                     Voznja v = db.Voznje.FirstOrDefault(x => x.Id == kom.Id);
+                    Musterija m = db.Musterije.FirstOrDefault(x => x.Username == v.UserCallerID);
 
                     if (v == null)
                     {
@@ -73,7 +74,8 @@ namespace WebAPI.Controllers
                     }
                     else
                     {
-                        db.Voznje.Remove(v);
+                        m.DriveStatus = DrivingStatus.Declined;
+                        v.Status = DrivingStatus.Declined;
                         db.SaveChanges();
 
                         msg = Request.CreateResponse(HttpStatusCode.NoContent);
@@ -97,8 +99,8 @@ namespace WebAPI.Controllers
             try
             {
                 List<Voznja> list = repo.GetVoznje();
-                Voznja v = list.Find(x => x.UserCallerID == UserCaller);    //za musteriju
-                Voznja voz = list.Find(x => x.DriverID == UserCaller);      //za vozaca
+                Voznja v = list.Find(x => x.UserCallerID == UserCaller && (x.Status == DrivingStatus.Accepted || x.Status == DrivingStatus.Created));    //za musteriju
+                Voznja voz = list.Find(x => x.DriverID == UserCaller && (x.Status== DrivingStatus.Accepted || x.Status == DrivingStatus.InProgress));      //za vozaca
 
                 if (v != null)
                 {

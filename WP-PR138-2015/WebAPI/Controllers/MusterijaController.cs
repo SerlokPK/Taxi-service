@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     public class MusterijaController : ApiController
     {
         [HttpGet]
-        public HttpResponseMessage GetMusterija(string carType)
+        public HttpResponseMessage GetVozac(string carType)
         {
             HttpResponseMessage msg;
             VozacRepository repo = new VozacRepository();

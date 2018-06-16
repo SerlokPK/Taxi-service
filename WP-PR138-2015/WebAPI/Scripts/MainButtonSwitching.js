@@ -13,30 +13,50 @@
         $('#btnrequestdrive').show();
         let user = JSON.parse(sessionStorage.getItem('logged'));
 
-        $.ajax({
-            method: "GET",
-            url: "/api/Voznja",
-            data: { UserCaller: user.Username },
-            dataType: "json",
-            success: function (data) {
+        $.when(
+            $.ajax({                        //da vratim trenutno stanje ulogovanog 
+                method: "GET",
+                url: "/api/Vozac",
+                data: { username: user.Username },
+                dataType: "json",
+                success: function (data) {
+                    sessionStorage.setItem('logged', JSON.stringify(data));
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            }),
+        ).then(function () {
+            let user = JSON.parse(sessionStorage.getItem('logged'));
+
+            if (user.DriveString === 'Accepted' || user.DriveString === 'Created') {
                 $.ajax({
                     method: "GET",
-                    url: "/api/Address",
-                    data: { id: data.StartPointID },
+                    url: "/api/Voznja",
+                    data: { UserCaller: user.Username },
                     dataType: "json",
-                    success: function (response) {
-                        $("#lblhome").empty();
-                        $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Car type: ${data.TypeString}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
-                                                <br /><button id='btnmodifydrive'>Modify</button><button id='btncanceldrive'>Cancel</button>`);
-                        $('#divhome').show();
+                    success: function (data) {
+
+                        $.ajax({
+                            method: "GET",
+                            url: "/api/Address",
+                            data: { id: data.StartPointID },
+                            dataType: "json",
+                            success: function (response) {
+                                $("#lblhome").empty();
+                                $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Car type: ${data.TypeString}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                                <br /><input type="hidden" name="Skriveni" value="${data.Id}" /><button id='btnmodifydrive'>Modify</button><button id='btncanceldrive'>Cancel</button>`);
+                                $('#divhome').show();
+                            },
+                            error: function (msg) {
+                                //alert("Fail - " + msg.responseText);
+                            }
+                        });
                     },
                     error: function (msg) {
-                        //alert("Fail - " + msg.responseText);
+                        //alert('Error - ' + msg.responseText);
                     }
                 });
-            },
-            error: function (msg) {
-                //alert('Error - ' + msg.responseText);
             }
         });
     }
@@ -66,29 +86,51 @@
             }
         });
 
-        $.ajax({
-            method: "GET",
-            url: "/api/Voznja",
-            data: { UserCaller: logUser.Username },
-            dataType: "json",
-            success: function (data) {
+        let user = JSON.parse(sessionStorage.getItem('logged'));
+
+        $.when(
+            $.ajax({                        //da vratim trenutno stanje ulogovanog 
+                method: "GET",
+                url: "/api/Komentar",
+                data: { username: user.Username },
+                dataType: "json",
+                success: function (data) {
+                    sessionStorage.setItem('logged', JSON.stringify(data));
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            }),
+        ).then(function () {
+            user = JSON.parse(sessionStorage.getItem('logged'));
+
+            if (user.DriveString === 'Accepted' || user.DriveString === 'InProgress') {
                 $.ajax({
                     method: "GET",
-                    url: "/api/Address",
-                    data: { id: data.StartPointID },
+                    url: "/api/Voznja",
+                    data: { UserCaller: logUser.Username },
                     dataType: "json",
-                    success: function (response) {
-                        $("#lblfordriver").empty();
-                        $('#lblfordriver').append(`<br/><br/>====Accepted drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                    success: function (data) {
+                        $.ajax({
+                            method: "GET",
+                            url: "/api/Address",
+                            data: { id: data.StartPointID },
+                            dataType: "json",
+                            success: function (response) {
+                                $("#lblfordriver").empty();
+                                $('#lblfordriver').append(`<br/><br/>====Accepted drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
                                                             <br /><button id='btnfnsdrv'>Finish</button>`);
+                            },
+                            error: function (msg) {
+                                alert("Fail - " + msg.responseText);
+                            }
+                        });
+
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert('Error - ' + msg.responseText);
                     }
                 });
-            },
-            error: function (msg) {
-                alert('Error - ' + msg.responseText);
             }
         });
 

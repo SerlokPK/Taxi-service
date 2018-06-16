@@ -11,6 +11,33 @@ namespace WebAPI.Controllers
 {
     public class KomentarController : ApiController
     {
+        [HttpGet]
+        public HttpResponseMessage GetVozac(string username)
+        {
+            HttpResponseMessage msg;
+            VozacRepository repo = new VozacRepository();
+
+            try
+            {
+                Vozac v = repo.GetOneVozac(username);
+
+                if (v == null)
+                {
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Driver is not registered.");
+                }
+                else
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, v);
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
         [HttpPost]
         public HttpResponseMessage PostMusterija([FromBody]Komentar kom)
         {

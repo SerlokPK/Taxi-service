@@ -14,6 +14,33 @@ namespace WebAPI.Controllers
     public class VozacController : ApiController
     {
         [HttpGet]
+        public HttpResponseMessage GetMusterija(string username)
+        {
+            HttpResponseMessage msg;
+            MusterijaRepository repo = new MusterijaRepository();
+
+            try
+            {
+                Musterija m = repo.GetOneMusterija(username);
+
+                if (m == null)
+                {
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Customer is not registered.");
+                }
+                else
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, m);
+                }
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
+        [HttpGet]
         public HttpResponseMessage GetVozac()
         {
             HttpResponseMessage msg;
