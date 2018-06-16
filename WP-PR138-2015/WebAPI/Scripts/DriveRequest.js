@@ -19,7 +19,16 @@
             user = JSON.parse(sessionStorage.getItem('logged'));
             if (user.DriveString === 'Accepted' || user.DriveString === 'Created') {
                 alert(`You already took one ride, finish it, or change your ride status if it's over, then try again.`);
-            } else {
+            } else if ((user.DriveString === 'Successful' || user.DriveString === 'Failed') && user.Commented == false) {
+                alert('This drive is over, leave comment about your experience');
+                let save = $('#lblhome').html();
+                $('#lblhome').empty();
+                let info = save.split('button');
+                save = info[0].slice(0, -1);
+                $('#lblhome').append(save);
+                $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
+            }
+            else {
                 $('#divrequest').show();
                 $('#divhome').hide();
                 $('#divprofile').hide();
@@ -113,14 +122,143 @@
         //let temp = $('#divhome')
         let temp = $('#lblhome').find('input:hidden').val();
         id = parseInt(temp);
+        let voznja;
 
-        $('#divmodifyrequest').show();                          
+        $.when(
+            $.ajax({                        //da vratim trenutno stanje ulogovanog 
+                method: "GET",
+                url: "/api/Registration",
+                data: { id: id },
+                dataType: "json",
+                success: function (data) {
+                    voznja = data;
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            }),
+        ).then(function () {
+            if (voznja.StatusString === 'Created' || voznja.StatusString === 'Accepted') {      // ako je neki od ovih stanja, moze da modifikuje
+                $('#divmodifyrequest').show();
+                $('#divhome').hide();
+                $('#divprofile').hide();
+                $('#divupdate').hide();
+                $('#divallcustomers').hide();
+                $('#divrequest').hide();
+            } else {
+                alert('This drive is over, leave comment about your experience');
+                let save = $('#lblhome').html();
+                $('#lblhome').empty();
+                let info = save.split('button');
+                save = info[0].slice(0, -1);
+                $('#lblhome').append(save);
+                $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
+            }
+        });
+
+
+    });
+
+    //ako je kliknuo da nece da ostavi kom
+    $('#lblhome').on('click', '#btncomno', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
+        $('#lblhome').empty();
+        $('#divhome').show();
+        $('#divprofile').hide();
+        $('#divupdate').hide();
+        $('#divallcustomers').hide();
+        $('#divrequest').hide();
+    });
+
+    //ako je kliknuo da hoce da ostavi komentar
+    $('#lblhome').on('click', '#btncomyes', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
+        $('#divwantcom').show();
         $('#divhome').hide();
         $('#divprofile').hide();
         $('#divupdate').hide();
         $('#divallcustomers').hide();
         $('#divrequest').hide();
     });
+
+    $('#btnsndcomm').click(function () {
+        let text = $('#txtacomment2').val();
+        let grade = $('#gradecmt').val();
+        let status = true;
+
+        if (text.length < 5) {
+            alert('Please leave more than one word, so we can improve our work, thank you!');
+            status = false;
+        }
+
+        if (status) {
+            let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
+
+            $.ajax({                    //uzimamo voznju za koju stavljamo komentar
+                method: "GET",
+                url: "/api/LogIn",
+                data: { UserCaller: loggedUser.Username },
+                dataType: "json",
+                success: function (data) {
+                    let komentar = {
+                        Description: text,
+                        UserID: loggedUser.Username,
+                        DriveID: data.StartPointID,
+                        Grade: grade
+                    }
+
+                    $.ajax({                // cuvamo komentar
+                        method: "POST",
+                        url: "/api/Komentar",
+                        data: JSON.stringify(komentar),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            alert('Comment sent');
+                            $('#txtacomment2').val("");
+                            $('#gradecmt').val("");
+                            $('#divwantcom').hide();
+                            $("#lblhome").empty();
+                            $('#divhome').show();
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    });
+
+                    $.ajax({                        //da izmenim da je komentarisao korisnik
+                        method: "GET",
+                        url: "/api/Vozac",
+                        data: { username: loggedUser.Username },
+                        dataType: "json",
+                        success: function (data) {
+                            let korisnik = {
+                                Username: data.Username
+                            }
+                            $.ajax({                //menjam na true - komentarisao je
+                                method: "PUT",
+                                url: "/api/Komentar",
+                                data: JSON.stringify(korisnik),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    sessionStorage.setItem('logged', JSON.stringify(response));
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            });
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    });
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            });
+        }
+    });
+
     //cancel 'created' voznje
     $('#lblhome').on('click', '#btncanceldrive', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
         $('#divcancelride').show();                          //pozivas
@@ -199,8 +337,6 @@
                     alert("Fail - " + msg.responseText);
                 }
             });
-
-
         }
     });
 });

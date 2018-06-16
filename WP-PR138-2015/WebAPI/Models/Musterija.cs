@@ -27,6 +27,7 @@ namespace WebAPI.Models
         public Roles Role { get; set; } = Roles.Customer;
         [NotMapped]
         public DrivingStatus DriveStatus { get; set; }
+        public bool Commented { get; set; } = false;
 
         [Column("Gender")]
         public string GenderString

@@ -186,22 +186,6 @@
                     <td>Leave your comment here :</td>
                     <td><textarea rows="8" cols="35" id="txtacomment"></textarea></td>
                 </tr>
-                <!---
-                <tr>
-                    <td>Grade :</td>
-                    <td>
-                        <select id="gradecmt">
-                            <!--defaultna vrednost
-                            <option selected>0</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </td>
-                </tr>
-                //-->
                 <tr>
                     <td colspan="2"><input type="button" id="btncnldrive" value="Cancel drive"></td>
                 </tr>
@@ -255,6 +239,35 @@
                 </tr>
                 <tr>
                     <td colspan="2"><input type="button" id="btnsuccfnsjob" value="Finish drive"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--ukoliko je voznja gotova, pa korisnik hoce da ostavi kom-->
+    <div class="container hideDivs" id="divwantcom">
+        <div class="main">
+            <h3>Cancel application</h3>
+            <table class="widther" border="1">
+                <tr>
+                    <td>Leave your comment here :</td>
+                    <td><textarea rows="8" cols="35" id="txtacomment2"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Grade :</td>
+                    <td>
+                        <select id="gradecmt" style="width:100%">
+                            <!--defaultna vrednost -->
+                            <option selected>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" id="btnsndcomm" value="Send comment"></td>
                 </tr>
             </table>
         </div>
