@@ -124,7 +124,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetAddress()
+        public HttpResponseMessage GetVoznje()
         {
             HttpResponseMessage msg;
             VoznjaRepository repo = new VoznjaRepository();
@@ -161,7 +161,7 @@ namespace WebAPI.Controllers
             //var driver = token.Value<string>("driver");
             var type = token.Value<string>("type");
 
-            TypeOfCar typeC = GetTypeInEnum(type); ;
+            TypeOfCar typeC = GetTypeInEnum(type); 
 
             try
             {

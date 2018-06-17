@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,54 @@ namespace WebAPI.Controllers
 {
     public class SmartController : ApiController
     {
+        [HttpPost]
+        public HttpResponseMessage PostMusterija([FromBody] JToken token)
+        {
+            HttpResponseMessage msg;
+            VoznjaRepository repo = new VoznjaRepository();
+
+            var start = token.Value<int>("start");
+            var driver = token.Value<string>("user");
+            var type = token.Value<string>("type");
+            var admin = token.Value<string>("admin");
+
+            TypeOfCar typeC = GetTypeInEnum(type); 
+
+            try
+            {
+                using (var db = new SystemDBContext())
+                {
+                    Voznja v = new Voznja()
+                    {
+                        StartPointID = start,
+                        DriverID = driver,
+                        TypeOfCar = typeC,
+                        Id = repo.GetVoznje().Count + 1,
+                        Status = DrivingStatus.Formed,
+                        TimeOfReservation = DateTime.Now,
+                        AdminID=admin
+                    };
+
+                    Vozac voz = db.Vozaci.FirstOrDefault(x => x.Username == driver);
+                    voz.DriveStatus = DrivingStatus.InProgress;
+                    Admin a = db.Admini.FirstOrDefault(x => x.Username == admin);
+                    a.DriveStatus = DrivingStatus.Formed;
+
+                    db.Voznje.Add(v);
+                    db.SaveChanges();
+
+                    msg = Request.CreateResponse(HttpStatusCode.Created, v);
+                    msg.Headers.Location = new Uri(Request.RequestUri + v.Id.ToString());
+
+                    return msg;
+                }
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+        }
+
         [HttpPut]
         public HttpResponseMessage PutStatusForDrive(Voznja voznja)
         {
@@ -53,6 +102,28 @@ namespace WebAPI.Controllers
             }
 
             return msg;
+        }
+
+        private TypeOfCar GetTypeInEnum(string type)
+        {
+            switch (type)
+            {
+                case "MiniVan":
+                    {
+                        return TypeOfCar.MiniVan;
+                    }
+                    break;
+                case "RegularCar":
+                    {
+                        return TypeOfCar.RegularCar;
+                    }
+                    break;
+                default:
+                    {
+                        return TypeOfCar.RegularCar;
+                    }
+                    break;
+            }
         }
 
         //private DrivingStatus GetStatus(string status)

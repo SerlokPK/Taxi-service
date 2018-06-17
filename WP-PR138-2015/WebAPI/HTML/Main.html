@@ -8,6 +8,7 @@
     <script src="../Scripts/AdminRoleChanging.js"></script>
     <script src="../Scripts/DriveRequest.js"></script>
     <script src="../Scripts/DriverManagingRequests.js"></script>
+    <script src="../Scripts/AdminCreatingDrive.js"></script>
     <title></title>
 </head>
 <body>
@@ -17,6 +18,7 @@
     <button id="btnchangeroles" class="hideButtons">Change role</button>
     <button id="btnrequestdrive" class="hideButtons">Request drive</button>
     <button id="btnacptreq" class="hideButtons">All requests</button>
+    <button id="btnadmincrt" class="hideButtons">Create drive</button>
     <button name="btnLogOff" id="btnlogoff">Log Off</button>
     <hr />
     <div name="divHome" id="divhome">
@@ -283,6 +285,37 @@
                 </tr>
                 <tr>
                     <td colspan="2"><input type="button" id="btnsndcommdrv" value="Send comment"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--Prikaz za rezervaciju voznje kada admin pravi-->
+    <div class="container hideDivs" id="divadminrequest">
+        <div class="main">
+            <h3>Driving application</h3>
+            <table class="widther" border="1">
+                <tr>
+                    <td>Current location :</td>
+                    <td><input type="text" id="curlocadm"></td>
+                </tr>
+                <tr>
+                    <td>Type of car :</td>
+                    <td>
+                        <select id="typeofcaradm" style="width:100%">
+                            <!--defaultna vrednost-->
+                            <option selected>RegularCar</option>
+                            <option>MiniVan</option>
+                        </select>
+                        <select id="driversadm" style="width:100%">
+                            <option value=''>Drivers</option>
+                        </select>
+                    </td>
+                </tr>
+                <!--<tr>
+                    <td><ol class="hideButtons" id="oladmalldrivers"></ol></td>
+                </tr>-->
+                <tr>
+                    <td colspan="2"><input type="button" id="btncreatedrvadm" value="Create drive"></td>
                 </tr>
             </table>
         </div>

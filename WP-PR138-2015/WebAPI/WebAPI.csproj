@@ -213,6 +213,7 @@
     <Content Include="HTML\Main.html" />
     <Content Include="index.html" />
     <Content Include="HTML\Registration.html" />
+    <Content Include="Scripts\AdminCreatingDrive.js" />
     <Content Include="Scripts\AdminRoleChanging.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
