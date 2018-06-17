@@ -126,9 +126,6 @@
                     },
                     error: function (msg) {
                         alert("Fail - " + msg.responseText);
-                        //$('#divallreqcreated').hide();
-                        //$("#lblfordriver").empty();
-                        //$('#divhome').show();
                     }
                 });
             } else {
@@ -165,8 +162,104 @@
             $('#divmodifyrequest').hide();
             $('#divcancelride').hide();
             $('#divallreqcreated').hide();
-        } else {
-            //TO DO IF FAILED SHOW DIV
+        } else {                                        //kada je unsuccessful
+            $('#divcancelridedrv').show();
+            $('#divfnsjob').hide();
+            $('#divhome').hide();
+            $('#divprofile').hide();
+            $('#divupdate').hide();
+            $('#divallcustomers').hide();
+            $('#divrequest').hide();
+            $('#divmodifyrequest').hide();
+            $('#divcancelride').hide();
+            $('#divallreqcreated').hide();
+        }
+    });
+
+    $('#btnsndcommdrv').click(function () {
+        let text = $('#txtacommentdrv').val();
+        let status = true;
+
+        if (text.length < 5) {
+            alert('Please leave more than one word, so we can understand what happend, thank you!');
+            status = false;
+        }
+
+        if (status) {
+            let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
+
+            $.ajax({                    //uzimamo voznju za koju cuvam komentar
+                method: "GET",
+                url: "/api/Voznja",
+                data: { UserCaller: loggedUser.Username },
+                dataType: "json",
+                success: function (data) {
+                    let komentar = {
+                        Description: text,
+                        UserID: loggedUser.Username,
+                        DriveID: data.StartPointID
+                    }
+
+                    $.ajax({                // cuvamo komentar
+                        method: "POST",
+                        url: "/api/Komentar",
+                        data: JSON.stringify(komentar),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            let send = {
+                                id: data.Id,
+                                komId: response.Id
+                            }
+
+                            $.ajax({                //cuvam ID komentara u voznju
+                                method: "PUT",
+                                url: "/api/Smart2",
+                                data: JSON.stringify(send),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            });
+
+                            alert('Your comment is sent!');
+                            $('#divcancelridedrv').hide();
+                            $('#txtacommentdrv').val("");
+                            $('#lblfordriver').empty()      //voznja obradjena, uklonimo je, ako se refresh, nece je ocitati iz baze
+                            $('#divhome').show();
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    });
+
+                    let send = {
+                        Id: data.Id,
+                        Status: 6
+                    };
+
+                    $.ajax({        //promenjen status na failed
+                        method: "PUT",
+                        url: "/api/Smart",
+                        data: JSON.stringify(send),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    });
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            });
         }
     });
 

@@ -180,6 +180,7 @@ namespace WebAPI.Controllers
 
                     Musterija m = db.Musterije.FirstOrDefault(x => x.Username == user); //mora se i korisniku promeniti status kad inicira poziv
                     m.DriveStatus = DrivingStatus.Created;
+                    m.Commented = false;
 
                     db.Voznje.Add(v);
                     db.SaveChanges();

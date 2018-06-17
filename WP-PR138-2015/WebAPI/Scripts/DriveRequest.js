@@ -23,8 +23,9 @@
                 alert('This drive is over, leave comment about your experience');
                 let save = $('#lblhome').html();
                 $('#lblhome').empty();
-                let info = save.split('button');
-                save = info[0].slice(0, -1);
+                let info = save.split('<');
+                save = info[0];//.slice(0, -1);
+                //$('#lblhome').html().split("<br/><br/>Do you wish to leave a comment?<br/><button id='btncomyes'>Yes</button>          <button id='btncomno'>No</button>").join("");
                 $('#lblhome').append(save);
                 $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
             }
@@ -119,7 +120,6 @@
     });
     //za menjanje postojece voznje      
     $('#lblhome').on('click', '#btnmodifydrive', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da pozivas
-        //let temp = $('#divhome')
         let temp = $('#lblhome').find('input:hidden').val();
         id = parseInt(temp);
         let voznja;
@@ -155,8 +155,6 @@
                 $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
             }
         });
-
-
     });
 
     //ako je kliknuo da nece da ostavi kom
@@ -167,6 +165,37 @@
         $('#divupdate').hide();
         $('#divallcustomers').hide();
         $('#divrequest').hide();
+
+        let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
+
+        $.ajax({                        //da izmenim da je komentarisao korisnik
+            method: "GET",
+            url: "/api/Vozac",
+            data: { username: loggedUser.Username },
+            dataType: "json",
+            success: function (data) {
+                let korisnik = {
+                    Username: data.Username
+                }
+
+                $.ajax({                //menjam na true - komentarisao je
+                    method: "PUT",
+                    url: "/api/Komentar",
+                    data: JSON.stringify(korisnik),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        sessionStorage.setItem('logged', JSON.stringify(response));
+                    },
+                    error: function (msg) {
+                        alert("Fail - " + msg.responseText);
+                    }
+                });
+            },
+            error: function (msg) {
+                alert("Fail - " + msg.responseText);
+            }
+        });
     });
 
     //ako je kliknuo da hoce da ostavi komentar
@@ -212,6 +241,25 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
+                            let send = {
+                                id: data.Id,
+                                komId: response.Id
+                            }
+
+                            $.ajax({                //cuvam ID komentara u voznju
+                                method: "PUT",
+                                url: "/api/Smart2",
+                                data: JSON.stringify(send),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            });
+
                             alert('Comment sent');
                             $('#txtacomment2').val("");
                             $('#gradecmt').val("");
@@ -261,12 +309,42 @@
 
     //cancel 'created' voznje
     $('#lblhome').on('click', '#btncanceldrive', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
-        $('#divcancelride').show();                          //pozivas
-        $('#divhome').hide();
-        $('#divprofile').hide();
-        $('#divupdate').hide();
-        $('#divallcustomers').hide();
-        $('#divrequest').hide();
+        
+        let temp = $('#lblhome').find('input:hidden').val();
+        id = parseInt(temp);
+        let voznja;
+
+        $.when(
+            $.ajax({                        //da vratim trenutno stanje ulogovanog 
+                method: "GET",
+                url: "/api/Registration",
+                data: { id: id },
+                dataType: "json",
+                success: function (data) {
+                    voznja = data;
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            }),
+        ).then(function () {
+            if (voznja.StatusString === 'Created' || voznja.StatusString === 'Accepted') {      // ako je neki od ovih stanja, moze da modifikuje
+                $('#divcancelride').show();                         
+                $('#divhome').hide();
+                $('#divprofile').hide();
+                $('#divupdate').hide();
+                $('#divallcustomers').hide();
+                $('#divrequest').hide();
+            } else {
+                alert('This drive is over, leave comment about your experience');
+                let save = $('#lblhome').html();
+                $('#lblhome').empty();
+                let info = save.split('button');
+                save = info[0].slice(0, -1);
+                $('#lblhome').append(save);
+                $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
+            }
+        });
     });
 
     $('#btnmdfdrive').click(function () {
@@ -285,7 +363,7 @@
         if (status) {
             let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
 
-            $.ajax({                    //uzimamo voznju koja se brise
+            $.ajax({                    //uzimamo voznju koja je declined
                 method: "GET",
                 url: "/api/Voznja",
                 data: { UserCaller: loggedUser.Username },
@@ -304,7 +382,24 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
+                            let send = {
+                                id: data.Id,
+                                komId: response.Id
+                            }
 
+                            $.ajax({                //cuvam ID komentara u voznju
+                                method: "PUT",
+                                url: "/api/Smart2",
+                                data: JSON.stringify(send),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            });
                         },
                         error: function (msg) {
                             alert("Fail - " + msg.responseText);
@@ -315,7 +410,7 @@
                         Id: data.Id
                     }
 
-                    $.ajax({                // brisemo voznju
+                    $.ajax({                // stavljamo status 'declined'
                         method: "DELETE",
                         url: "/api/Voznja",
                         data: JSON.stringify(voznja),

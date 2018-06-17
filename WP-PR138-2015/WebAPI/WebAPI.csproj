@@ -175,6 +175,8 @@
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\MusterijaController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\Smart2Controller.cs" />
+    <Compile Include="Controllers\SmartController.cs" />
     <Compile Include="Controllers\VozacController.cs" />
     <Compile Include="Controllers\VoznjaController.cs" />
     <Compile Include="DBClasses\AdminRepository.cs" />

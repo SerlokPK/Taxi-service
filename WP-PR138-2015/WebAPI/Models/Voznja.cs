@@ -27,7 +27,7 @@ namespace WebAPI.Models
         public Vozac Driver { get; set; } //onaj koji vozi ili kome je sredjena voznja od admina
         public string DriverID { get; set; }
         public double? Payment { get; set; }
-        public string Comment { get; set; } //unosi se opcino, osim za otkazane voznje
+        public int? CommentID { get; set; } //unosi se opcino, osim za otkazane voznje
         [NotMapped]
         public DrivingStatus Status { get; set; }
 
