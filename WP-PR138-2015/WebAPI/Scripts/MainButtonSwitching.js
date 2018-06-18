@@ -8,6 +8,7 @@
     if (logUser.RoleString === 'Admin') {
         $('#btnchangeroles').show();
         $('#btnadmincrt').show();
+        $('#btnacptreqadm').show();
         let loggedUser = JSON.parse(sessionStorage.getItem("logged"));
 
         $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog admina
@@ -113,7 +114,7 @@
         ).then(function () {
             let user = JSON.parse(sessionStorage.getItem('logged'));
 
-            if (user.DriveString === 'Accepted' || user.DriveString === 'Created') {
+            if (user.DriveString === 'Accepted' || user.DriveString === 'Created' || user.DriveString === 'Processed') {
                 $.ajax({
                     method: "GET",
                     url: "/api/Voznja",
@@ -234,6 +235,7 @@
         $('#divsuccdrv').hide();
         $('#divcancelridedrv').hide();
         $('#divadminrequest').hide();
+        $('#divallreqcreatedadm').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
@@ -252,6 +254,7 @@
         $('#divsuccdrv').hide();
         $('#divcancelridedrv').hide();
         $('#divadminrequest').hide();
+        $('#divallreqcreatedadm').hide();
     });
 
     $('#btnChange').click(function () { //update forma
@@ -270,6 +273,7 @@
         $('#divsuccdrv').hide();
         $('#divcancelridedrv').hide();
         $('#divadminrequest').hide();
+        $('#divallreqcreatedadm').hide();
     });
 
     $('#btnlogoff').click(function () {

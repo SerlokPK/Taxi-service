@@ -9,6 +9,7 @@
     <script src="../Scripts/DriveRequest.js"></script>
     <script src="../Scripts/DriverManagingRequests.js"></script>
     <script src="../Scripts/AdminCreatingDrive.js"></script>
+    <script src="../Scripts/AdminAcceptingRequests.js"></script>
     <title></title>
 </head>
 <body>
@@ -17,7 +18,8 @@
     <button name="btnProfile" id="btnprofile">Profile</button>
     <button id="btnchangeroles" class="hideButtons">Change role</button>
     <button id="btnrequestdrive" class="hideButtons">Request drive</button>
-    <button id="btnacptreq" class="hideButtons">All requests</button>
+    <button id="btnacptreq" class="hideButtons">All requests</button>       <!--vozac prihvata zahtev-->
+    <button id="btnacptreqadm" class="hideButtons">All requests</button>    <!--admin prihvata zahtev-->
     <button id="btnadmincrt" class="hideButtons">Create drive</button>
     <button name="btnLogOff" id="btnlogoff">Log Off</button>
     <hr />
@@ -194,7 +196,7 @@
             </table>
         </div>
     </div>
-    <!--div za prikaz svih vozaca koji imaju 'created' status voznje-->
+    <!--div za prikaz svih musterija koje imaju 'created' status voznje-->
     <div class="container hideDivs" id="divallreqcreated">
         <div class="main">
             <h3>Users with status 'Created'</h3>
@@ -311,13 +313,33 @@
                         </select>
                     </td>
                 </tr>
-                <!--<tr>
-                    <td><ol class="hideButtons" id="oladmalldrivers"></ol></td>
-                </tr>-->
                 <tr>
                     <td colspan="2"><input type="button" id="btncreatedrvadm" value="Create drive"></td>
                 </tr>
             </table>
+        </div>
+    </div>
+    <!--div za prikaz svih musterija koje imaju 'created' status voznje, admin mode-->
+    <div class="container hideDivs" id="divallreqcreatedadm">
+        <div class="main">
+            <h3>Users with status 'Created'</h3>
+            <ol id="olforcrtreqadm"></ol>
+        </div>
+    </div>
+    <!--pop-up za biranje vozaca unutar svih requestova-->
+    <div class="popup hideDivs" id="divpop" data-popup="popup-1">
+        <div class="popup-inner">
+            <h3>Choose driver</h3>
+            <select id="typeofcaradm2" style="width:100%">
+                <!--defaultna vrednost-->
+                <option selected>RegularCar</option>
+                <option>MiniVan</option>
+            </select>
+            <select id="driversadm2" style="width:100%">
+                <option value=''>Drivers</option>
+            </select>
+            <p><a data-popup-close="popup-1" href="#">Create</a></p>
+            <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
         </div>
     </div>
 </body>

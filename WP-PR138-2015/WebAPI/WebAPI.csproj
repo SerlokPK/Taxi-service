@@ -176,6 +176,7 @@
     <Compile Include="Controllers\MusterijaController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\Smart2Controller.cs" />
+    <Compile Include="Controllers\Smart3Controller.cs" />
     <Compile Include="Controllers\SmartController.cs" />
     <Compile Include="Controllers\VozacController.cs" />
     <Compile Include="Controllers\VoznjaController.cs" />
@@ -213,6 +214,7 @@
     <Content Include="HTML\Main.html" />
     <Content Include="index.html" />
     <Content Include="HTML\Registration.html" />
+    <Content Include="Scripts\AdminAcceptingRequests.js" />
     <Content Include="Scripts\AdminCreatingDrive.js" />
     <Content Include="Scripts\AdminRoleChanging.js" />
     <Content Include="Scripts\bootstrap.js" />

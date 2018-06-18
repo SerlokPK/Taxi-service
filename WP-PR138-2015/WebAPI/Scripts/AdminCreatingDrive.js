@@ -36,6 +36,7 @@
             $('#divprofile').hide();
             $('#divupdate').hide();
             $('#divallcustomers').hide();
+            $('#divallreqcreatedadm').hide();
         });
     });
 

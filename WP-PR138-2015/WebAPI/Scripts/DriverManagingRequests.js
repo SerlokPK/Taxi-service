@@ -60,9 +60,6 @@
                 });
             }
         });
-
-
-
     });
 
     $("#olforcrtreq").delegate("#btnaccrequest", "click", function () {

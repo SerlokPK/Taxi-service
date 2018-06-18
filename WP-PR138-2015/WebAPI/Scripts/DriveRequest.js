@@ -17,7 +17,7 @@
             }),
         ).then(function () {
             user = JSON.parse(sessionStorage.getItem('logged'));
-            if (user.DriveString === 'Accepted' || user.DriveString === 'Created') {
+            if (user.DriveString === 'Accepted' || user.DriveString === 'Created' || user.DriveString === 'Processed') {
                 alert(`You already took one ride, finish it, or change your ride status if it's over, then try again.`);
             } else if ((user.DriveString === 'Successful' || user.DriveString === 'Failed') && user.Commented == false) {
                 alert('This drive is over, leave comment about your experience');
@@ -138,7 +138,7 @@
                 }
             }),
         ).then(function () {
-            if (voznja.StatusString === 'Created' || voznja.StatusString === 'Accepted') {      // ako je neki od ovih stanja, moze da modifikuje
+            if (voznja.StatusString === 'Created' || voznja.StatusString === 'Accepted' || voznja.StatusString === 'Processed') {      // ako je neki od ovih stanja, moze da modifikuje
                 $('#divmodifyrequest').show();
                 $('#divhome').hide();
                 $('#divprofile').hide();
@@ -335,7 +335,10 @@
                 $('#divupdate').hide();
                 $('#divallcustomers').hide();
                 $('#divrequest').hide();
-            } else {
+            } else if (voznja.StatusString === 'Processed') {
+                alert('This drive was made by admin, you can"t cancel it');
+            }
+            else {
                 alert('This drive is over, leave comment about your experience');
                 let save = $('#lblhome').html();
                 $('#lblhome').empty();
