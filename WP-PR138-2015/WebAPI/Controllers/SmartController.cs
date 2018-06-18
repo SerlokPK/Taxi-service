@@ -23,6 +23,8 @@ namespace WebAPI.Controllers
             var driver = token.Value<string>("user");
             var type = token.Value<string>("type");
             var admin = token.Value<string>("admin");
+            var adminSts = token.Value<int>("adminStatus");
+            var driverSts = token.Value<int>("driverStatus");
 
             TypeOfCar typeC = GetTypeInEnum(type); 
 
@@ -36,15 +38,15 @@ namespace WebAPI.Controllers
                         DriverID = driver,
                         TypeOfCar = typeC,
                         Id = repo.GetVoznje().Count + 1,
-                        Status = DrivingStatus.Formed,
+                        Status = GetStatus(adminSts),
                         TimeOfReservation = DateTime.Now,
                         AdminID=admin
                     };
 
                     Vozac voz = db.Vozaci.FirstOrDefault(x => x.Username == driver);
-                    voz.DriveStatus = DrivingStatus.InProgress;
+                    voz.DriveStatus = GetStatus(driverSts);
                     Admin a = db.Admini.FirstOrDefault(x => x.Username == admin);
-                    a.DriveStatus = DrivingStatus.Formed;
+                    a.DriveStatus = GetStatus(adminSts);
 
                     db.Voznje.Add(v);
                     db.SaveChanges();
@@ -126,47 +128,53 @@ namespace WebAPI.Controllers
             }
         }
 
-        //private DrivingStatus GetStatus(string status)
-        //{//Created, Declined, Formed, Processed, Accepted, Failed, Successful,InProgress
-        //    switch (status)
-        //    {
-        //        case "Created":
-        //            {
-        //                return DrivingStatus.Created;
-        //            }break;
-        //        case "Declined":
-        //            {
-        //                return DrivingStatus.Declined;
-        //            }break;
-        //        case "Formed":
-        //            {
-        //                return DrivingStatus.Formed;
-        //            }break;
-        //        case "Processed":
-        //            {
-        //                return DrivingStatus.Processed;
-        //            }break;
-        //        case "Accepted":
-        //            {
-        //                return DrivingStatus.Accepted;
-        //            }break;
-        //        case "Failed":
-        //            {
-        //                return DrivingStatus.Failed;
-        //            }break;
-        //        case "Successful":
-        //            {
-        //                return DrivingStatus.Successful;
-        //            }
-        //        case "InProgress":
-        //            {
-        //                return DrivingStatus.InProgress;
-        //            }
-        //        default:
-        //            {
-        //                return DrivingStatus.None;
-        //            }
-        //    }
-        //}
+        private DrivingStatus GetStatus(int status)
+        {//Created, Declined, Formed, Processed, Accepted, Failed, Successful,InProgress
+            switch (status)
+            {
+                case 1:
+                    {
+                        return DrivingStatus.Created;
+                    }
+                    break;
+                case 2:
+                    {
+                        return DrivingStatus.Declined;
+                    }
+                    break;
+                case 3:
+                    {
+                        return DrivingStatus.Formed;
+                    }
+                    break;
+                case 4:
+                    {
+                        return DrivingStatus.Processed;
+                    }
+                    break;
+                case 5:
+                    {
+                        return DrivingStatus.Accepted;
+                    }
+                    break;
+                case 6:
+                    {
+                        return DrivingStatus.Failed;
+                    }
+                    break;
+                case 7:
+                    {
+                        return DrivingStatus.Successful;
+                    }break;
+                case 8:
+                    {
+                        return DrivingStatus.InProgress;
+                    }break;
+                default:
+                    {
+                        return DrivingStatus.None;
+                    }
+            }
+        }
     }
 }

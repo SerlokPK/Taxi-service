@@ -8,6 +8,89 @@
     if (logUser.RoleString === 'Admin') {
         $('#btnchangeroles').show();
         $('#btnadmincrt').show();
+        let loggedUser = JSON.parse(sessionStorage.getItem("logged"));
+
+        $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog admina
+            method: "GET",
+            url: "/api/Voznja",
+            dataType: "json",
+            success: function (response) {
+                $("#lblhome").empty();
+                $('#lblhome').append('================Drives=====================');
+
+                $.each(response, function (index, value) {
+                    let startLoc;
+                    let endLoc;
+                    let comments = [];
+                    if (value.AdminID != null && value.AdminID == loggedUser.Username) {
+                        $.when(
+                            $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
+                                method: "GET",
+                                url: "/api/Address",
+                                data: { id: value.StartPointID },
+                                dataType: "json",
+                                success: function (loc) {
+                                    startLoc = loc;
+
+                                    if (value.FinalPointID != null) {
+                                        $.ajax({                    //za svaku voznju vracam krajnju lokaciju posebno, ako postoji
+                                            method: "GET",
+                                            url: "/api/Address",
+                                            data: { id: value.FinalPointID },
+                                            dataType: "json",
+                                            success: function (floc) {
+                                                endLoc = floc;
+                                            },
+                                            error: function (msg) {
+                                                alert("Fail - " + msg.responseText);
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            }),
+
+                            $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
+                                method: "GET",
+                                url: "/api/Smart2",
+                                data: { startLocation: value.StartPointID },
+                                dataType: "json",
+                                success: function (loc) {
+                                    comments = loc;
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            }),
+                        ).then(function () {
+                            $('#lblhome').append(`<br />Driver: ${value.DriverID} - Car type: ${value.TypeString}`);
+                            if (value.UserCallerID != null) {
+                                $('#lblhome').append(`<br />Customer: ${value.UserCallerID}`);
+                            }
+                            $('#lblhome').append(`<br />From: ${startLoc} - To: ${endLoc}`);
+                            $('#lblhome').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
+                            if (value.Payment != null) {
+                                $('#lblhome').append(`<br />Payment: ${value.Payment}`);
+                            }
+                            if (comments.length > 0) {
+                                $.each(comments, function (index, value) {
+                                    $('#lblhome').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
+                                    $('#lblhome').append(`<br />Grade for this ride: ${value.Grade}`);
+                                    $('#lblhome').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
+                                });
+                            }
+                            $('#lblhome').append('<br />===========================================');
+                        });
+                    }
+                });
+                $('#divhome').show();
+            },
+            error: function (msg) {
+                alert("Fail - " + msg.responseText);
+            }
+        });
     }
 
     if (logUser.RoleString === 'Customer') {
@@ -119,7 +202,7 @@
                             dataType: "json",
                             success: function (response) {
                                 $("#lblfordriver").empty();
-                                $('#lblfordriver').append(`<br/><br/>====Accepted drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                $('#lblfordriver').append(`<br/><br/>====Current drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
                                                             <br /><button id='btnfnsdrv'>Finish</button>`);
                             },
                             error: function (msg) {
@@ -150,6 +233,7 @@
         $('#divfnsjob').hide();
         $('#divsuccdrv').hide();
         $('#divcancelridedrv').hide();
+        $('#divadminrequest').hide();
     });
 
     $('#btnprofile').click(function () { //pocetni podaci
@@ -167,6 +251,7 @@
         $('#divfnsjob').hide();
         $('#divsuccdrv').hide();
         $('#divcancelridedrv').hide();
+        $('#divadminrequest').hide();
     });
 
     $('#btnChange').click(function () { //update forma
@@ -184,6 +269,7 @@
         $('#divfnsjob').hide();
         $('#divsuccdrv').hide();
         $('#divcancelridedrv').hide();
+        $('#divadminrequest').hide();
     });
 
     $('#btnlogoff').click(function () {

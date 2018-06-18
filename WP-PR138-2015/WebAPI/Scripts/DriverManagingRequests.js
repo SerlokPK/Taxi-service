@@ -114,7 +114,7 @@
                             dataType: "json",
                             success: function (response) {
                                 $("#lblfordriver").empty();
-                                $('#lblfordriver').append(`<br /><br />====Accepted drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                $('#lblfordriver').append(`<br /><br />====Current drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
                                                             <br /><button id='btnfnsdrv'>Finish</button>`);
                                 $('#divallreqcreated').hide();
                                 $('#divhome').show();

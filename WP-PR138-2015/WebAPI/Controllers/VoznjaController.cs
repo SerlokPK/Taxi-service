@@ -99,8 +99,8 @@ namespace WebAPI.Controllers
             try
             {
                 List<Voznja> list = repo.GetVoznje();
-                Voznja v = list.Find(x => x.UserCallerID == UserCaller && (x.Status == DrivingStatus.Accepted || x.Status == DrivingStatus.Created));    //za musteriju
-                Voznja voz = list.Find(x => x.DriverID == UserCaller && (x.Status== DrivingStatus.Accepted || x.Status == DrivingStatus.InProgress));      //za vozaca
+                Voznja v = list.Find(x => x.UserCallerID == UserCaller && (x.Status == DrivingStatus.Accepted || x.Status == DrivingStatus.Created || x.Status == DrivingStatus.Formed));    //za musteriju
+                Voznja voz = list.Find(x => x.DriverID == UserCaller && (x.Status== DrivingStatus.Accepted || x.Status == DrivingStatus.Formed));      //za vozaca
 
                 if (v != null)
                 {

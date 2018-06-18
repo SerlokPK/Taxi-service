@@ -10,8 +10,8 @@
                 dataType: "json",
                 success: function (data) {
                     $.each(data, function (index, value) {
-                        if (value.DriveString !== 'InProgress') {
-                            //$('#oladmalldrivers').append(`<li>Driver: ${value.Username} - Car type: ${value.TypeString}   <button id='btnassigndrv'>Assign</button></li>`);
+                        if (value.DriveString !== 'InProgress' && value.DriveString !== 'Formed') {
+                            
                             drivers.push(value);
                             sessionStorage.setItem('drivers', JSON.stringify(drivers));
                         }
@@ -42,128 +42,196 @@
     $("#typeofcaradm").change(function () {     //popunjavanje drop down liste u zavisnosti od tipa auta
         let car = $(this).val();
         let options = '<option value=""><strong>Drivers</strong></option>';
-        let drivers = JSON.parse(sessionStorage.getItem('drivers'));
+        let drivers = [];
 
-        $(drivers).each(function (index, value) {
-            if (value.Car.TypeString == car) {
-                options += '<option value="' + value.Username + '">' + value.Username + '</option>';
-            }
+        $.when(
+            $.ajax({                        //uzmem listu svih vozaca koje cu prikazati
+                method: "GET",
+                url: "/api/Vozac",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        if (value.DriveString !== 'InProgress' && value.DriveString !== 'Formed') {
+
+                            drivers.push(value);
+                            sessionStorage.setItem('drivers', JSON.stringify(drivers));
+                        }
+                    });
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
+                }
+            }),
+        ).then(function () {
+            let options = '<option value=""><strong>Drivers</strong></option>';
+            let drivers = JSON.parse(sessionStorage.getItem('drivers'));
+            $(drivers).each(function (index, value) {
+                if (value.Car.TypeString == car) {
+                    options += '<option value="' + value.Username + '">' + value.Username + '</option>';
+                }
+            });
+            $('#driversadm').html(options);
         });
-
-        $('#driversadm').html(options);
     });
 
     $('#btncreatedrvadm').click(function () {
         let location = $('#curlocadm').val();
         let car = $('#typeofcaradm').val();                     //tip automobila
-        let driver = $('#driversadm');
+        let driver = $('#driversadm').val();
         let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
         let startId;
 
-        location = Validation(location,driver);
+        location = Validation(location, driver);
         let send = { FullAddress: location };
 
-        if (location !== "") {
-            $.when(
-                $.ajax({
-                    method: "POST",
-                    url: "/api/Address",
-                    data: JSON.stringify(send),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        startID = data //moram cuvati ID pocetne lokacije, kako bih stavio u 'voznju'
-                    },
-                    error: function (msg) {
-                        alert("Fail - " + msg.responseText);
-                    }
-                }),
-            ).then(function () {
-                let DriverTypeLocation = {
-                    start: startID,
-                    user: driver,
-                    type: car,
-                    admin: loggedUser.Username
+        $.when(
+            $.ajax({                        //uzmem listu svih vozaca koje cu prikazati
+                method: "GET",
+                url: "/api/Vozac",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        if (value.Username == driver && (value.DriveString === 'InProgress' || value.DriveString === 'Formed')) {
+                            alert('This driver is already taken, choose another');
+                            location = "";
+                        }
+                    });
+                },
+                error: function (msg) {
+                    alert("Fail - " + msg.responseText);
                 }
-
-                $.ajax({
-                    method: "POST",
-                    url: "/api/Smart",
-                    data: JSON.stringify(DriverCustomerLocation),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        $('#curlocadm').val("");
-                        alert("Drive succesffully formed!");
-                        $('#divadminrequest').hide();
-
-                        $.ajax({
-                            method: "GET",
-                            url: "/api/Voznja",
-                            dataType: "json",
-                            success: function (response) {
-                                $("#lblhome").empty();
-                                $('#lblhome').append('=====Drives=====');
-                                let startLoc;
-                                let endLoc;
-
-                                $.each(response, function (index, value) {
-                                    if (value.AdminID != null && value.AdminID == loggedUser.Username) {
-                                        $.when(
-                                            $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
-                                                method: "GET",
-                                                url: "/api/Address",
-                                                data: { id: value.StartPointID },
-                                                dataType: "json",
-                                                success: function (loc) {
-                                                    startLoc = loc;
-                                                },
-                                                error: function (msg) {
-                                                    alert("Fail - " + msg.responseText);
-                                                }
-                                            }),
-
-                                            $.ajax({                    //za svaku voznju vracam krajnju lokaciju posebno
-                                                method: "GET",
-                                                url: "/api/Address",
-                                                data: { id: value.FinalPointID },
-                                                dataType: "json",
-                                                success: function (loc) {
-                                                    endLoc = loc;
-                                                },
-                                                error: function (msg) {
-                                                    alert("Fail - " + msg.responseText);
-                                                }
-                                            }), //TO DO IZVUCI KOMENTARE ZA OVE VOZNJE I ISPISI INFO O NJIMA
-                                        ).then(function () {
-                                            $('#lblhome').append(`<br />Driver: ${value.DriverID} - Car type: ${value.TypeString}`);
-                                            if (value.UserCallerID != null) {
-                                                $('#lblhome').append(`<br />Customer: ${value.UserCallerID}`);
-                                            }
-                                            $('#lblhome').append(`<br />From: ${startLoc} - To: ${endLoc}`);
-                                            $('#lblhome').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation} <br /> `);
-                                            $('#lblhome').append(`<br />Payment: ${value.Payment}`);
-                                        });
-                                    }
-                                });
-                                $('#divhome').show();
-                            },
-                            error: function (msg) {
-                                alert("Fail - " + msg.responseText);
-                            }
-                        });
-
-                    },
-                    error: function (msg) {
-                        alert("Request ready, click again to send.");
+            }),
+        ).then(function () {
+            if (location !== "") {
+                $.when(
+                    $.ajax({
+                        method: "POST",
+                        url: "/api/Address",
+                        data: JSON.stringify(send),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            startID = data //moram cuvati ID pocetne lokacije, kako bih stavio u 'voznju'
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    }),
+                ).then(function () {
+                    let DriverTypeLocation = {
+                        start: startID,
+                        user: driver,
+                        type: car,
+                        admin: loggedUser.Username,
+                        driverStatus: 8,                //enumi statusa voznje
+                        adminStatus: 3
                     }
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/api/Smart",
+                        data: JSON.stringify(DriverTypeLocation),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            $('#curlocadm').val("");
+                            alert("Drive succesffully formed!");
+                            $('#divadminrequest').hide();
+
+                            $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog admina
+                                method: "GET",
+                                url: "/api/Voznja",
+                                dataType: "json",
+                                success: function (response) {
+                                    $("#lblhome").empty();
+                                    $('#lblhome').append('================Drives=====================');
+                                    let startLoc;
+                                    let endLoc;
+                                    let comments = [];
+
+                                    $.each(response, function (index, value) {
+                                        if (value.AdminID != null && value.AdminID == loggedUser.Username) {
+                                            $.when(
+                                                $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
+                                                    method: "GET",
+                                                    url: "/api/Address",
+                                                    data: { id: value.StartPointID },
+                                                    dataType: "json",
+                                                    success: function (loc) {
+                                                        startLoc = loc;
+
+                                                        if (value.FinalPointID != null) {
+                                                            $.ajax({                    //za svaku voznju vracam krajnju lokaciju posebno, ako postoji
+                                                                method: "GET",
+                                                                url: "/api/Address",
+                                                                data: { id: value.FinalPointID },
+                                                                dataType: "json",
+                                                                success: function (floc) {
+                                                                    endLoc = floc;
+                                                                },
+                                                                error: function (msg) {
+                                                                    alert("Fail - " + msg.responseText);
+                                                                }
+                                                            });
+                                                        }
+                                                    },
+                                                    error: function (msg) {
+                                                        alert("Fail - " + msg.responseText);
+                                                    }
+                                                }),
+
+                                                $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
+                                                    method: "GET",
+                                                    url: "/api/Smart2",
+                                                    data: { startLocation: value.StartPointID },
+                                                    dataType: "json",
+                                                    success: function (loc) {
+                                                        comments = loc;
+                                                    },
+                                                    error: function (msg) {
+                                                        alert("Fail - " + msg.responseText);
+                                                    }
+                                                }),
+                                            ).then(function () {
+                                                $('#lblhome').append(`<br />Driver: ${value.DriverID} - Car type: ${value.TypeString}`);
+                                                if (value.UserCallerID != null) {
+                                                    $('#lblhome').append(`<br />Customer: ${value.UserCallerID}`);
+                                                }
+                                                $('#lblhome').append(`<br />From: ${startLoc} - To: ${endLoc}`);
+                                                $('#lblhome').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
+                                                if (value.Payment != null) {
+                                                    $('#lblhome').append(`<br />Payment: ${value.Payment}`);
+                                                }
+                                                if (comments.length > 0) {
+                                                    $.each(comments, function (index, value) {
+                                                        $('#lblhome').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
+                                                        $('#lblhome').append(`<br />Grade for this ride: ${value.Grade}`);
+                                                        $('#lblhome').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
+                                                    });
+                                                }
+                                                $('#lblhome').append('<br />===========================================');
+                                            });
+                                        }
+                                    });
+                                    $('#divhome').show();
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            });
+
+                        },
+                        error: function (msg) {
+                            alert("Request ready, click again to send.");
+                        }
+                    });
                 });
-            });
-        }
+            }
+        });
     });
 });
 
-function Validation(location,type) {
+function Validation(location, type) {
     let radnikStatus = true;
     let status = true;
     let ret = "";
@@ -174,7 +242,6 @@ function Validation(location,type) {
         $('#curlocadm').val("");
         $("#curlocadm").attr("placeholder", "Incorect format");
         alert("Format: Address Number, City Postal - PhoneNumber");
-        status = false;
     } else {
         $("#curlocadm").css('background-color', 'white');
         $("#curlocadm").attr("placeholder", "");
@@ -189,7 +256,6 @@ function Validation(location,type) {
             $('#curlocadm').val("");
             $("#curlocadm").attr("placeholder", "Incorect format");
 
-            status = false;
             radnikStatus = false;
         }
 
@@ -201,7 +267,6 @@ function Validation(location,type) {
             $('#curlocadm').val("");
             $("#curlocadm").attr("placeholder", "Incorect format");
 
-            status = false;
             radnikStatus = false;
         }
 
@@ -213,17 +278,20 @@ function Validation(location,type) {
             $('#curlocadm').val("");
             $("#curlocadm").attr("placeholder", "Incorect format");
 
-            status = false;
             radnikStatus = false;
         }
 
-        if (type == 'Drivers') {
+        if (type == '') {
             alert('You must choose driver!');
+            status = false;
         }
 
         if (!radnikStatus) {
             alert("Format: Address Number, City Postal - PhoneNumber");
-        } else {
+        } else if (!status) {
+
+        }
+        else {
             let l = info[0] + ',' + info[1] + '-' + info[2];
 
             ret = l;

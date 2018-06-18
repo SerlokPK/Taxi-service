@@ -3,6 +3,7 @@
         $('#divhome').hide();
         $('#divprofile').hide();
         $('#divupdate').hide();
+        $('#divadminrequest').hide();
 
         $('#listallcustomers').empty();
         $('#divallcustomers').show();

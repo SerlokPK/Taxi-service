@@ -12,6 +12,27 @@ namespace WebAPI.Controllers
 {
     public class Smart2Controller : ApiController
     {
+        [HttpGet]
+        public HttpResponseMessage GetKomentar(int startLocation)
+        {
+            HttpResponseMessage msg;
+            KomentarRepository repo = new KomentarRepository();
+
+            try
+            {
+                List<Komentar> list = repo.GetKomentari().FindAll(x => x.DriveID == startLocation);
+
+                msg = Request.CreateResponse(HttpStatusCode.OK, list);
+
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
         [HttpPut]
         public HttpResponseMessage PutIdForComm(JToken token)
         {
