@@ -10,6 +10,7 @@
         $('#divcancelride').hide();
         $('#divadminrequest').hide();
         $('#divallridesadm').hide();
+        $('#divridescudr').hide();
 
         $.ajax({                //vracam sve voznje
             method: "GET",
@@ -62,6 +63,8 @@
 
                             drivers.push(value);
                             sessionStorage.setItem('drivers', JSON.stringify(drivers));
+                        } else {
+                            sessionStorage.setItem('drivers', JSON.stringify(drivers));
                         }
                     });
                 },
@@ -98,6 +101,7 @@
         let id = JSON.parse(sessionStorage.getItem('driveId'));
         let driver = $('#driversadm2').val();
         let status = true;
+        let sts = true;
 
         if (driver == '') {                         //ako ne izabere nekog od ponudjenih vozaca
             alert('You must choose driver!');
@@ -112,7 +116,7 @@
                     data: { id: id },
                     dataType: "json",
                     success: function (data) {
-                        if (data.StatusString !== 'Created') {
+                        if (data.StatusString !== 'Created') {      //da vidim da li je voznja u created statusu
                             status = false;
                         }
                     },
@@ -120,8 +124,23 @@
                         alert("Fail - " + msg.responseText);
                     }
                 }),
+                $.ajax({                        //proverim da li je vozac zauzet
+                    method: "GET",
+                    url: "/api/Vozac",
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function (index, value) {
+                            if (value.Username == driver && (value.DriveString === 'InProgress' || value.DriveString === 'Formed')) {
+                                sts = false;
+                            }
+                        });
+                    },
+                    error: function (msg) {
+                        alert("Fail - " + msg.responseText);
+                    }
+                }),
             ).then(function () {
-                if (status) {
+                if (status && sts) {
                     let send = {
                         Id: id,
                         DriverID: driver,
@@ -214,6 +233,7 @@
                                     });
                                     $('#divallreqcreatedadm').hide();
                                     $('#divhome').show();
+                                    $('#divridescudr').show();
                                 },
                                 error: function (msg) {
                                     alert("Fail - " + msg.responseText);
@@ -224,8 +244,11 @@
                             alert("Fail - " + msg.responseText);
                         }
                     });
-                } else {
+                } else if (!status) {
                     alert('Drive was assigned by another admin, try another');
+                    $('#btnacptreqadm').trigger('click');
+                } else {
+                    alert('This driver is already taken, choose another');
                     $('#btnacptreqadm').trigger('click');
                 }
             });
@@ -278,8 +301,8 @@
         $('#divrequest').hide();
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
-        $('#divadminrequest').hide();
-
+        $('#divadminrequest').hide(); 
+        $('#divridescudr').hide();
         ShowAll();
     });
 });
@@ -342,8 +365,8 @@ function ShowAll() {
                         }
                     }),
                 ).then(function () {
-                    if (value.AdminID != null) {
-                        $('#lblalldrivesadm').append(`<br />Admin: ${value.AdminID}`);
+                    if (value.DriverID != null) {
+                        $('#lblalldrivesadm').append(`<br />Driver: ${value.DriverID}`);
                     }
 
                     if (value.UserCallerID != null) {

@@ -38,6 +38,7 @@
             $('#divallcustomers').hide();
             $('#divallreqcreatedadm').hide();
             $('#divallridesadm').hide();
+            $('#divridescudr').hide();
         });
     });
 
@@ -56,6 +57,8 @@
                         if (value.DriveString !== 'InProgress' && value.DriveString !== 'Formed') {
 
                             drivers.push(value);
+                            sessionStorage.setItem('drivers', JSON.stringify(drivers));
+                        } else {
                             sessionStorage.setItem('drivers', JSON.stringify(drivers));
                         }
                     });
@@ -216,6 +219,7 @@
                                         }
                                     });
                                     $('#divhome').show();
+                                    $('#divridescudr').show();
                                 },
                                 error: function (msg) {
                                     alert("Fail - " + msg.responseText);
