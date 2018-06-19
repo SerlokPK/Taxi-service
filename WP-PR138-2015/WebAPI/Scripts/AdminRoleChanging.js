@@ -5,6 +5,7 @@
         $('#divupdate').hide();
         $('#divadminrequest').hide();
         $('#divallreqcreatedadm').hide();
+        $('#divallridesadm').hide();
 
         $('#listallcustomers').empty();
         $('#divallcustomers').show();

@@ -37,6 +37,7 @@
             $('#divupdate').hide();
             $('#divallcustomers').hide();
             $('#divallreqcreatedadm').hide();
+            $('#divallridesadm').hide();
         });
     });
 

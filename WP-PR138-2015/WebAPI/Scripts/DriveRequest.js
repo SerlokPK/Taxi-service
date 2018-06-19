@@ -660,7 +660,7 @@ function ShowForCustomer() {
         dataType: "json",
         success: function (response) {
             $("#lbldrives").empty();
-            $('#lbldrives').append('=================Drives>=================');
+            $('#lbldrives').append('=================Drives=================');
 
             $.each(response, function (index, value) {
                 let startLoc;

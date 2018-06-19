@@ -9,6 +9,7 @@
         $('#divmodifyrequest').hide();
         $('#divcancelride').hide();
         $('#divadminrequest').hide();
+        $('#divallridesadm').hide();
 
         $.ajax({                //vracam sve voznje
             method: "GET",
@@ -267,4 +268,107 @@
         });
     });
 
+    //ZA PRIKAZ SVIH VOZNJI U SISTEMU
+    $('#btnalldrvs').click(function () {
+        $('#divallreqcreatedadm').hide();
+        $('#divhome').hide();
+        $('#divprofile').hide();
+        $('#divupdate').hide();
+        $('#divallcustomers').hide();
+        $('#divrequest').hide();
+        $('#divmodifyrequest').hide();
+        $('#divcancelride').hide();
+        $('#divadminrequest').hide();
+
+        ShowAll();
+    });
 });
+
+function ShowAll() {
+    let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
+
+    $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog vozaca
+        method: "GET",
+        url: "/api/Voznja",
+        dataType: "json",
+        success: function (response) {
+            $("#lblalldrivesadm").empty();
+            $('#lblalldrivesadm').append('=================Drives=================');
+
+            $.each(response, function (index, value) {
+                let startLoc;
+                let endLoc;
+                let comments = [];
+
+                $.when(
+                    $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
+                        method: "GET",
+                        url: "/api/Address",
+                        data: { id: value.StartPointID },
+                        dataType: "json",
+                        success: function (loc) {
+                            startLoc = loc;
+
+                            if (value.FinalPointID != null) {
+                                $.ajax({                    //za svaku voznju vracam krajnju lokaciju posebno, ako postoji
+                                    method: "GET",
+                                    url: "/api/Address",
+                                    data: { id: value.FinalPointID },
+                                    dataType: "json",
+                                    success: function (floc) {
+                                        endLoc = floc;
+                                    },
+                                    error: function (msg) {
+                                        alert("Fail - " + msg.responseText);
+                                    }
+                                });
+                            }
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    }),
+
+                    $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
+                        method: "GET",
+                        url: "/api/Smart2",
+                        data: { startLocation: value.StartPointID },
+                        dataType: "json",
+                        success: function (loc) {
+                            comments = loc;
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    }),
+                ).then(function () {
+                    if (value.AdminID != null) {
+                        $('#lblalldrivesadm').append(`<br />Admin: ${value.AdminID}`);
+                    }
+
+                    if (value.UserCallerID != null) {
+                        $('#lblalldrivesadm').append(`<br />Customer: ${value.UserCallerID}`);
+                    }
+                    $('#lblalldrivesadm').append(`<br />From: ${startLoc} - To: ${endLoc}`);
+                    $('#lblalldrivesadm').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
+                    if (value.Payment != null) {
+                        $('#lblalldrivesadm').append(`<br />Payment: ${value.Payment}`);
+                    }
+                    if (comments.length > 0) {
+                        $.each(comments, function (index, value) {
+                            $('#lblalldrivesadm').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
+                            $('#lblalldrivesadm').append(`<br />Grade for this ride: ${value.Grade}`);
+                            $('#lblalldrivesadm').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
+                        });
+                    }
+                    $('#lblalldrivesadm').append('<br />===========================================');
+                });
+
+            });
+            $('#divallridesadm').show();
+        },
+        error: function (msg) {
+            //alert("Fail - " + msg.responseText);
+        }
+    });
+}
