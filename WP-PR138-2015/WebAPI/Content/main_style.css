@@ -98,6 +98,10 @@ ol.olist {
     float:right;
 }
 
+#divhome{
+    float:left;
+}
+
 #divhomecontainer {
     margin: auto;
 }
