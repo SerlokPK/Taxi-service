@@ -36,6 +36,7 @@
                 $('#divupdate').hide();
                 $('#divallcustomers').hide();
                 $('#divmodifyrequest').hide();
+                $('#divridescudr').hide();
             }
         });
     });
@@ -98,6 +99,7 @@
                                         $("#lblhome").empty();
                                         $('#lblhome').append(`====Requested drive===== <br />Location: ${response}<br />Car type: ${data.TypeString}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
                                                             <br /><input type="hidden" name="Skriveni" value="${data.Id}" /><button id='btnmodifydrive'>Modify</button><button id='btncanceldrive'>Cancel</button>`);
+                                        ShowForCustomer();
                                         $('#divhome').show();
                                     },
                                     error: function (msg) {
@@ -145,6 +147,7 @@
                 $('#divupdate').hide();
                 $('#divallcustomers').hide();
                 $('#divrequest').hide();
+                $('#divridescudr').hide();
             } else {
                 alert('This drive is over, leave comment about your experience');
                 let save = $('#lblhome').html();
@@ -153,6 +156,7 @@
                 save = info[0].slice(0, -1);
                 $('#lblhome').append(save);
                 $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
+                ShowForCustomer();
             }
         });
     });
@@ -165,6 +169,7 @@
         $('#divupdate').hide();
         $('#divallcustomers').hide();
         $('#divrequest').hide();
+        //$('#divridescudr').hide();
 
         let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
 
@@ -206,6 +211,8 @@
         $('#divupdate').hide();
         $('#divallcustomers').hide();
         $('#divrequest').hide();
+        $('#divridescudr').hide();
+
     });
 
     $('#btnsndcomm').click(function () {
@@ -265,6 +272,7 @@
                             $('#gradecmt').val("");
                             $('#divwantcom').hide();
                             $("#lblhome").empty();
+                            ShowForCustomer();
                             $('#divhome').show();
                         },
                         error: function (msg) {
@@ -328,13 +336,14 @@
                 }
             }),
         ).then(function () {
-            if (voznja.StatusString === 'Created' || voznja.StatusString === 'Accepted') {      // ako je neki od ovih stanja, moze da modifikuje
+            if (voznja.StatusString === 'Created' || voznja.StatusString === 'Accepted') {      // ako je neki od ovih stanja, moze da cancel
                 $('#divcancelride').show();                         
                 $('#divhome').hide();
                 $('#divprofile').hide();
                 $('#divupdate').hide();
                 $('#divallcustomers').hide();
                 $('#divrequest').hide();
+                $('#divridescudr').hide();
             } else if (voznja.StatusString === 'Processed') {
                 alert('This drive was made by admin, you can"t cancel it');
             }
@@ -346,6 +355,7 @@
                 save = info[0].slice(0, -1);
                 $('#lblhome').append(save);
                 $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
+                ShowForCustomer();
             }
         });
     });
@@ -424,6 +434,7 @@
                             $('#txtacomment').val("");
                             $('#divcancelride').hide();
                             $("#lblhome").empty();
+                            ShowForCustomer();
                             $('#divhome').show();
                         },
                         error: function (msg) {
@@ -594,6 +605,7 @@ function ValidationForModification() {
                             $('#lblhome').append(`====Requested drive===== <br />Location: ${location}<br />Car type: ${response.TypeString}<br />Status: ${response.StatusString}<br />Reservation time: ${response.TimeOfReservation}
                                                             <br /><input type="hidden" name="Skriveni" value="${data.Id}" /><button id='btnmodifydrive'>Modify</button><button id='btncanceldrive'>Cancel</button>`);
 
+                            ShowForCustomer();
                             $('#divhome').show();
                         },
                         error: function (msg) {
@@ -602,7 +614,12 @@ function ValidationForModification() {
                     });
                 },
                 error: function (msg) {
-                    alert('Error - ' + msg.responseText);
+                    alert('Drive was finished, you ca"t modify it now.');
+                    $('#divmodifyrequest').hide();
+                    $('#modloc').val("");
+                    $("#lblhome").empty(); 
+                    ShowForCustomer();
+                    $('#divhome').show();
                 }
             });
         }
@@ -634,3 +651,91 @@ function splitMulti(str, tokens) {
     return str;
 }
 
+function ShowForCustomer() {
+    let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
+
+    $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog admina
+        method: "GET",
+        url: "/api/Voznja",
+        dataType: "json",
+        success: function (response) {
+            $("#lbldrives").empty();
+            $('#lbldrives').append('=================Drives>=================');
+
+            $.each(response, function (index, value) {
+                let startLoc;
+                let endLoc;
+                let comments = [];
+                if (value.UserCallerID != null && value.UserCallerID == loggedUser.Username) {
+                    $.when(
+                        $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
+                            method: "GET",
+                            url: "/api/Address",
+                            data: { id: value.StartPointID },
+                            dataType: "json",
+                            success: function (loc) {
+                                startLoc = loc;
+
+                                if (value.FinalPointID != null) {
+                                    $.ajax({                    //za svaku voznju vracam krajnju lokaciju posebno, ako postoji
+                                        method: "GET",
+                                        url: "/api/Address",
+                                        data: { id: value.FinalPointID },
+                                        dataType: "json",
+                                        success: function (floc) {
+                                            endLoc = floc;
+                                        },
+                                        error: function (msg) {
+                                            alert("Fail - " + msg.responseText);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function (msg) {
+                                alert("Fail - " + msg.responseText);
+                            }
+                        }),
+
+                        $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
+                            method: "GET",
+                            url: "/api/Smart2",
+                            data: { startLocation: value.StartPointID },
+                            dataType: "json",
+                            success: function (loc) {
+                                comments = loc;
+                            },
+                            error: function (msg) {
+                                alert("Fail - " + msg.responseText);
+                            }
+                        }),
+                    ).then(function () {
+                        if (value.DriverID != null) {
+                            $('#lbldrives').append(`<br />Driver: ${value.DriverID} - Car type: ${value.TypeString}`);
+                        }
+
+                        if (value.AdminID != null) {
+                            $('#lbldrives').append(`<br />Admin: ${value.AdminID}`);
+                        }
+                        $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
+                        $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
+                        if (value.Payment != null) {
+                            $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
+                        }
+                        if (comments.length > 0) {
+                            $.each(comments, function (index, value) {
+                                $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
+                                $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
+                                $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
+                            });
+                        }
+                        $('#lbldrives').append('<br />===========================================');
+                    });
+                }
+            });
+            $('#divridescudr').show();
+        },
+        error: function (msg) {
+            //alert("Fail - " + msg.responseText);
+        }
+    });
+}

@@ -93,7 +93,15 @@ ol.olist {
 .helper{
 
 }
-                /*Za popup window*/
+
+.drives{
+    float:right;
+}
+
+#divhomecontainer {
+    margin: auto;
+}
+/*Za popup window*/
 /* Outer */
 .popup {
     width: 100%;

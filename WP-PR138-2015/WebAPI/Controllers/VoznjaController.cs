@@ -67,6 +67,7 @@ namespace WebAPI.Controllers
                 {
                     Voznja v = db.Voznje.FirstOrDefault(x => x.Id == kom.Id);
                     Musterija m = db.Musterije.FirstOrDefault(x => x.Username == v.UserCallerID);
+                    Vozac voz = db.Vozaci.FirstOrDefault(x => x.Username == v.DriverID);
 
                     if (v == null)
                     {
@@ -76,6 +77,7 @@ namespace WebAPI.Controllers
                     {
                         m.DriveStatus = DrivingStatus.Declined;
                         v.Status = DrivingStatus.Declined;
+                        voz.DriveStatus = DrivingStatus.Failed;
                         db.SaveChanges();
 
                         msg = Request.CreateResponse(HttpStatusCode.NoContent);

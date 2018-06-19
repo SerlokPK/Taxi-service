@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<Voznja> list = repo.GetVoznje();
-                Voznja v = list.Find(x => x.UserCallerID == UserCaller && (x.Status == DrivingStatus.Successful || x.Status == DrivingStatus.Failed));    //za musteriju
+                Voznja v = list.LastOrDefault(x => x.UserCallerID == UserCaller && (x.Status == DrivingStatus.Successful || x.Status == DrivingStatus.Failed));    //za musteriju
                 //Voznja voz = list.Find(x => x.DriverID == UserCaller && (x.Status == DrivingStatus.Accepted || x.Status == DrivingStatus.InProgress));      //za vozaca
 
                 if (v != null)

@@ -23,10 +23,16 @@
     <button id="btnadmincrt" class="hideButtons">Create drive</button>
     <button name="btnLogOff" id="btnlogoff">Log Off</button>
     <hr />
-    <div name="divHome" id="divhome">
-        <h2>This is home page</h2>
-        <label id="lblhome"></label>
-        <label id="lblfordriver"></label>
+    <div id="divhomecontainer">
+        <div name="divHome" id="divhome">
+            <h2>This is home page</h2>
+            <label id="lblhome"></label>
+            <label id="lblfordriver"></label>
+        </div>
+        <!--div za prikaz voznji kod musterija i vozaca-->
+        <div class="drives" id="divridescudr">
+            <label id="lbldrives"></label>
+        </div>
     </div>
     <div class="container hideDivs" name="divProfile" id="divprofile">
         <!--profile-->
@@ -342,5 +348,6 @@
             <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
         </div>
     </div>
+
 </body>
 </html>

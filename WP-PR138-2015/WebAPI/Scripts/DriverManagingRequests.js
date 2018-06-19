@@ -55,7 +55,7 @@
                         });
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        //alert("Fail - " + msg.responseText);
                     }
                 });
             }
@@ -67,6 +67,7 @@
         let temp = $('#olforcrtreq').find(`li:eq(${index})`).html(); //da pronadjem tekst iz tacno oznacenog <li>
         let voznje = JSON.parse(sessionStorage.getItem("voznje"));
         let voznja;
+        let status = true;
 
         let driver = JSON.parse(sessionStorage.getItem('logged'));
         let info = temp.split('"');
@@ -80,7 +81,12 @@
                 data: { id: id },
                 dataType: "json",
                 success: function (data) {
-                    voznja = data;
+                    if (data.StatusString === 'Created') {
+                        voznja = data;
+                    } else {
+                        status = false;
+                    }
+                    
                 },
                 error: function (msg) {
                     alert("Fail - " + msg.responseText);
@@ -89,47 +95,53 @@
         ).then(function () {
             driver = JSON.parse(sessionStorage.getItem('logged'));
 
-            if (voznja.StatusString !== 'Declined') {
-                let send = {
-                    Id: id,
-                    Driver: driver.Username
-                }
-
-                $.ajax({        //menjamo statuse voznje, vozaca i musterije
-                    method: "PUT",
-                    url: "/api/Registration",
-                    data: JSON.stringify(send),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        alert('Drive accepted, good luck!');
-
-                        $.ajax({
-                            method: "GET",
-                            url: "/api/Address",
-                            data: { id: data.StartPointID },
-                            dataType: "json",
-                            success: function (response) {
-                                $("#lblfordriver").empty();
-                                $('#lblfordriver').append(`<br /><br />====Current drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
-                                                            <br /><button id='btnfnsdrv'>Finish</button>`);
-                                $('#divallreqcreated').hide();
-                                $('#divhome').show();
-                            },
-                            error: function (msg) {
-                                alert("Fail - " + msg.responseText);
-                            }
-                        });
-                    },
-                    error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+            if (status) {
+                if (voznja.StatusString !== 'Declined') {
+                    let send = {
+                        Id: id,
+                        Driver: driver.Username
                     }
-                });
+
+                    $.ajax({        //menjamo statuse voznje, vozaca i musterije
+                        method: "PUT",
+                        url: "/api/Registration",
+                        data: JSON.stringify(send),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            alert('Drive accepted, good luck!');
+
+                            $.ajax({
+                                method: "GET",
+                                url: "/api/Address",
+                                data: { id: data.StartPointID },
+                                dataType: "json",
+                                success: function (response) {
+                                    $("#lblfordriver").empty();
+                                    $('#lblfordriver').append(`<br /><br />====Current drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                                            <br /><button id='btnfnsdrv'>Finish</button>`);
+                                    $('#divallreqcreated').hide();
+                                    $('#divhome').show();
+                                },
+                                error: function (msg) {
+                                    alert("Fail - " + msg.responseText);
+                                }
+                            });
+                        },
+                        error: function (msg) {
+                            alert("Fail - " + msg.responseText);
+                        }
+                    });
+                } else {
+                    alert('Customer declined this drive in meantime, choose another.');
+                    $('#divallreqcreated').hide();
+                    $('#divhome').show();
+                }
             } else {
-                alert('Customer declined this drive in meantime, choose another.');
-                $('#divallreqcreated').hide();
-                $('#divhome').show();
-            } 
+                alert('Drive was changed in meantime, choose another.');
+                $('#btnacptreq').trigger('click');
+            }
+            
         });
     });
     //div za biranje ishoda voznje
@@ -254,7 +266,11 @@
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert('Drive was canceled in meantime.');
+                    $('#divcancelridedrv').hide();
+                    $('#txtacommentdrv').val("");
+                    $('#lblfordriver').empty()      //voznja obradjena, uklinimo je, ako se refresh, nece je ocitati iz baze
+                    $('#divhome').show();
                 }
             });
         }
@@ -318,7 +334,12 @@
                         });
                     },
                     error: function (msg) {
-                        alert('Error - ' + msg.responseText);
+                        alert('Drive was canceled in meantime.');
+                        $('#divsuccdrv').hide();
+                        $('#amount').val("");
+                        $('#fdest').val("");
+                        $('#lblfordriver').empty()      //voznja obradjena, uklinimo je, ako se refresh, nece je ocitati iz baze
+                        $('#divhome').show();
                     }
                 });
             });
