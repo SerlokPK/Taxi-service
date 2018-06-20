@@ -13,6 +13,37 @@ namespace WebAPI.Controllers
 {
     public class Smart4Controller : ApiController
     {
+        [HttpGet]
+        public HttpResponseMessage GetKomentar(JToken token)
+        {
+            HttpResponseMessage msg;
+
+            var option = token.Value<string>("option");
+            var fromTxt = token.Value<string>("from");
+            var toTxt = token.Value<string>("to");
+
+            try
+            {
+                switch(option)
+                {
+                    case "Date":
+                        {
+
+                        }break;
+                }
+                
+
+                msg = Request.CreateResponse(HttpStatusCode.OK, voznje);
+
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
         [HttpPut]
         public HttpResponseMessage PutChangeType(JToken token)
         {
@@ -48,6 +79,16 @@ namespace WebAPI.Controllers
             }
 
             return msg;
+        }
+
+        private void SearchDate(string fromTxt,string toTxt)
+        {
+            if (fromTxt != "" && toTxt != "")
+            {
+                string[] info = fromTxt.Split(' ');
+                fromTxt = info[0] + "-" + info[1] + "-" + info[2];
+                DateTime first = DateTime.ParseExact(fromTxt, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            }
         }
 
         private TypeOfCar GetType(string type)

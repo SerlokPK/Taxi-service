@@ -35,6 +35,12 @@
         <div class="drives" id="divridescudr">
             Filter by status: <input type="text" id="inpfiltsts" style="width:150px;height:25px" />   <button id="btnfilter" style="height:30px">Filter</button><br />
             Sort by:   <button id="btndatesort" style="height:30px">Date</button>            <button id="btngradesort" style="height:30px">Grade</button><br />
+            Search by: <select id="srcdrvshome">
+                <!--defaultna vrednost-->
+                <option value="Date" selected>Date</option>
+                <option value="Grade">Grade</option>
+                <option value="Price">Price</option>
+            </select> From: <input type="text" id="inpfromsrc" style="width:100px;height:25px" /> To: <input type="text" id="inptosrc" style="width:100px;height:25px" />     <button id="btnsrcdrvshome" style="height:30px">Search</button><br />
             <label id="lbldrives"></label>
         </div>
         <div class="popdiv"> All - all rides </div>
