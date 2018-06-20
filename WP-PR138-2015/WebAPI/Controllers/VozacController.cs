@@ -188,11 +188,22 @@ namespace WebAPI.Controllers
 
         private void DeleteEntityVozac(Vozac voz, Musterija m)
         {
+            VoznjaRepository repo = new VoznjaRepository();
+            List<Voznja> list = repo.GetVoznje();
+
             using (SystemDBContext db = new SystemDBContext())
             {
                 voz = db.Vozaci.FirstOrDefault(x => x.Username == m.Username);
                 voz.Role = m.Role;
-
+                
+                foreach(Voznja voznja in list)              //ako brisemo vozaca, moramo i njegove voznje iz sistema, zbog RF u EF
+                {
+                    if (voznja.DriverID == voz.Username)
+                    {
+                        db.Voznje.Remove(db.Voznje.FirstOrDefault(x => x.Id == voznja.Id));
+                    }
+                }
+                    
                 Musterija mm = new Musterija()
                 {
                     Username = voz.Username,

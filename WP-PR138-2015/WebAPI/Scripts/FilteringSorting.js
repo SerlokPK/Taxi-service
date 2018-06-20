@@ -238,7 +238,7 @@ function Filter(filter) {
         }
     });
 }
-
+//TO DO NAPRAVI DA NA KLIK ALL VRACA SVE VOZNJE ZA ODGOVARAJUCU OSOBU
 function ShowAll2() {
     let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
 
