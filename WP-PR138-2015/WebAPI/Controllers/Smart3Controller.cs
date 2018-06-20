@@ -12,6 +12,35 @@ namespace WebAPI.Controllers
 {
     public class Smart3Controller : ApiController
     {
+        [HttpGet]
+        public HttpResponseMessage GetKomentar(string sortType)
+        {
+            HttpResponseMessage msg;
+            VoznjaRepository repo = new VoznjaRepository();
+            List<Voznja> voznje = repo.GetVoznje();
+
+            try
+            {
+                if (sortType == "Date")
+                {
+                    voznje.OrderBy(x => x.TimeOfReservation);
+                }
+                else if (sortType == "Grade")
+                {
+
+                }
+
+                msg = Request.CreateResponse(HttpStatusCode.OK, voznje);
+
+            }
+            catch (Exception e)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Error - {e.Message}");
+            }
+
+            return msg;
+        }
+
         [HttpPut]
         public HttpResponseMessage PutStatusForDrive(Voznja voznja)
         {

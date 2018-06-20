@@ -27,16 +27,17 @@
     <hr />
     <div id="divhomecontainer">
         <div name="divHome" id="divhome">
-            <h2>Home page</h2>
+            <h2 class="h2">Home page</h2>
             <label id="lblhome"></label>
             <label id="lblfordriver"></label>
         </div>
         <!--div za prikaz voznji kod musterija i vozaca-->
         <div class="drives" id="divridescudr">
             Filter by status: <input type="text" id="inpfiltsts" style="width:150px;height:25px" />   <button id="btnfilter" style="height:30px">Filter</button><br />
+            Sort by:   <button id="btndatesort" style="height:30px">Date</button>            <button id="btngradesort" style="height:30px">Grade</button><br />
             <label id="lbldrives"></label>
         </div>
-        <div id="inpforall"> All - all rides </div>
+        <div class="popdiv"> All - all rides </div>
     </div>
     <div class="container hideDivs" name="divProfile" id="divprofile">
         <!--profile-->

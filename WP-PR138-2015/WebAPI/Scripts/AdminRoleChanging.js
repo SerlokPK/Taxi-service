@@ -48,15 +48,6 @@
 
     });
 
-    //if (val.RoleString === 'Driver') {
-    //    $('#listallcustomers').append(`<li>${val.Username} - ${val.RoleString}<button class="helper" id='btnchangerole'>Change</button><select id="cartajp">
-    //                                                                                                                                                            <option value="RegularCar" selected>Regular car</option>
-    //                                                                                                                                                            <option value="MiniVan">Minivan</option>
-    //                                                                                                                                                        </select></li>`);
-
-    //} else {
-    //    $('#listallcustomers').append(`<li>${val.Username} - ${val.RoleString}<button class="helper" id='btnchangerole'>Change</button></li>`);
-    //}
 
     $("#listallcustomers").delegate("#btnchangerole", "click", function (e) {
 
@@ -85,7 +76,6 @@
             $.each(user, function (key, value) {
 
                 if (value.Username === info[0].substr(0, info[0].length - 1)) { //kod username imam razmak, pa skratim
-                    $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - ${role}<button class="helper" id='btnchangerole'>Change</button></li>`);
 
                     let musterija = {
                         Username: value.Username,
@@ -100,10 +90,12 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function () {
-
+                                $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - ${role}<button class="helper" id='btnchangerole'>Change</button></li>`);
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - Customer<button class="helper" id='btnchangerole'>Change</button></li>`);
+                                alert("To make a driver, he must make new account, he can't use existing one.");
+                                
                             }
                         }),
                     ).then(function () {
