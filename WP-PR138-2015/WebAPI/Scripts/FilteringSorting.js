@@ -12,7 +12,14 @@
             Filter(filter);
         }
     });
+
+    $('#inpfiltsts').mouseover(function () {
+        $('#inpforall').show();
+    }).mouseout(function () {
+        $('#inpforall').hide();
+    });
 });
+
 
 function Filter(filter) {
     let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
@@ -30,7 +37,7 @@ function Filter(filter) {
                 let endLoc;
                 let comments = [];
                 if (loggedUser.RoleString === 'Admin') {
-                    if (value.StatusString.toLowerCase() == filter && loggedUser.Username == value.AdminID) {
+                    if (value.StatusString.toLowerCase() == filter && loggedUser.Username === value.AdminID) {
                         $.when(
                             $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
                                 method: "GET",
@@ -97,7 +104,7 @@ function Filter(filter) {
                         });
                     }
                 } else if (loggedUser.RoleString === 'Driver') {
-                    if (value.StatusString.toLowerCase() === filter && loggedUser.Username == value.DriverID) {
+                    if (value.StatusString.toLowerCase() === filter && loggedUser.Username === value.DriverID) {
                         $.when(
                             $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
                                 method: "GET",
@@ -163,7 +170,7 @@ function Filter(filter) {
                         });
                     }
                 } else {
-                    if (value.StatusString.toLowerCase() === filter && loggedUser.Username == value.UserCallerID) {
+                    if (value.StatusString.toLowerCase() === filter && loggedUser.Username === value.UserCallerID) {
                         $.when(
                             $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
                                 method: "GET",
@@ -255,7 +262,7 @@ function ShowAll2() {
                 let endLoc;
                 let comments = [];
                 if (loggedUser.RoleString === 'Admin') {
-                    if (value.StatusString.toLowerCase() == filter) {
+                    if (loggedUser.Username === value.AdminID) {
                         $.when(
                             $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
                                 method: "GET",
@@ -322,7 +329,7 @@ function ShowAll2() {
                         });
                     }
                 } else if (loggedUser.RoleString === 'Driver') {
-                    if (value.StatusString.toLowerCase() === filter) {
+                    if (loggedUser.Username === value.DriverID) {
                         $.when(
                             $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
                                 method: "GET",
@@ -388,7 +395,7 @@ function ShowAll2() {
                         });
                     }
                 } else {
-                    if (value.UserCallerID.toLowerCase() === filter) {
+                    if (loggedUser.Username === value.UserCallerID) {
                         $.when(
                             $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
                                 method: "GET",

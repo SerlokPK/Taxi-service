@@ -471,6 +471,8 @@
                 success: function () {
                     alert("Entity updated");
                     EmptyAllInputs();
+                    $("#lblhome").empty();
+                    $('#lblhome').append('Current location: ' + location);
                     $('#divprofile').show();
                     $('#divupdate').hide();
                 },
