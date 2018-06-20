@@ -17,17 +17,30 @@ namespace WebAPI.Controllers
         {
             HttpResponseMessage msg;
             VoznjaRepository repo = new VoznjaRepository();
+            KomentarRepository lrepo = new KomentarRepository();
             List<Voznja> voznje = repo.GetVoznje();
+            List<Komentar> komentari = new KomentarRepository().GetKomentari();
+            List<Voznja> temp = new List<Voznja>();
 
             try
             {
                 if (sortType == "Date")
                 {
-                    voznje.OrderBy(x => x.TimeOfReservation);
+                    voznje = voznje.OrderBy(x => x.TimeOfReservation).ToList();
                 }
                 else if (sortType == "Grade")
                 {
-
+                    //voznje.Sort((a, b) => (lrepo.GetOneKomentar(a.StartPointID.Value).Grade.CompareTo(lrepo.GetOneKomentar(b.StartPointID.Value).Grade)));
+                    komentari = komentari.OrderByDescending(x => x.Grade).ToList();
+                    komentari.ForEach(x => {
+                        voznje.ForEach(c => {
+                            if(x.Id == c.CommentID)
+                            {
+                                temp.Add(c);
+                            }
+                        });
+                    });
+                    voznje = temp;
                 }
 
                 msg = Request.CreateResponse(HttpStatusCode.OK, voznje);
