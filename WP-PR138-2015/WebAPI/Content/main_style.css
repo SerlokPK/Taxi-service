@@ -69,6 +69,17 @@ label {
     display: none;
 }
 
+#div1{
+    float:left;
+    width:250px;
+}
+#div2{
+    float:right;
+    width:500px;
+}
+
+
+
 .hideDivs {
     display: none;
 }
@@ -112,6 +123,9 @@ ol.olist {
     width:100px;
     height:40px;
     float:right;
+}
+#divallridesadm{
+    margin:auto;
 }
 
 #divhomecontainer {

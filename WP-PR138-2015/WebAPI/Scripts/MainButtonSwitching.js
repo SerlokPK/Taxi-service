@@ -10,6 +10,7 @@
         $('#btnadmincrt').show();
         $('#btnacptreqadm').show();
         $('#btnalldrvs').show();
+        //$('#spansrcnmlst').hide();
         let loggedUser = JSON.parse(sessionStorage.getItem("logged"));
 
         $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog admina
@@ -98,7 +99,7 @@
     if (logUser.RoleString === 'Customer') {
         $('#btnrequestdrive').show();
         let user = JSON.parse(sessionStorage.getItem('logged'));
-
+        $("#lblhome").empty();
         $.when(
             $.ajax({                        //da vratim trenutno stanje ulogovanog 
                 method: "GET",
@@ -471,8 +472,11 @@
                 success: function () {
                     alert("Entity updated");
                     EmptyAllInputs();
-                    $("#lblhome").empty();
-                    $('#lblhome').append('Current location: ' + location);
+                    if (logUser.RoleString === 'Driver') {
+                        $("#lblhome").empty();
+                        $('#lblhome').append('Current location: ' + location);
+                    }
+                    
                     $('#divprofile').show();
                     $('#divupdate').hide();
                 },

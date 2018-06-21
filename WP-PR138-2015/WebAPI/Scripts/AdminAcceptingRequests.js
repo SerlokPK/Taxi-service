@@ -293,6 +293,7 @@
 
     //ZA PRIKAZ SVIH VOZNJI U SISTEMU
     $('#btnalldrvs').click(function () {
+        $('#spansrcnmlst').show();
         $('#divallreqcreatedadm').hide();
         $('#divhome').hide();
         $('#divprofile').hide();
