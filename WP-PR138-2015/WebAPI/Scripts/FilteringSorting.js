@@ -38,9 +38,9 @@
             $('#inpfromsrc').val("");
 
             alert('You must at least fill one of inputs');
-        } else  {    
+        } else {
             SearchDrives(option, fromTxt, toTxt);
-        } 
+        }
     });
 });
 
@@ -59,9 +59,37 @@ function SearchDrives(option, fromTxt, toTxt) {
             }
         } break;
         case 'Grade': {
+            let sts1 = ValidateGrade(fromTxt);
+            let sts2 = ValidateGrade(toTxt);
 
+            if (sts1 && sts2) {
+                SearchDateByInputs(option, fromTxt, toTxt);
+            } else {
+                $('#inptosrc').val("");
+                $('#inpfromsrc').val("");
+                alert('Incorect format, try again - Format: number from 0 - 5');
+            }
         }
     }
+}
+
+function ValidateGrade(data) {
+    let status = true;
+
+    if (data === "") {
+        return true;
+    }
+
+    if (isNaN(data)) {
+        status = false;
+    } else {
+        data = parseInt(data);
+        if ((data < 0 || data > 5)) {
+            status = false;
+        }
+    }
+
+    return status;
 }
 
 function ValidateDate(data) {
@@ -72,7 +100,7 @@ function ValidateDate(data) {
         return true;
     }
 
-    if (date.length === 1 ) {
+    if (date.length === 1) {
         status = false;
     } else if (date.length === 2) {
         status = false;
@@ -83,6 +111,71 @@ function ValidateDate(data) {
     }
 
     return status;
+}
+
+function GetGrade(value) {
+    let ret;
+
+    $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
+        method: "GET",
+        url: "/api/Smart2",
+        data: { startLocation: value.StartPointID },
+        dataType: "json",
+        success: function (loc) {
+            ret = loc;
+        },
+        error: function (msg) {
+            alert("Fail - " + msg.responseText);
+        },
+        async: false
+    });
+
+    return ret;
+}
+
+function GetSpecifiedGrade(data, from, to) {
+    let ret = [];
+    let grade;
+    //from = parseInt(from);
+    //to = parseInt(to);
+
+    if (from !== "" && to !== "") {
+
+        $.each(data, function (index, value) {
+            grade = GetGrade(value);
+
+            $.each(grade, function (ind, val) {
+                if (from <= val.Grade && val.Grade <= to) {
+                    ret.push(value);
+                }
+            });
+            
+        });
+    } else if (from !== "" && to === "") {
+        $.each(data, function (index, value) {
+            grade = GetGrade(value);
+
+            $.each(grade, function (ind, val) {
+                if (from <= val.Grade) {
+                    ret.push(value);
+                }
+            });
+
+        });
+    } else if (from === "" && to !== "") {
+        $.each(data, function (index, value) {
+            grade = GetGrade(value);
+
+            $.each(grade, function (ind, val) {
+                if (val.Grade <= to) {
+                    ret.push(value);
+                }
+            });
+
+        });
+    }
+
+    return ret;
 }
 
 function GetSpecifiedDate(data, from, to) {
@@ -131,6 +224,7 @@ function GetSpecifiedDate(data, from, to) {
 
 function SearchDateByInputs(option, fromTxt, toTxt) {
     let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
+    let data;
 
     $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog vozaca
         method: "GET",
@@ -140,7 +234,12 @@ function SearchDateByInputs(option, fromTxt, toTxt) {
         success: function (response) {
             $("#lbldrives").empty();
             $('#lbldrives').append('=================Drives=================');
-            let data = GetSpecifiedDate(response, fromTxt, toTxt);
+            if (option === 'Date') {
+                data = GetSpecifiedDate(response, fromTxt, toTxt);
+            } else if (option === 'Grade') {
+                data = GetSpecifiedGrade(response, fromTxt, toTxt);
+            }
+
             $.each(data, function (index, value) {
                 let startLoc;
                 let endLoc;
