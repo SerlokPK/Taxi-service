@@ -69,8 +69,39 @@ function SearchDrives(option, fromTxt, toTxt) {
                 $('#inpfromsrc').val("");
                 alert('Incorect format, try again - Format: number from 0 - 5');
             }
+        } break;
+        case 'Price': {
+            let sts1 = ValidatePrice(fromTxt);
+            let sts2 = ValidatePrice(toTxt);
+
+            if (sts1 && sts2) {
+                SearchDateByInputs(option, fromTxt, toTxt);
+            } else {
+                $('#inptosrc').val("");
+                $('#inpfromsrc').val("");
+                alert('Incorect format, try again - Format: realistic sum, we are not Emirati');
+            }
         }
     }
+}
+
+function ValidatePrice(data) {
+    let status = true;
+
+    if (data === "") {
+        return true;
+    }
+
+    if (isNaN(data)) {
+        status = false;
+    } else {
+        data = parseInt(data);
+        if ((data < 0 || data > 20000)) {
+            status = false;
+        }
+    }
+
+    return status;
 }
 
 function ValidateGrade(data) {
@@ -111,6 +142,36 @@ function ValidateDate(data) {
     }
 
     return status;
+}
+
+function GetSpecifiedPrice(data, from, to) {
+    let ret = [];
+
+    if (from !== "" && to !== "") {
+
+        $.each(data, function (index, value) {
+
+            if (from <= value.Payment && value.Payment <= to && value.Payment !== null) {
+                ret.push(value);
+            }
+        });
+    } else if (from !== "" && to === "") {
+        $.each(data, function (index, value) {
+
+            if (from <= value.Payment && value.Payment !== null) {
+                ret.push(value);
+            }
+        });
+    } else if (from === "" && to !== "") {
+        $.each(data, function (index, value) {
+
+            if (value.Payment <= to && value.Payment !== null) {
+                ret.push(value);
+            }
+        });
+    }
+
+    return ret;
 }
 
 function GetGrade(value) {
@@ -238,6 +299,8 @@ function SearchDateByInputs(option, fromTxt, toTxt) {
                 data = GetSpecifiedDate(response, fromTxt, toTxt);
             } else if (option === 'Grade') {
                 data = GetSpecifiedGrade(response, fromTxt, toTxt);
+            } else if (option === 'Price') {
+                data = GetSpecifiedPrice(response, fromTxt, toTxt);
             }
 
             $.each(data, function (index, value) {
