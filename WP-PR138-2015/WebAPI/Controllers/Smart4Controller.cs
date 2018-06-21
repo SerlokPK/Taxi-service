@@ -14,13 +14,14 @@ namespace WebAPI.Controllers
     public class Smart4Controller : ApiController
     {
         [HttpGet]
-        public HttpResponseMessage GetKomentar(JToken token)
+        public HttpResponseMessage GetSearchData([FromBody]JToken token)
         {
             HttpResponseMessage msg;
 
             var option = token.Value<string>("option");
             var fromTxt = token.Value<string>("from");
             var toTxt = token.Value<string>("to");
+            List<Voznja> voznje = new List<Voznja>();
 
             try
             {
@@ -28,7 +29,7 @@ namespace WebAPI.Controllers
                 {
                     case "Date":
                         {
-
+                            voznje= SearchDate(fromTxt, toTxt);
                         }break;
                 }
                 
@@ -81,14 +82,18 @@ namespace WebAPI.Controllers
             return msg;
         }
 
-        private void SearchDate(string fromTxt,string toTxt)
+        private List<Voznja> SearchDate(string fromTxt,string toTxt)
         {
+            List<Voznja> list = new List<Voznja>();
+
             if (fromTxt != "" && toTxt != "")
             {
                 string[] info = fromTxt.Split(' ');
                 fromTxt = info[0] + "-" + info[1] + "-" + info[2];
                 DateTime first = DateTime.ParseExact(fromTxt, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
             }
+
+            return list;
         }
 
         private TypeOfCar GetType(string type)

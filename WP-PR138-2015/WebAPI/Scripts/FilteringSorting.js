@@ -21,7 +21,7 @@
 
     //za date sort
     $('#btndatesort').click(function () {
-        SortByDate(); 
+        SortByDate();
     });
     // za grade sort
     $('#btngradesort').click(function () {
@@ -38,13 +38,9 @@
             $('#inpfromsrc').val("");
 
             alert('You must at least fill one of inputs');
-        } else if (fromTxt !== "" && toTxt !== "") {    //oba puna
+        } else  {    
             SearchDrives(option, fromTxt, toTxt);
-        } else if (fromTxt !== "" && toTxt === "") {             //prvi pun
-
-        } else if (fromTxt === "" && toTxt !== "") {        //drugi pun
-
-        }      
+        } 
     });
 });
 
@@ -55,13 +51,15 @@ function SearchDrives(option, fromTxt, toTxt) {
             let sts2 = ValidateDate(toTxt);
 
             if (sts1 && sts2) {
-                // TO DO POSALJI DATUME, RAZDVOJ IH, NAPRAVI TAMO DATETIME, SEARCHUJ I VRATI PODATKE
-
+                SearchDateByInputs(option, fromTxt, toTxt);
             } else {
                 $('#inptosrc').val("");
                 $('#inpfromsrc').val("");
                 alert('Incorect format, try again - Format: dd mm yyyy');
             }
+        } break;
+        case 'Grade': {
+
         }
     }
 }
@@ -70,37 +68,80 @@ function ValidateDate(data) {
     let date = data.split(' ');
     let status = true;
 
-    if (date.length === 1 && (isNan(date[0]) || date[0].length > 2)) {
+    if (data === "") {
+        return true;
+    }
+
+    if (date.length === 1 ) {
         status = false;
-    } else if (date.length === 2 && (isNan(date[0]) || isNan(date[2]) || date[0].length > 2 || date[1].length > 2)) {
+    } else if (date.length === 2) {
         status = false;
     } else if (date.length === 3 && (isNaN(date[0]) || isNaN(date[1]) || isNaN(date[2]) || date[0].length > 2 || date[1].length > 2 || date[2].length !== 4)) {
         status = false;
     } else if (date.length > 3) {
         status = false;
     }
-    
+
     return status;
 }
 
-function SearchDateByBoth(option,fromTxt,toTxt) {
-    let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
-    let send = {
-        option: option,
-        from: fromTxt,
-        to: toTxt
+function GetSpecifiedDate(data, from, to) {
+    let splited;
+    let numbers;
+    let ret = [];
+
+    if (from !== "" && to !== "") {
+        from = from.split(' ');
+        to = to.split(' ');
+
+        $.each(data, function (index, value) {
+            splited = value.TimeOfReservation.split('T');
+            splited = splited[0].split('-');
+
+            if (from[0] <= splited[2] && from[1] <= splited[1] && from[2] <= splited[0] && splited[2] <= to[0] && splited[1] <= to[1] && splited[0] <= to[2]) {
+                ret.push(value);
+            }
+        });
+    } else if (from !== "" && to === "") {
+        from = from.split(' ');
+
+        $.each(data, function (index, value) {
+            splited = value.TimeOfReservation.split('T');
+            splited = splited[0].split('-');
+
+            if (from[0] <= splited[2] && from[1] <= splited[1] && from[2] <= splited[0]) {
+                ret.push(value);
+            }
+        });
+    } else if (from === "" && to !== "") {
+        to = to.split(' ');
+
+        $.each(data, function (index, value) {
+            splited = value.TimeOfReservation.split('T');
+            splited = splited[0].split('-');
+
+            if (splited[2] <= to[0] && splited[1] <= to[1] && splited[0] <= to[2]) {
+                ret.push(value);
+            }
+        });
     }
+
+    return ret;
+}
+
+function SearchDateByInputs(option, fromTxt, toTxt) {
+    let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
 
     $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog vozaca
         method: "GET",
-        url: "/api/Smart4",
-        data: JSON.stringify(send),
+        url: "/api/Smart3",
+        data: { sortType: option },
         dataType: "json",
         success: function (response) {
             $("#lbldrives").empty();
             $('#lbldrives').append('=================Drives=================');
-
-            $.each(response, function (index, value) {
+            let data = GetSpecifiedDate(response, fromTxt, toTxt);
+            $.each(data, function (index, value) {
                 let startLoc;
                 let endLoc;
                 let comments = [];
@@ -149,28 +190,28 @@ function SearchDateByBoth(option,fromTxt,toTxt) {
                                 }
                             }),
                         ).then(function () {
-                            if (comments.length > 0) {
-                                if (value.DriverID != null) {
-                                    $('#lbldrives').append(`<br />Driver: ${value.DriverID}`);
-                                }
 
-                                if (value.UserCallerID != null) {
-                                    $('#lbldrives').append(`<br />Customer: ${value.UserCallerID}`);
-                                }
-                                $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
-                                $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
-                                if (value.Payment != null) {
-                                    $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
-                                }
-                                if (comments.length > 0) {
-                                    $.each(comments, function (index, value) {
-                                        $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
-                                        $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
-                                        $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
-                                    });
-                                }
-                                $('#lbldrives').append('<br />===========================================');
+                            if (value.DriverID != null) {
+                                $('#lbldrives').append(`<br />Driver: ${value.DriverID}`);
                             }
+
+                            if (value.UserCallerID != null) {
+                                $('#lbldrives').append(`<br />Customer: ${value.UserCallerID}`);
+                            }
+                            $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
+                            $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
+                            if (value.Payment != null) {
+                                $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
+                            }
+                            if (comments.length > 0) {
+                                $.each(comments, function (index, value) {
+                                    $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
+                                    $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
+                                    $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
+                                });
+                            }
+                            $('#lbldrives').append('<br />===========================================');
+
 
                         });
                     }
@@ -203,7 +244,7 @@ function SearchDateByBoth(option,fromTxt,toTxt) {
                                 error: function (msg) {
                                     alert("Fail - " + msg.responseText);
                                 },
-                                async: false                //stavljamo da bi poziv sacekao da se zavrsi i onda lepo ispisao
+                                async: false
                             }),
 
                             $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
@@ -219,28 +260,28 @@ function SearchDateByBoth(option,fromTxt,toTxt) {
                                 }
                             }),
                         ).then(function () {
-                            if (comments.length > 0) {
-                                if (value.AdminID != null) {
-                                    $('#lbldrives').append(`<br />Admin: ${value.AdminID}`);
-                                }
 
-                                if (value.UserCallerID != null) {
-                                    $('#lbldrives').append(`<br />Customer: ${value.UserCallerID}`);
-                                }
-                                $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
-                                $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
-                                if (value.Payment != null) {
-                                    $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
-                                }
-                                if (comments.length > 0) {
-                                    $.each(comments, function (index, value) {
-                                        $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
-                                        $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
-                                        $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
-                                    });
-                                }
-                                $('#lbldrives').append('<br />===========================================');
+                            if (value.AdminID != null) {
+                                $('#lbldrives').append(`<br />Admin: ${value.AdminID}`);
                             }
+
+                            if (value.UserCallerID != null) {
+                                $('#lbldrives').append(`<br />Customer: ${value.UserCallerID}`);
+                            }
+                            $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
+                            $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
+                            if (value.Payment != null) {
+                                $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
+                            }
+                            if (comments.length > 0) {
+                                $.each(comments, function (index, value) {
+                                    $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
+                                    $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
+                                    $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
+                                });
+                            }
+                            $('#lbldrives').append('<br />===========================================');
+
 
                         });
                     }
@@ -289,38 +330,38 @@ function SearchDateByBoth(option,fromTxt,toTxt) {
                                 }
                             }),
                         ).then(function () {
-                            if (comments.length > 0) {
-                                if (value.AdminID != null) {
-                                    $('#lbldrives').append(`<br />Admin: ${value.AdminID}`);
-                                }
 
-                                if (value.DriverID != null) {
-                                    $('#lbldrives').append(`<br />Driver: ${value.DriverID}`);
-                                }
-                                $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
-                                $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
-                                if (value.Payment != null) {
-                                    $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
-                                }
-                                if (comments.length > 0) {
-                                    $.each(comments, function (index, value) {
-                                        $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
-                                        $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
-                                        $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
-                                    });
-                                }
-                                $('#lbldrives').append('<br />===========================================');
+                            if (value.AdminID != null) {
+                                $('#lbldrives').append(`<br />Admin: ${value.AdminID}`);
                             }
 
+                            if (value.DriverID != null) {
+                                $('#lbldrives').append(`<br />Driver: ${value.DriverID}`);
+                            }
+                            $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
+                            $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
+                            if (value.Payment != null) {
+                                $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
+                            }
+                            if (comments.length > 0) {
+                                $.each(comments, function (index, value) {
+                                    $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
+                                    $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
+                                    $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
+                                });
+                            }
+                            $('#lbldrives').append('<br />===========================================');
                         });
                     }
                 }
 
             });
+            $('#inptosrc').val("");
+            $('#inpfromsrc').val("");
             $('#divridescudr').show();
         },
         error: function (msg) {
-            //alert("Fail - " + msg.responseText);
+            alert("Fail - " + msg.responseText);
         }
     });
 }
@@ -408,7 +449,7 @@ function SortByGrade() {
                                 }
                                 $('#lbldrives').append('<br />===========================================');
                             }
-                            
+
                         });
                     }
                 } else if (loggedUser.RoleString === 'Driver') {
@@ -478,7 +519,7 @@ function SortByGrade() {
                                 }
                                 $('#lbldrives').append('<br />===========================================');
                             }
-                            
+
                         });
                     }
                 } else {
@@ -548,7 +589,7 @@ function SortByGrade() {
                                 }
                                 $('#lbldrives').append('<br />===========================================');
                             }
-                            
+
                         });
                     }
                 }
