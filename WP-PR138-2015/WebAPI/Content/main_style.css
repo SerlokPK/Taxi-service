@@ -107,6 +107,7 @@ ol.olist {
 
 .drives{
     float:right;
+    width:500px;
 }
 
 #divhome{
@@ -114,7 +115,7 @@ ol.olist {
 }
 
 .h2{
-    padding:0px 400px;
+    padding:0px 300px;
 }
 
 .popdiv{
