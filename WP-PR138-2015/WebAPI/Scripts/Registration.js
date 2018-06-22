@@ -162,7 +162,7 @@
                     sessionStorage.setItem("logged", JSON.stringify(response)); //cuvam ulogovanu musteriju kao string
                     //console.log("Ovo pise -" + sessionStorage["logged"]);
                     alert("Succesffully logged in");
-                    window.location.href = "/HTML/Main.html"; //kada se uspesno ulogujem, idem na main stranicu
+                    window.location.href = "/HTML/index.html"; //kada se uspesno ulogujem, idem na main stranicu
                 },
                 error: function (msg) {
                     alert("Error - " + msg.responseText);

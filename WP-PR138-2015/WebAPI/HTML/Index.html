@@ -1,0 +1,1306 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Taxi-Z &mdash; Web site</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Taxi-Z web page" />
+    <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+    <meta name="author" content="freehtml5.co" />
+    <!--
+    //////////////////////////////////////////////////////
+
+    FREE HTML5 TEMPLATE
+    DESIGNED & DEVELOPED by FreeHTML5.co
+
+    Website: 		http://freehtml5.co/
+    Email: 			info@freehtml5.co
+    Twitter: 		http://twitter.com/fh5co
+    Facebook: 		https://www.facebook.com/fh5co
+
+    //////////////////////////////////////////////////////
+     -->
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:url" content="" />
+    <meta name="twitter:card" content="" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700,800" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="/fonts/stamina/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="/fonts/stamina/css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="/fonts/stamina/css/bootstrap.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="/fonts/stamina/css/magnific-popup.css">
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="/fonts/stamina/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/fonts/stamina/css/owl.theme.default.min.css">
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="/fonts/stamina/css/style.css">
+    <!-- Modernizr JS -->
+    <script src="/fonts/stamina/js/modernizr-2.6.2.min.js"></script>
+    <link href="../Content/main_style.css" rel="stylesheet" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--Pazi da mozda nece raditi bez neta-->
+    <script src="../Scripts/MainButtonSwitching.js"></script>
+    <script src="../Scripts/AdminRoleChanging.js"></script>
+    <script src="../Scripts/DriveRequest.js"></script>
+    <script src="../Scripts/DriverManagingRequests.js"></script>
+    <script src="../Scripts/AdminCreatingDrive.js"></script>
+    <script src="../Scripts/AdminAcceptingRequests.js"></script>
+    <script src="../Scripts/FilteringSorting.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div class="fh5co-loader"></div>
+
+    <div id="page">
+        <nav class="fh5co-nav" role="navigation">
+            <div class="top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <p class="num">Call: +381 64 047 96 22</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="top-menu">
+                <div class="container" style="background-image:url(/fonts/stamina/images/yell.png);">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <div id="fh5co-logo"><a href="index.html">Taxi-Z<span>.</span></a></div>
+                        </div>
+                        <div class="col-xs-10 text-right menu-1">
+                            <ul>
+                                <li class="active"><button name="btnHome" id="btnhome">Home</button></li>
+                                <li><button name="btnProfile" id="btnprofile">Profile</button></li>
+                                <li><button id="btnchangeroles" class="hideButtons">Change role</button></li>
+                                <li><button id="btnrequestdrive" class="hideButtons">Request drive</button></li>
+                                <li><button id="btnacptreq" class="hideButtons">All requests</button></li>
+                                <li><button id="btnacptreqadm" class="hideButtons">All requests</button></li>
+                                <li><button id="btnadmincrt" class="hideButtons">Create drive</button></li>
+                                <li><button id="btnalldrvs" class="hideButtons">All drives</button></li>
+                                <li><button name="btnLogOff" id="btnlogoff">Log Off</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr style="border:solid #f49d41;"/>
+                    <div id="divhomecontainer">
+                        <div name="divHome" id="divhome">
+                            <!--<h2 class="h2">Home page</h2>-->
+                            <label id="lblhome"></label>
+                            <label id="lblfordriver"></label>
+                        </div>
+                        <!--div za prikaz voznji kod musterija i vozaca-->
+                        <div class="drives" id="divridescudr">
+                            Filter by status: <input type="text" id="inpfiltsts" style="width:150px;height:25px" />   <button id="btnfilter" style="height:30px">Filter</button><br />
+                            Sort by:   <button id="btndatesort" style="height:30px">Date</button>            <button id="btngradesort" style="height:30px">Grade</button><br />
+                            Search by: <select id="srcdrvshome">
+                                <!--defaultna vrednost-->
+                                <option value="Date" selected>Date</option>
+                                <option value="Grade">Grade</option>
+                                <option value="Price">Price</option>
+                            </select> From: <input type="text" id="inpfromsrc" style="width:100px;height:25px" /> To: <input type="text" id="inptosrc" style="width:100px;height:25px" />     <button id="btnsrcdrvshome" style="height:30px">Search</button><br />
+                            <label id="lbldrives"></label>
+                        </div>
+
+                        <div class="popdiv"> All - all rides </div>
+                    </div>
+                    <div class="tablescont hideDivs" name="divProfile" id="divprofile">
+                        <!--profile-->
+                        <div class="main">
+                            <h3>User info</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Username :</td>
+                                    <td id="tdusername"></td>
+                                </tr>
+                                <tr>
+                                    <td>Name :</td>
+                                    <td id="tdname"></td>
+                                </tr>
+                                <tr>
+                                    <td>Lastname :</td>
+                                    <td id="tdlastname"></td>
+                                </tr>
+                                <tr>
+                                    <td>Email :</td>
+                                    <td id="tdemail"></td>
+                                </tr>
+                                <tr>
+                                    <td>Password :</td>
+                                    <td id="tdpw"></td>
+                                </tr>
+                                <tr>
+                                    <td>Identification number :</td>
+                                    <td id="tdjmbg"></td>
+                                </tr>
+                                <tr>
+                                    <td>Phone number :</td>
+                                    <td id="tdphone"></td>
+                                </tr>
+                                <tr>
+                                    <td>Gender :</td>
+                                    <td id="tdgender"></td>
+                                </tr>
+                                <tr class="hideDivs" id="trlocationdef">
+                                    <!--za vozaca - lokacija-->
+                                    <td>Location :</td>
+                                    <td id="tdlocation"></td>
+                                </tr>
+                                <tr>
+                                    <td  colspan="2"><button id="btnChange">Make changes</button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tablescont hideDivs" name="divUpdate" id="divupdate">
+                        <!--update profila-->
+                        <div class="main">
+                            <h3>User info</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Name :</td>
+                                    <td><input type="text" name="Name" id="name"></td>
+                                </tr>
+                                <tr>
+                                    <td>Lastname :</td>
+                                    <td><input type="text" name="Lastname" id="lastname" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Email :</td>
+                                    <td><input type="text" name="Email" id="email"></td>
+                                </tr>
+                                <tr>
+                                    <td>Password :</td>
+                                    <td><input type="text" name="Password" id="password"></td>
+                                </tr>
+                                <tr>
+                                    <td>Identification number :</td>
+                                    <td><input type="text" name="Jmbg" id="jmbg"></td>
+                                </tr>
+                                <tr>
+                                    <td>Phone number :</td>
+                                    <td><input type="text" name="PhoneNumber" id="phone"></td>
+                                </tr>
+                                <tr>
+                                    <td>Gender :</td>
+                                    <td>
+                                        <select id="gender">
+                                            <!--defaultna vrednost-->
+                                            <option selected>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="hideButtons" id="trlocationupd">
+                                    <td>Location :</td>
+                                    <td><input type="text" id="location"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" name="Update" id="btnupdate" value="Save changes"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Lista svih customera i drivera u role changing-->
+                    <div class="tablescont hideDivs" id="divallcustomers">
+                        <div class="main">
+                            <ol id="listallcustomers" class="olist"></ol>
+                        </div>
+                    </div>
+                    <!--Prikaz za rezervaciju voznje-->
+                    <div class="tablescont hideDivs" id="divrequest">
+                        <div class="main">
+                            <h3>Driving application</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Current location :</td>
+                                    <td><input type="text" name="CurrLocation" id="curloc"></td>
+                                </tr>
+                                <tr>
+                                    <td>Type of car :</td>
+                                    <td>
+                                        <select id="typeofcar">
+                                            <!--defaultna vrednost-->
+                                            <option selected>RegularCar</option>
+                                            <option>MiniVan</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btncreatedrive" value="Create drive"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Div za modifikovanje voznje-->
+                    <div class="tablescont hideDivs" id="divmodifyrequest">
+                        <div class="main">
+                            <h3>Modify application</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Current location :</td>
+                                    <td><input type="text" name="CurrLocation" id="modloc"></td>
+                                </tr>
+                                <tr>
+                                    <td>Type of car :</td>
+                                    <td>
+                                        <select id="modtypeofcar">
+                                            <!--defaultna vrednost-->
+                                            <option selected>RegularCar</option>
+                                            <option>MiniVan</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btnmdfdrive" value="Modify drive"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Div za komentar, prilikom korisnikovog otkazivanja-->
+                    <div class="tablescont hideDivs" id="divcancelride">
+                        <div class="main">
+                            <h3>Cancel application</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Leave your comment here :</td>
+                                    <td><textarea rows="8" cols="35" id="txtacomment"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btncnldrive" value="Cancel drive"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--div za prikaz svih musterija koje imaju 'created' status voznje-->
+                    <div class="tablescont hideDivs" id="divallreqcreated">
+                        <div class="main">
+                            <h3>Users with status 'Created'</h3>
+                            <ol id="olforcrtreq"></ol>
+                        </div>
+                    </div>
+                    <!--div za finish vozacevog posla-->
+                    <div class="tablescont hideDivs" id="divfnsjob">
+                        <div class="main">
+                            <h3>Finishing application</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Choose :</td>
+                                    <td>
+                                        <select id="fnsmethod">
+                                            <!--defaultna vrednost-->
+                                            <option selected>Successful</option>
+                                            <option>Failed</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btnfnsjob" value="Send"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--div za voznju koja je gotova uspesno-->
+                    <div class="tablescont hideDivs" id="divsuccdrv">
+                        <div class="main">
+                            <h3>Drive completed successfully</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Price :</td>
+                                    <td>
+                                        <input type="text" id="amount" name="Amount" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Final destination :</td>
+                                    <td>
+                                        <input type="text" id="fdest" name="Fdest" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btnsuccfnsjob" value="Finish drive"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--ukoliko je voznja gotova, pa korisnik hoce da ostavi kom-->
+                    <div class="tablescont hideDivs" id="divwantcom">
+                        <div class="main">
+                            <h3>Cancel application</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Leave your comment here :</td>
+                                    <td><textarea rows="8" cols="35" id="txtacomment2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Grade :</td>
+                                    <td>
+                                        <select id="gradecmt" style="width:100%">
+                                            <!--defaultna vrednost -->
+                                            <option selected>0</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btnsndcomm" value="Send comment"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Div za komentar, prilikom vozaceve neuspesne voznje-->
+                    <div class="tablescont hideDivs" id="divcancelridedrv">
+                        <div class="main">
+                            <h3>Drive was unsuccessful</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Leave your comment here :</td>
+                                    <td><textarea rows="8" cols="35" id="txtacommentdrv"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btnsndcommdrv" value="Send comment"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Prikaz za rezervaciju voznje kada admin pravi-->
+                    <div class="tablescont hideDivs" id="divadminrequest">
+                        <div class="main">
+                            <h3>Driving application</h3>
+                            <table class="widther" border="1">
+                                <tr>
+                                    <td>Current location :</td>
+                                    <td><input type="text" id="curlocadm"></td>
+                                </tr>
+                                <tr>
+                                    <td>Type of car :</td>
+                                    <td>
+                                        <select id="typeofcaradm" style="width:100%">
+                                            <!--defaultna vrednost-->
+                                            <option selected>RegularCar</option>
+                                            <option>MiniVan</option>
+                                        </select>
+                                        <select id="driversadm" style="width:100%">
+                                            <option value=''>Drivers</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="button" id="btncreatedrvadm" value="Create drive"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--div za prikaz svih musterija koje imaju 'created' status voznje, admin mode-->
+                    <div class="tablescont hideDivs" id="divallreqcreatedadm">
+                        <div class="main">
+                            <h3>Users with status 'Created'</h3>
+                            <ol id="olforcrtreqadm"></ol>
+                        </div>
+                    </div>
+                    <!--pop-up za biranje vozaca unutar svih requestova-->
+                    <div class="popup hideDivs" id="divpop" data-popup="popup-1">
+                        <div class="popup-inner">
+                            <h3>Choose driver</h3>
+                            <select id="typeofcaradm2" style="width:100%">
+                                <!--defaultna vrednost-->
+                                <option selected>RegularCar</option>
+                                <option>MiniVan</option>
+                            </select>
+                            <select id="driversadm2" style="width:100%">
+                                <option value=''>Drivers</option>
+                            </select>
+                            <p><a id="popcrt" data-popup-close="popup-1" href="#">Create</a></p>
+                            <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+                        </div>
+                    </div>
+                    <!--za sve voznje u sistemu-->
+                    <div id="divallridesadm">
+                        <div id="div1">
+                            <label id="lblalldrivesadm"></label>
+                        </div>
+                        <div id="div2">
+                            <span class="hideDivs" id="spansrcnmlst">
+                                Search by: <select id="slcnamelast">
+                                    <!--defaultna vrednost-->
+                                    <option value="Customer" selected>Customer</option>
+                                    <option value="Driver">Driver</option>
+                                </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="inpname" style="width:100px;height:25px" /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Lastname: <input type="text" id="inplast" style="width:100px;height:25px" />     <button id="btnsrcnamenlastname" style="height:30px">Search</button><br />
+                            </span>
+                            <label id="lblforadmdrvsall"></label>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+        <header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(../fonts/stamina/images/shenr.jpg);" data-stellar-background-ratio="0.5">
+            <div class="overlay"></div>
+            <div class="tablescont">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <div class="display-t">
+                            <div class="display-tc animate-box" data-animate-effect="fadeIn">
+                                <h1>Reliable and fast, like Shenron</h1>
+                                <h2>Established, like two weeks ago </h2>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!--
+        <div id="fh5co-services" class="fh5co-bg-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-center animate-box">
+                        <div class="services">
+                            <span><img class="img-responsive" src="images/dumbbell.svg" alt=""></span>
+                            <h3>Weight Lifting</h3>
+                            <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius</p>
+                            <p><a href="#" class="btn btn-primary btn-outline btn-sm">More <i class="icon-arrow-right"></i></a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center animate-box">
+                        <div class="services">
+                            <span><img class="img-responsive" src="images/exercise.svg" alt=""></span>
+                            <h3>Running</h3>
+                            <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius</p>
+                            <p><a href="#" class="btn btn-primary btn-outline btn-sm">More <i class="icon-arrow-right"></i></a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center animate-box">
+                        <div class="services">
+                            <span><img class="img-responsive" src="images/yoga-carpet.svg" alt=""></span>
+                            <h3>Yoga</h3>
+                            <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius</p>
+                            <p><a href="#" class="btn btn-primary btn-outline btn-sm">More <i class="icon-arrow-right"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="fh5co-trainer">
+            <div class="container">
+                <div class="row animate-box">
+                    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+                        <h2>Fitness Expert</h2>
+                        <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 animate-box">
+                        <div class="trainer">
+                            <a href="#"><img class="img-responsive" src="images/trainer-1.jpg" alt="trainer"></a>
+                            <div class="title">
+                                <h3><a href="#">Angel Adams</a></h3>
+                                <span>Dance Expert</span>
+                            </div>
+                            <div class="desc text-center">
+                                <ul class="fh5co-social-icons">
+                                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                    <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 animate-box">
+                        <div class="trainer">
+                            <a href="#"><img class="img-responsive" src="images/trainer-2.jpg" alt="trainer"></a>
+                            <div class="title">
+                                <h3><a href="#">Arnold Smith</a></h3>
+                                <span>Body Building Expert</span>
+                            </div>
+                            <div class="desc text-center">
+                                <ul class="fh5co-social-icons">
+                                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                    <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 animate-box">
+                        <div class="trainer">
+                            <a href="#"><img class="img-responsive" src="images/trainer-3.jpg" alt="trainer"></a>
+                            <div class="title">
+                                <h3><a href="#">Rachel Seely</a></h3>
+                                <span>Yoga Expert</span>
+                            </div>
+                            <div class="desc text-center">
+                                <ul class="fh5co-social-icons">
+                                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                    <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="fh5co-schedule" class="fh5co-bg" style="background-image: url(images/img_bg_1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+                        <h2>Class Schedule</h2>
+                    </div>
+                </div>
+                <div class="row animate-box">
+
+                    <div class="fh5co-tabs">
+                        <ul class="fh5co-tab-nav">
+                            <li class="active"><a href="#" data-tab="1"><span class="visible-xs">S</span><span class="hidden-xs">Sunday</span></a></li>
+                            <li><a href="#" data-tab="2"><span class="visible-xs">M</span><span class="hidden-xs">Monday</span></a></li>
+                            <li><a href="#" data-tab="3"><span class="visible-xs">T</span><span class="hidden-xs">Tuesday</span></a></li>
+                            <li><a href="#" data-tab="4"><span class="visible-xs">W</span><span class="hidden-xs">Wednesday</span></a></li>
+                            <li><a href="#" data-tab="5"><span class="visible-xs">Th</span><span class="hidden-xs">Thursday</span></a></li>
+                            <li><a href="#" data-tab="6"><span class="visible-xs">F</span><span class="hidden-xs">Friday</span></a></li>
+                            <li><a href="#" data-tab="7"><span class="visible-xs">S</span><span class="hidden-xs">Saturday</span></a></li>
+                        </ul>
+                        <!-- Tabs 
+                        <div class="fh5co-tab-content-wrap">
+                            <div class="fh5co-tab-content tab-content active" data-tab-content="1">
+                                <ul class="class-schedule">
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/two-boxing-gloves.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Boxing</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/ballet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Ballet Dance</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="fh5co-tab-content tab-content active" data-tab-content="2">
+                                <ul class="class-schedule">
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/two-boxing-gloves.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Boxing</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/ballet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Ballet Dance</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="fh5co-tab-content tab-content active" data-tab-content="3">
+                                <ul class="class-schedule">
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/two-boxing-gloves.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Boxing</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/ballet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Ballet Dance</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="fh5co-tab-content tab-content active" data-tab-content="4">
+                                <ul class="class-schedule">
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/two-boxing-gloves.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Boxing</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/ballet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Ballet Dance</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="fh5co-tab-content tab-content active" data-tab-content="5">
+                                <ul class="class-schedule">
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/two-boxing-gloves.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Boxing</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/ballet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Ballet Dance</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="fh5co-tab-content tab-content active" data-tab-content="6">
+                                <ul class="class-schedule">
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/two-boxing-gloves.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Boxing</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/ballet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Ballet Dance</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="fh5co-tab-content tab-content active" data-tab-content="7">
+                                <ul class="class-schedule">
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/two-boxing-gloves.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Boxing</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/ballet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Ballet Dance</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/dumbbell.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">9:00 AM - 11AM</span>
+                                        <h4>Body Building</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/yoga-carpet.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">6:00 AM - 7AM</span>
+                                        <h4>Yoga</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                    <li class="text-center">
+                                        <span><img src="images/exercise.svg" class="img-responsive" alt=""></span>
+                                        <span class="time">7:00 AM - 8AM</span>
+                                        <h4>Cardio</h4>
+                                        <small>Angel Adams</small>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="fh5co-pricing">
+            <div class="container">
+                <div class="row animate-box">
+                    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+                        <h2>Pricing Plan</h2>
+                        <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="pricing">
+                        <div class="col-md-3 animate-box">
+                            <div class="price-box">
+                                <h2 class="pricing-plan">Starter</h2>
+                                <div class="price"><sup class="currency">$</sup>9<small>/month</small></div>
+                                <ul class="classes">
+                                    <li>15 Cardio Classes</li>
+                                    <li class="color">10 Swimming Lesson</li>
+                                    <li>10 Yoga Classes</li>
+                                    <li class="color">20 Aerobics</li>
+                                    <li>10 Zumba Classes</li>
+                                    <li class="color">5 Massage</li>
+                                    <li>10 Body Building</li>
+                                </ul>
+                                <a href="#" class="btn btn-select-plan btn-sm">Select Plan</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 animate-box">
+                            <div class="price-box">
+                                <h2 class="pricing-plan">Basic</h2>
+                                <div class="price"><sup class="currency">$</sup>27<small>/month</small></div>
+                                <ul class="classes">
+                                    <li>15 Cardio Classes</li>
+                                    <li class="color">10 Swimming Lesson</li>
+                                    <li>10 Yoga Classes</li>
+                                    <li class="color">20 Aerobics</li>
+                                    <li>10 Zumba Classes</li>
+                                    <li class="color">5 Massage</li>
+                                    <li>10 Body Building</li>
+                                </ul>
+                                <a href="#" class="btn btn-select-plan btn-sm">Select Plan</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 animate-box">
+                            <div class="price-box popular">
+                                <h2 class="pricing-plan pricing-plan-offer">Pro <span>Best Offer</span></h2>
+                                <div class="price"><sup class="currency">$</sup>74<small>/month</small></div>
+                                <ul class="classes">
+                                    <li>15 Cardio Classes</li>
+                                    <li class="color">10 Swimming Lesson</li>
+                                    <li>10 Yoga Classes</li>
+                                    <li class="color">20 Aerobics</li>
+                                    <li>10 Zumba Classes</li>
+                                    <li class="color">5 Massage</li>
+                                    <li>10 Body Building</li>
+                                </ul>
+                                <a href="#" class="btn btn-select-plan btn-sm">Select Plan</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 animate-box">
+                            <div class="price-box">
+                                <h2 class="pricing-plan">Unlimited</h2>
+                                <div class="price"><sup class="currency">$</sup>140<small>/month</small></div>
+                                <ul class="classes">
+                                    <li>15 Cardio Classes</li>
+                                    <li class="color">10 Swimming Lesson</li>
+                                    <li>10 Yoga Classes</li>
+                                    <li class="color">20 Aerobics</li>
+                                    <li>10 Zumba Classes</li>
+                                    <li class="color">5 Massage</li>
+                                    <li>10 Body Building</li>
+                                </ul>
+                                <a href="#" class="btn btn-select-plan btn-sm">Select Plan</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="fh5co-gallery">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+                        <h2>Gym gallery</h2>
+                        <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row row-bottom-padded-md">
+                    <div class="col-md-12">
+                        <ul id="fh5co-portfolio-list">
+                            <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(images/gallery-1.jpg); ">
+                                <a href="#">
+                                    <div class="case-studies-summary">
+                                        <span>Illustration</span>
+                                        <h2>Useful baskets</h2>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(images/gallery-2.jpg); ">
+                                <a href="#">
+                                    <div class="case-studies-summary">
+                                        <span>Web Design</span>
+                                        <h2>Skater man in the road</h2>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(images/gallery-3.jpg); ">
+                                <a href="#">
+                                    <div class="case-studies-summary">
+                                        <span>Web Design</span>
+                                        <h2>Two Glas of Juice</h2>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(images/gallery-4.jpg); ">
+                                <a href="#">
+                                    <div class="case-studies-summary">
+                                        <span>Web Design</span>
+                                        <h2>Timer starts now!</h2>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(images/gallery-3.jpg); ">
+                                <a href="#">
+                                    <div class="case-studies-summary">
+                                        <span>Web Design</span>
+                                        <h2>Two Glas of Juice</h2>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="two-third animate-box" data-animate-effect="fadeIn" style="background-image: url(images/gallery-5.jpg); ">
+                                <a href="#">
+                                    <div class="case-studies-summary">
+                                        <span>Illustration</span>
+                                        <h2>Beautiful sunset</h2>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(images/gallery-3.jpg); ">
+                                <a href="#">
+                                    <div class="case-studies-summary">
+                                        <span>Web Design</span>
+                                        <h2>Two Glas of Juice</h2>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="fh5co-testimonial" class="fh5co-bg-section">
+            <div class="container">
+                <div class="row animate-box">
+                    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+                        <h2>Happy Clients</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="row animate-box">
+                            <div class="owl-carousel owl-carousel-fullwidth">
+                                <div class="item">
+                                    <div class="testimony-slide active text-center">
+                                        <figure>
+                                            <img src="images/person3.jpg" alt="user">
+                                        </figure>
+                                        <span>Jean Doe, via <a href="#" class="twitter">Twitter</a></span>
+                                        <blockquote>
+                                            <p>&ldquo;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&rdquo;</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="testimony-slide active text-center">
+                                        <figure>
+                                            <img src="images/person3.jpg" alt="user">
+                                        </figure>
+                                        <span>John Doe, via <a href="#" class="twitter">Twitter</a></span>
+                                        <blockquote>
+                                            <p>&ldquo;Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&rdquo;</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="testimony-slide active text-center">
+                                        <figure>
+                                            <img src="images/person3.jpg" alt="user">
+                                        </figure>
+                                        <span>John Doe, via <a href="#" class="twitter">Twitter</a></span>
+                                        <blockquote>
+                                            <p>&ldquo;Far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&rdquo;</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="fh5co-started" class="fh5co-bg" style="background-image: url(images/img_bg_3.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row animate-box">
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <h2>Fitness Classes this Summer <br> <span> Pay Now and <br> Get <span class="percent">35%</span> Discount</span></h2>
+                    </div>
+                </div>
+                <div class="row animate-box">
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <p><a href="#" class="btn btn-default btn-lg">Become a Member</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="fh5co-blog" class="fh5co-bg-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+                        <h2>Recent Blog</h2>
+                        <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+                    </div>
+                </div>
+                <div class="row row-bottom-padded-md">
+                    <div class="col-lg-4 col-md-4">
+                        <div class="fh5co-blog animate-box">
+                            <a href="#"><img class="img-responsive" src="images/gallery-4.jpg" alt=""></a>
+                            <div class="blog-text">
+                                <h3><a href="" #>45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                                <span class="posted_on">Sep. 15th</span>
+                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="fh5co-blog animate-box">
+                            <a href="#"><img class="img-responsive" src="images/gallery-2.jpg" alt=""></a>
+                            <div class="blog-text">
+                                <h3><a href="" #>45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                                <span class="posted_on">Sep. 15th</span>
+                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="fh5co-blog animate-box">
+                            <a href="#"><img class="img-responsive" src="images/gallery-3.jpg" alt=""></a>
+                            <div class="blog-text">
+                                <h3><a href="" #>45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                                <span class="posted_on">Sep. 15th</span>
+                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
+        
+        <footer id="fh5co-footer" class="fh5co-bg" style="background-image: url(images/img_bg_1.jpg);" role="contentinfo">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row row-pb-md">
+                    <div class="col-md-4 fh5co-widget">
+                        <h3>Little about Taxi-Z</h3>
+                        <p>Made for self-use purpose. Should allow customers easier way to book a ride.</p>
+                        <p><a class="btn btn-primary" href="https://github.com/SerlokPK">Other projects</a></p>
+                    </div>
+                    <div class="col-md-8">
+                        <h3>Available states</h3>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <ul class="fh5co-footer-links">
+                                <li><a >Serbia</a></li>
+                                <li><a >Croatia</a></li>
+                                <li><a >Bosnia and Herzegovina</a></li>
+                                <li><a >Hungary</a></li>
+                                <li><a >Macedonia</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <ul class="fh5co-footer-links">
+                                <li><a >Bulgaria</a></li>
+                                <li><a >Slovenia</a></li>
+                                <li><a >Greece</a></li>
+                                <li><a >Turkia</a></li>
+                                <li><a >Italia</a></li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row copyright">
+                    <div class="col-md-12 text-center">
+                        <p>
+                            <small class="block">&copy; 2018 Taxi-Z. All Rights Reserved.</small>
+                            <small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a></small>
+                        </p>
+                        <p>
+                            <ul class="fh5co-social-icons">
+                                <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+    </div>
+
+    <!-- jQuery -->
+    <script src="/fonts/stamina/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="/fonts/stamina/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="/fonts/stamina/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="/fonts/stamina/js/jquery.waypoints.min.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="/fonts/stamina/js/jquery.stellar.min.js"></script>
+    <!-- Carousel -->
+    <script src="/fonts/stamina/js/owl.carousel.min.js"></script>
+    <!-- countTo -->
+    <script src="/fonts/stamina/js/jquery.countTo.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/fonts/stamina/js/jquery.magnific-popup.min.js"></script>
+    <script src="/fonts/stamina/js/magnific-popup-options.js"></script>
+    <!-- Main -->
+    <script src="/fonts/stamina/js/main.js"></script>
+
+</body>
+</html>
