@@ -6,55 +6,172 @@
     <meta http-equiv="pragma" content="no-cache" />
     <!-- Include CSS File Here -->
     <link href="../Content/reg_style.css" rel="stylesheet" />
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="/fonts/stamina/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="/fonts/stamina/css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="/fonts/stamina/css/bootstrap.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="/fonts/stamina/css/magnific-popup.css">
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="/fonts/stamina/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/fonts/stamina/css/owl.theme.default.min.css">
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="/fonts/stamina/css/style.css">
+    <!-- Modernizr JS -->
+    <script src="/fonts/stamina/js/modernizr-2.6.2.min.js"></script>
     <!--<link href="../Content/bootstrap.min.css" rel="stylesheet" />-->
     <!-- Include JS File Here -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--Pazi da mozda nece raditi bez neta-->
     <script src="../Scripts/Registration.js"></script>
 </head>
 <body>
-    <div name="headerDiv">
+    <div id="page">
+        <nav class="fh5co-nav" role="navigation">
+            <div class="top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <p class="num">Call: +381 64 047 96 22</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="top-menu">
+                <div class="container" style="background-image:url(/fonts/stamina/images/yell.png);">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <div id="fh5co-logo"><a href="index.html">Taxi-Z<span>.</span></a></div>
+                        </div>
+                        <div class="col-xs-10 text-right menu-1">
+                            <ul>
+                                <li class="active"><button name="btnLog" id="btnlog">Log in</button></li>
+                                <li><button name="btnSign" id="btnsign">Sign in</button></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <hr style="border:solid #f49d41;" />
+                    <!--strana za registraciju-->
+                    <div class="contreg" id="regDiv">
+                        <div class="main">
+                            <h2>Registration form</h2>
+                            <label>Username :</label>
+                            <input type="text" name="Username" id="username">
+                            <label>Name :</label>
+                            <input type="text" name="Name" id="name">
+                            <label>Lastname :</label>
+                            <input type="text" name="Lastname" id="lastname">
+                            <label>Email :</label>
+                            <input type="email" name="Email" id="email">
+                            <label>Password :</label>
+                            <input type="password" name="Password" id="password">
+                            <label>Confirm Password :</label>
+                            <input type="password" name="Cpassword" id="cpassword">
+                            <label>Identification number :</label>
+                            <input type="text" name="Jmbg" id="jmbg">
+                            <label>Phone number :</label>
+                            <input type="text" name="PhoneNumber" id="phone">
+                            <div>
+                                <label>Gender :</label><br />
+                                <input type="radio" name="Gender" value="Male" checked> Male<br>
+                                <input type="radio" name="Gender" value="Female"> Female<br>
+                            </div>
+                            <input type="button" name="register" id="register" value="Register">
+                        </div>
+                    </div>
+                    <!--strana za logovanje-->
+                    <div class="contreg" id="logDiv">
+                        <div class="main">
+                            <h2>Log in form</h2>
+                            <label>Username :</label>
+                            <input type="text" name="Username" id="usernameLog">
+                            <label>Password :</label>
+                            <input type="password" name="Password" id="passwordLog">
+                            <input type="button" name="Login" id="login" value="Log in">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <footer id="fh5co-footer" class="fh5co-bg" style="background-image: url(images/img_bg_1.jpg);" role="contentinfo">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row row-pb-md">
+                    <div class="col-md-4 fh5co-widget">
+                        <h3>Little about Taxi-Z</h3>
+                        <p>Made for self-use purpose. Should allow customers easier way to book a ride.</p>
+                        <p><a class="btn btn-primary" href="https://github.com/SerlokPK">Other projects</a></p>
+                    </div>
+                    <div class="col-md-8">
+                        <h3>Available states</h3>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <ul class="fh5co-footer-links">
+                                <li><a>Serbia</a></li>
+                                <li><a>Croatia</a></li>
+                                <li><a>Bosnia and Herzegovina</a></li>
+                                <li><a>Hungary</a></li>
+                                <li><a>Macedonia</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <ul class="fh5co-footer-links">
+                                <li><a>Bulgaria</a></li>
+                                <li><a>Slovenia</a></li>
+                                <li><a>Greece</a></li>
+                                <li><a>Turkia</a></li>
+                                <li><a>Italia</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row copyright">
+                    <div class="col-md-12 text-center">
+                        <p>
+                            <small class="block">&copy; 2018 Taxi-Z. All Rights Reserved.</small>
+                            <small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a></small>
+                        </p>
+                        <p>
+                            <ul class="fh5co-social-icons">
+                                <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+    </div>
+    <!--<div name="headerDiv">
         <button name="btnSign" id="btnsign">Sign in</button>
         <button name="btnLog" id="btnlog">Log in</button>
-    </div>
-    <hr />
-    <!--strana za registraciju-->
-    <div class="container" id="regDiv">
-        <div class="main">
-            <h2>Registration form</h2>
-            <label>Username :</label>
-            <input type="text" name="Username" id="username">
-            <label>Name :</label>
-            <input type="text" name="Name" id="name">
-            <label>Lastname :</label>
-            <input type="text" name="Lastname" id="lastname">
-            <label>Email :</label>
-            <input type="email" name="Email" id="email">
-            <label>Password :</label>
-            <input type="password" name="Password" id="password">
-            <label>Confirm Password :</label>
-            <input type="password" name="Cpassword" id="cpassword">
-            <label>Identification number :</label>
-            <input type="text" name="Jmbg" id="jmbg">
-            <label>Phone number :</label>
-            <input type="text" name="PhoneNumber" id="phone">
-            <div>
-                <label>Gender :</label><br />
-                <input type="radio" name="Gender" value="Male" checked> Male<br>
-                <input type="radio" name="Gender" value="Female"> Female<br>
-            </div>
-            <input type="button" name="register" id="register" value="Register">
-        </div>
-    </div>
-    <!--strana za logovanje-->
-    <div class="container" id="logDiv">
-        <div class="main">
-            <h2>Log in form</h2>
-            <label>Username :</label>
-            <input type="text" name="Username" id="usernameLog">
-            <label>Password :</label>
-            <input type="password" name="Password" id="passwordLog">
-            <input type="button" name="Login" id="login" value="Log in">
-        </div>
-    </div>
+    </div>-->
+    <!-- jQuery -->
+    <script src="/fonts/stamina/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="/fonts/stamina/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="/fonts/stamina/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="/fonts/stamina/js/jquery.waypoints.min.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="/fonts/stamina/js/jquery.stellar.min.js"></script>
+    <!-- Carousel -->
+    <script src="/fonts/stamina/js/owl.carousel.min.js"></script>
+    <!-- countTo -->
+    <script src="/fonts/stamina/js/jquery.countTo.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/fonts/stamina/js/jquery.magnific-popup.min.js"></script>
+    <script src="/fonts/stamina/js/magnific-popup-options.js"></script>
+    <!-- Main -->
+    <script src="/fonts/stamina/js/main.js"></script>
 </body>
 </html>

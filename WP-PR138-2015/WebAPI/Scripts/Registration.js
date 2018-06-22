@@ -1,15 +1,15 @@
 ﻿$(document).ready(function () {
     $("#register").click(function () { //registrovanje
-        var name = $("#name").val();
-        var email = $("#email").val();
-        var password = $("#password").val();
-        var cpassword = $("#cpassword").val();
-        var username = $("#username").val();
-        var lastname = $("#lastname").val();
-        var gender = $('input[name=Gender]:checked').val(); //vezano za radio button
-        var identification = $("#jmbg").val();
-        var phone = $("#phone").val();
-        var status = true;
+        let name = $("#name").val();
+        let email = $("#email").val();
+        let password = $("#password").val();
+        let cpassword = $("#cpassword").val();
+        let username = $("#username").val();
+        let lastname = $("#lastname").val();
+        let gender = $('input[name=Gender]:checked').val(); //vezano za radio button
+        let identification = $("#jmbg").val();
+        let phone = $("#phone").val();
+        let status = true;
 
         if (name === "" || email === "" || password === "" || cpassword === "" || username === '' || lastname === "" || identification === "" || phone === "") {
             alert("All fields are required.");
