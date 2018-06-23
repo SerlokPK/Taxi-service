@@ -360,7 +360,7 @@
             let info = [];
             info = email.split('.');
 
-            if (!email.includes('@') || !email.includes('.') || info[1].length < 2) {
+            if (!email.includes('@') || !email.includes('.') || info[1].length < 2 || !info[0].includes('@')) {
                 $("#email").css('background-color', '#F9D3D3');
                 $('#email').val("");
                 $("#email").attr("placeholder", "Incorect format");
@@ -382,8 +382,9 @@
                     //}
                     let radnikStatus = true;
                     location = location.replace(/\s\s+/g, ' '); //da spoji vise razmaka
+                    info = location.split('-');
 
-                    if (!location.includes('-') || !location.includes(',')) {
+                    if (!location.includes('-') || !location.includes(',') || !info[0].includes(',')) {
                         $("#location").css('background-color', '#F9D3D3');
                         $('#location').val("");
                         $("#location").attr("placeholder", "Incorect format");
@@ -422,7 +423,7 @@
                         temp = info[2].split(' ');
                         temp = CheckArray(temp);
 
-                        if (temp.length > 1 || isNaN(temp)) {
+                        if (temp.length > 1 || isNaN(temp) || info[2] === "") {
                             $("#location").css('background-color', '#F9D3D3');
                             $('#location').val("");
                             $("#location").attr("placeholder", "Incorect format");

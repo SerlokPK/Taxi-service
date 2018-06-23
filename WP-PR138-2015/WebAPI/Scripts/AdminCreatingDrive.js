@@ -279,7 +279,7 @@ function Validation(location, type) {
         temp = info[2].split(' ');
         temp = CheckArray(temp);
 
-        if (temp.length > 1 || isNaN(temp)) {
+        if (temp.length > 1 || isNaN(temp) || info[2] === "") {
             $("#curlocadm").css('background-color', '#F9D3D3');
             $('#curlocadm').val("");
             $("#curlocadm").attr("placeholder", "Incorect format");

@@ -400,7 +400,7 @@ function ValidationForFinalDest(location, amount) {
         temp = info[2].split(' ');
         temp = CheckArray(temp);
 
-        if (temp.length > 1 || isNaN(temp)) {
+        if (temp.length > 1 || isNaN(temp) || info[2] === "") {
             $("#fdest").css('background-color', '#F9D3D3');
             $('#fdest').val("");
             $("#fdest").attr("placeholder", "Incorect format");

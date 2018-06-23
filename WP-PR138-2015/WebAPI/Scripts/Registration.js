@@ -99,7 +99,7 @@
             let info = [];
             info = email.split('.');
 
-            if (!email.includes('@') || !email.includes('.') || info[1].length < 2) {
+            if (!email.includes('@') || !email.includes('.') || info[1].length < 2 || !info[0].includes('@')) {
                 $("#email").css('background-color', '#F9D3D3');
                 $('#email').val("");
                 $("#email").attr("placeholder", "Incorect format");
