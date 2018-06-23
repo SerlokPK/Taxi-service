@@ -178,6 +178,7 @@
     <Compile Include="Controllers\Smart2Controller.cs" />
     <Compile Include="Controllers\Smart3Controller.cs" />
     <Compile Include="Controllers\Smart4Controller.cs" />
+    <Compile Include="Controllers\Smart5Controller.cs" />
     <Compile Include="Controllers\SmartController.cs" />
     <Compile Include="Controllers\VozacController.cs" />
     <Compile Include="Controllers\VoznjaController.cs" />

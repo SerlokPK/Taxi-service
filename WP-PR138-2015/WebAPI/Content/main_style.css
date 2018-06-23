@@ -10,7 +10,7 @@ hr {
 }
 
 div.tablescont {
-    width: 600px;
+    width: 650px;
     height: 610px;
     margin: 50px auto;
     font-family: 'Droid Serif', serif;
@@ -18,7 +18,7 @@ div.tablescont {
 }
 
 div.main {
-    width: 550px;
+    width: 600px;
     float: left;
     padding: 30px 55px 40px;
     background-color: rgba(187, 255, 184, 0.65);
@@ -119,13 +119,16 @@ ol.olist {
     padding:0px 300px;
 }
 
-.popdiv{
-    border:1px red solid;
-    display:none;
-    width:100px;
-    height:40px;
-    float:right;
+.popdiv {
+    border: 3px red solid;
+    background-color: lightgrey;
+    display: none;
+    width: 100px;
+    height: 55px;
+    float: right;
 }
+
+
 #divallridesadm{
     margin:auto;
 }

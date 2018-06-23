@@ -241,7 +241,7 @@
         $('#divsuccdrv').hide();
         $('#divcancelridedrv').hide();
         $('#divadminrequest').hide();
-        $('#divallreqcreatedadm').hide(); 
+        $('#divallreqcreatedadm').hide();
         $('#divallridesadm').hide();
     });
 
@@ -476,7 +476,7 @@
                         $("#lblhome").empty();
                         $('#lblhome').append('Current location: ' + location);
                     }
-                    
+
                     $('#divprofile').show();
                     $('#divupdate').hide();
                 },
@@ -620,12 +620,14 @@ function ShowForCustomer() {
                                         error: function (msg) {
                                             alert("Fail - " + msg.responseText);
                                         }
+                                        
                                     });
                                 }
                             },
                             error: function (msg) {
                                 alert("Fail - " + msg.responseText);
-                            }
+                            },
+                            async: false
                         }),
 
                         $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
@@ -714,7 +716,8 @@ function ShowForDriver() {
                             },
                             error: function (msg) {
                                 alert("Fail - " + msg.responseText);
-                            }
+                            },
+                            async: false
                         }),
 
                         $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
