@@ -50,6 +50,13 @@ namespace WebAPI.Controllers
             VozacRepository vrep = new VozacRepository();
             AdminRepository arep = new AdminRepository();
 
+            bool status = Validation(k);
+
+            if(!status)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You are not hacker, stop messing with JS");
+            }
+
             try
             {
                 using (var db = new SystemDBContext())
@@ -81,21 +88,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage PutVozac(JToken token) 
+        public HttpResponseMessage PutVozac(JToken token)
         {
             HttpResponseMessage msg = new HttpResponseMessage();
 
-            var id= token.Value<int>("Id");
+            var id = token.Value<int>("Id");
             var driver = token.Value<string>("Driver");
 
             try
             {
-                using (SystemDBContext db= new SystemDBContext())
+                using (SystemDBContext db = new SystemDBContext())
                 {
                     Voznja v = db.Voznje.FirstOrDefault(x => x.Id == id);
                     Vozac voz = db.Vozaci.FirstOrDefault(x => x.Username == driver);
 
-                    if(v != null)
+                    if (v != null)
                     {
                         Musterija m = db.Musterije.FirstOrDefault(x => x.Username == v.UserCallerID);
                         m.DriveStatus = DrivingStatus.Accepted;
@@ -106,13 +113,13 @@ namespace WebAPI.Controllers
 
                         db.SaveChanges();
 
-                        msg = Request.CreateResponse(HttpStatusCode.OK,v);
+                        msg = Request.CreateResponse(HttpStatusCode.OK, v);
                     }
                     else
                     {
                         msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Drive is no longer available, choose other.");
                     }
-                    
+
                 }
             }
             catch (Exception e)
@@ -121,6 +128,57 @@ namespace WebAPI.Controllers
             }
 
             return msg;
+        }
+
+        private bool Validation(Musterija m)
+        {
+            bool status = true;
+
+            if (m.Name == "" || m.Email == "" || m.Password == "" || m.Username == "" || m.Lastname == "" || m.Jmbg == "" || m.PhoneNumber == "")
+            {
+                return false;
+            }
+            else
+            {
+                if ((m.Password.Length) < 6 || m.Password.Length > 25)
+                {
+                    status = false;
+                }
+
+                if (m.Name.Length < 3)
+                {
+                    status = false;
+                }
+
+                if (m.Username.Length < 3)
+                {
+                    status = false;
+                }
+
+                if (m.Lastname.Length < 3)
+                {
+                    status = false;
+                }
+
+                if (m.Jmbg.Length != 13 || Double.IsNaN(Double.Parse(m.Jmbg)))
+                {
+                    status = false;
+                }
+
+                if (m.PhoneNumber.Length != 10 || Double.IsNaN(Double.Parse(m.PhoneNumber)))
+                {
+                    status = false;
+                }
+
+                string[] info = m.Email.Split('.');
+
+                if (!m.Email.Contains('@') || !m.Email.Contains('.') || info[1].Length < 2 || !info[0].Contains('@'))
+                {
+                    status = false;
+                }
+
+                return status;
+            }
         }
     }
 }
