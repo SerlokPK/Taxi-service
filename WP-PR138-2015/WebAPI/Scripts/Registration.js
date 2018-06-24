@@ -1,4 +1,8 @@
 ﻿$(document).ready(function () {
+    if (sessionStorage.getItem("logged") !== null) {
+        window.location.href = "/HTML/index.html";
+    }
+
     $("#register").click(function () { //registrovanje
         let name = $("#name").val();
         let email = $("#email").val();
@@ -135,7 +139,7 @@
                     $("#regDiv").hide();
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             });
         }
@@ -165,7 +169,7 @@
                     window.location.href = "/HTML/index.html"; //kada se uspesno ulogujem, idem na main stranicu
                 },
                 error: function (msg) {
-                    alert("Error - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             });
         }

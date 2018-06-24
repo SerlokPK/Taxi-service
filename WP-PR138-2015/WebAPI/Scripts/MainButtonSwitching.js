@@ -45,13 +45,13 @@
                                                 endLoc = floc;
                                             },
                                             error: function (msg) {
-                                                alert("Fail - " + msg.responseText);
+                                                alert(msg.responseText);
                                             }
                                         });
                                     }
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert(msg.responseText);
                                 }
                             }),
 
@@ -64,7 +64,7 @@
                                     comments = loc;
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert(msg.responseText);
                                 }
                             }),
                         ).then(function () {
@@ -110,7 +110,7 @@
                     sessionStorage.setItem('logged', JSON.stringify(data));
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert(msg.responseText);
                 }
             }),
         ).then(function () {
@@ -171,7 +171,7 @@
                 $('#lblhome').append('Current location: ' + data);
             },
             error: function (msg) {
-                alert("Fail - " + msg.responseText);
+                alert(msg.responseText);
             }
         });
 
@@ -187,7 +187,7 @@
                     sessionStorage.setItem('logged', JSON.stringify(data));
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert(msg.responseText);
                 }
             }),
         ).then(function () {
@@ -211,13 +211,13 @@
                                                             <br /><button id='btnfnsdrv'>Finish</button>`);
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert(msg.responseText);
                             }
                         });
 
                     },
                     error: function (msg) {
-                        alert('Error - ' + msg.responseText);
+                        alert(msg.responseText);
                     }
                 });
             }
@@ -247,7 +247,10 @@
 
     $('#btnprofile').click(function () { //pocetni podaci
         $('#divprofile').show();
-        if (logUser.RoleString === 'Driver') {
+        let logged = JSON.parse(sessionStorage.getItem("logged"));
+        let must = GetCustomer(logged.Username);
+        $('#trlocationdef').hide();
+        if (must.RoleString === 'Driver') {
             $('#trlocationdef').show();
         }
         $('#divhome').hide();
@@ -267,11 +270,25 @@
     });
 
     $('#btnChange').click(function () { //update forma
+        let logged = JSON.parse(sessionStorage.getItem("logged")); //vadim iz sesije korisnika i parsiram u JSON obj
         $('#divprofile').hide();
         $('#divhome').hide();
         $('#divupdate').show();
-        if (logUser.RoleString === 'Driver') {      //ako je vozac, prikazem location
+
+        let must = GetCustomer(logged.Username);    //da popunim profile
+
+        $("#name").val(must.Name);
+        $("#email").val(must.Email);
+        $("#password").val(must.Password);
+        $("#lastname").val(must.Lastname);
+        $("#jmbg").val(must.Jmbg);
+        $("#phone").val(must.PhoneNumber);
+
+
+        if (must.RoleString === 'Driver') {      //ako je vozac, prikazem location
             $('#trlocationupd').show();
+            let loc = GetLocation(must.LocationID);
+            $('#location').val(loc);
         }
         $('#divallcustomers').hide();
         $('#divrequest').hide();
@@ -293,6 +310,7 @@
     });
 
     $('#btnupdate').click(function () { //izvrsi update
+        let logged = JSON.parse(sessionStorage.getItem("logged"));
         let name = $("#name").val();
         let email = $("#email").val();
         let password = $("#password").val();
@@ -370,7 +388,7 @@
                 $("#email").attr("placeholder", "");
             }
 
-            if (logUser.RoleString === 'Driver') {      //ako je vozac, update location
+            if (logged.RoleString === 'Driver') {      //ako je vozac, update location
                 let location = $('#location').val();
 
                 if (location === "") {
@@ -444,24 +462,25 @@
 
         if (status) {
             let location = JSON.parse(sessionStorage.getItem("location"));
+            let osoba = GetCustomer(logged.Username);
 
             let musterija = {
                 Name: name,
                 Email: email,
                 Password: password,
-                Username: logUser.Username,
+                Username: osoba.Username,
                 Lastname: lastname,
-                Role: logUser.Role,
-                RoleString: logUser.RoleString,
+                Role: osoba.Role,
+                RoleString: osoba.RoleString,
                 GenderString: gender,
                 Jmbg: identification,
                 PhoneNumber: phone,
-                Gender: logUser.Gender,
+                Gender: osoba.Gender,
             };
 
-            SetStartingProfile(logUser, musterija);
-            if (logUser.RoleString === 'Driver') {
-                SetLocation(location, logUser.LocationID);
+            SetStartingProfile(logged, musterija);
+            if (osoba.RoleString === 'Driver') {
+                SetLocation(location, osoba.LocationID);
             }
 
             $.ajax({
@@ -473,7 +492,7 @@
                 success: function () {
                     alert("Entity updated");
                     EmptyAllInputs();
-                    if (logUser.RoleString === 'Driver') {
+                    if (logged.RoleString === 'Driver') {
                         $("#lblhome").empty();
                         $('#lblhome').append('Current location: ' + location);
                     }
@@ -482,12 +501,31 @@
                     $('#divupdate').hide();
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert(msg.responseText);
                 }
             });
         }
     });
 });
+
+function GetLocation(id) {
+    let loc;
+    $.ajax({
+        method: "GET",
+        url: "/api/Address",
+        data: { id: id },
+        dataType: "json",
+        success: function (data) {
+            loc = data;
+        },
+        error: function (msg) {
+            alert(msg.responseText);
+        },
+        async:false
+    });
+
+    return loc;
+}
 
 function CheckArray(array) {
     var result = array.filter(function (elem) {
@@ -573,6 +611,24 @@ function SetStartingProfile(logUser, musterija) {
     sessionStorage.setItem("logged", JSON.stringify(logUser));
 }
 
+function GetCustomer(username) {
+    let musterija;
+    $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
+        method: "GET",
+        url: "/api/Vozac",
+        data: { username: username },
+        dataType: "json",
+        success: function (data) {
+            musterija = data;
+        },
+        error: function (msg) {
+            alert(msg.responseText);
+        },
+        async: false
+    });
+
+    return musterija;
+}
 //da ispraznim sva polja unutar regstracione forme nakon uspesnog registrovanja
 function EmptyAllInputs() {
     $('#password').val("");
@@ -619,14 +675,14 @@ function ShowForCustomer() {
                                             endLoc = floc;
                                         },
                                         error: function (msg) {
-                                            alert("Fail - " + msg.responseText);
+                                            alert(msg.responseText);
                                         }
-                                        
+
                                     });
                                 }
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert(msg.responseText);
                             },
                             async: false
                         }),
@@ -640,7 +696,7 @@ function ShowForCustomer() {
                                 comments = loc;
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert(msg.responseText);
                             }
                         }),
                     ).then(function () {
@@ -710,13 +766,13 @@ function ShowForDriver() {
                                             endLoc = floc;
                                         },
                                         error: function (msg) {
-                                            alert("Fail - " + msg.responseText);
+                                            alert(msg.responseText);
                                         }
                                     });
                                 }
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert(msg.responseText);
                             },
                             async: false
                         }),
@@ -730,7 +786,7 @@ function ShowForDriver() {
                                 comments = loc;
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert(msg.responseText);
                             }
                         }),
                     ).then(function () {

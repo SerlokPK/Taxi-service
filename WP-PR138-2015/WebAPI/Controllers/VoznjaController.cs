@@ -77,7 +77,11 @@ namespace WebAPI.Controllers
                     {
                         m.DriveStatus = DrivingStatus.Declined;
                         v.Status = DrivingStatus.Declined;
-                        voz.DriveStatus = DrivingStatus.Failed;
+                        if (voz != null)
+                        {
+                            voz.DriveStatus = DrivingStatus.Failed;
+                        }
+                        
                         db.SaveChanges();
 
                         msg = Request.CreateResponse(HttpStatusCode.NoContent);

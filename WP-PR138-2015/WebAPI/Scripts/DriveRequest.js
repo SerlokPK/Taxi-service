@@ -1,44 +1,50 @@
 ﻿$(document).ready(function () {
     $('#btnrequestdrive').click(function () {
         let user = JSON.parse(sessionStorage.getItem('logged'));
+        let cust = GetCustomer(user.Username);
 
-        $.when(
-            $.ajax({                        //da vratim trenutno stanje ulogovanog 
-                method: "GET",
-                url: "/api/Vozac",
-                data: { username: user.Username },
-                dataType: "json",
-                success: function (data) {
-                    sessionStorage.setItem('logged', JSON.stringify(data));
-                },
-                error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+        if (cust.RoleString === 'Driver') {
+            alert('Please log out and log in again');
+        } else {
+            $.when(
+                $.ajax({                        //da vratim trenutno stanje ulogovanog 
+                    method: "GET",
+                    url: "/api/Vozac",
+                    data: { username: user.Username },
+                    dataType: "json",
+                    success: function (data) {
+                        sessionStorage.setItem('logged', JSON.stringify(data));
+                    },
+                    error: function (msg) {
+                        alert(msg.responseText);
+                    }
+                }),
+            ).then(function () {
+                user = JSON.parse(sessionStorage.getItem('logged'));
+                if (user.DriveString === 'Accepted' || user.DriveString === 'Created' || user.DriveString === 'Processed') {
+                    alert(`You already took one ride, finish it, or change your ride status if it's over, then try again.`);
+                } else if ((user.DriveString === 'Successful' || user.DriveString === 'Failed') && user.Commented == false) {
+                    alert('This drive is over, leave comment about your experience');
+                    let save = $('#lblhome').html();
+                    $('#lblhome').empty();
+                    let info = save.split('<');
+                    save = info[0];//.slice(0, -1);
+                    //$('#lblhome').html().split("<br/><br/>Do you wish to leave a comment?<br/><button id='btncomyes'>Yes</button>          <button id='btncomno'>No</button>").join("");
+                    $('#lblhome').append(save);
+                    $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
                 }
-            }),
-        ).then(function () {
-            user = JSON.parse(sessionStorage.getItem('logged'));
-            if (user.DriveString === 'Accepted' || user.DriveString === 'Created' || user.DriveString === 'Processed') {
-                alert(`You already took one ride, finish it, or change your ride status if it's over, then try again.`);
-            } else if ((user.DriveString === 'Successful' || user.DriveString === 'Failed') && user.Commented == false) {
-                alert('This drive is over, leave comment about your experience');
-                let save = $('#lblhome').html();
-                $('#lblhome').empty();
-                let info = save.split('<');
-                save = info[0];//.slice(0, -1);
-                //$('#lblhome').html().split("<br/><br/>Do you wish to leave a comment?<br/><button id='btncomyes'>Yes</button>          <button id='btncomno'>No</button>").join("");
-                $('#lblhome').append(save);
-                $('#lblhome').append('<br/><br/>Do you wish to leave a comment?<br/><button id="btncomyes">Yes</button>          <button id="btncomno">No</button>');
-            }
-            else {
-                $('#divrequest').show();
-                $('#divhome').hide();
-                $('#divprofile').hide();
-                $('#divupdate').hide();
-                $('#divallcustomers').hide();
-                $('#divmodifyrequest').hide();
-                $('#divridescudr').hide();
-            }
-        });
+                else {
+                    $('#divrequest').show();
+                    $('#divhome').hide();
+                    $('#divprofile').hide();
+                    $('#divupdate').hide();
+                    $('#divallcustomers').hide();
+                    $('#divmodifyrequest').hide();
+                    $('#divridescudr').hide();
+                }
+            });
+        }
+        
     });
 
     $('#btncreatedrive').click(function () {
@@ -62,7 +68,7 @@
                         startID = data //moram cuvati ID pocetne lokacije, kako bih stavio u 'voznju'
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert( msg.responseText);
                     }
                 }),
             ).then(function () {
@@ -103,7 +109,7 @@
                                         $('#divhome').show();
                                     },
                                     error: function (msg) {
-                                        alert("Fail - " + msg.responseText);
+                                        alert( msg.responseText);
                                     }
                                 });
 
@@ -114,7 +120,7 @@
                         });
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert( msg.responseText);
                     }
                 });
             });
@@ -136,7 +142,7 @@
                     voznja = data;
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert(msg.responseText);
                 }
             }),
         ).then(function () {
@@ -148,6 +154,10 @@
                 $('#divallcustomers').hide();
                 $('#divrequest').hide();
                 $('#divridescudr').hide();
+
+                let loc = GetLocation(voznja.StartPointID);
+                $('#modloc').val(loc);
+
             } else {
                 alert('This drive is over, leave comment about your experience');
                 let save = $('#lblhome').html();
@@ -193,12 +203,12 @@
                         sessionStorage.setItem('logged', JSON.stringify(response));
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert( msg.responseText);
                     }
                 });
             },
             error: function (msg) {
-                alert("Fail - " + msg.responseText);
+                alert( msg.responseText);
             }
         });
     });
@@ -263,7 +273,7 @@
                                     
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
 
@@ -276,7 +286,7 @@
                             $('#divhome').show();
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
 
@@ -299,17 +309,17 @@
                                     sessionStorage.setItem('logged', JSON.stringify(response));
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             });
         }
@@ -332,7 +342,7 @@
                     voznja = data;
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -410,12 +420,12 @@
 
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
 
@@ -438,12 +448,12 @@
                             $('#divhome').show();
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             });
         }
@@ -609,7 +619,7 @@ function ValidationForModification() {
                             $('#divhome').show();
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
                 },
@@ -686,13 +696,13 @@ function ShowForCustomer() {
                                             endLoc = floc;
                                         },
                                         error: function (msg) {
-                                            alert("Fail - " + msg.responseText);
+                                            alert( msg.responseText);
                                         }
                                     });
                                 }
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert( msg.responseText);
                             }
                         }),
 
@@ -705,7 +715,7 @@ function ShowForCustomer() {
                                 comments = loc;
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert( msg.responseText);
                             }
                         }),
                     ).then(function () {

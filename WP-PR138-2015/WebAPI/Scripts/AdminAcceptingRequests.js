@@ -29,7 +29,7 @@
                                 $('#olforcrtreqadm').append(`<li>Pickup location: ${response} <button id='btnaccrequestadm'>Accept</button></br>Wanted car: ${val.TypeString}<input type="hidden" id="${val.Id}"></li>`);
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert( msg.responseText);
                             }
                         });
                     }
@@ -69,7 +69,7 @@
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -121,7 +121,7 @@
                         }
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert( msg.responseText);
                     }
                 }),
                 $.ajax({                        //proverim da li je vozac zauzet
@@ -136,7 +136,7 @@
                         });
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert( msg.responseText);
                     }
                 }),
             ).then(function () {
@@ -188,13 +188,13 @@
                                                                     endLoc = floc;
                                                                 },
                                                                 error: function (msg) {
-                                                                    alert("Fail - " + msg.responseText);
+                                                                    alert( msg.responseText);
                                                                 }
                                                             });
                                                         }
                                                     },
                                                     error: function (msg) {
-                                                        alert("Fail - " + msg.responseText);
+                                                        alert( msg.responseText);
                                                     }
                                                 }),
 
@@ -207,7 +207,7 @@
                                                         comments = loc;
                                                     },
                                                     error: function (msg) {
-                                                        alert("Fail - " + msg.responseText);
+                                                        alert( msg.responseText);
                                                     }
                                                 }),
                                             ).then(function () {
@@ -236,12 +236,12 @@
                                     $('#divridescudr').show();
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
                 } else if (!status) {
@@ -276,7 +276,7 @@
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -343,13 +343,13 @@ function ShowAll() {
                                         endLoc = floc;
                                     },
                                     error: function (msg) {
-                                        alert("Fail - " + msg.responseText);
+                                        alert( msg.responseText);
                                     }
                                 });
                             }
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     }),
 
@@ -362,7 +362,7 @@ function ShowAll() {
                             comments = loc;
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     }),
                 ).then(function () {

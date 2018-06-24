@@ -12,7 +12,7 @@
                     sessionStorage.setItem('logged', JSON.stringify(data));
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -49,7 +49,7 @@
                                         $('#olforcrtreq').append(`<li>Pickup location: ${response} <button id='btnaccrequest'>Accept</button></br>Wanted car: ${val.TypeString}<input type="hidden" id="${val.Id}"></li>`);
                                     },
                                     error: function (msg) {
-                                        alert("Fail - " + msg.responseText);
+                                        alert( msg.responseText);
                                     }
                                 });
                             }
@@ -90,7 +90,7 @@
                     
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -126,12 +126,12 @@
                                     $('#divhome').show();
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
                 } else {
@@ -237,7 +237,7 @@
 
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
 
@@ -249,7 +249,7 @@
                             $('#divhome').show();
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
 
@@ -268,7 +268,7 @@
                             
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     });
                 },
@@ -306,7 +306,7 @@
                         final = data; //ID krajnje lokacije
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert( msg.responseText);
                     }
                 }),
             ).then(function () {
@@ -339,7 +339,7 @@
                                 $('#divhome').show();
                             },
                             error: function (msg) {
-                                alert("Fail - " + msg.responseText);
+                                alert( msg.responseText);
                             }
                         });
                     },
@@ -446,7 +446,7 @@ function ChangeCurrentDest(final,username) {
                 $('#lblhome').append('Current location: ' + floc);
             },
             error: function (msg) {
-                alert("Fail - " + msg.responseText);
+                alert( msg.responseText);
             },
             async: false
         }),
@@ -465,96 +465,9 @@ function ChangeCurrentDest(final,username) {
                 
             },
             error: function (msg) {
-                alert("Fail - " + msg.responseText);
+                alert( msg.responseText);
             }
         });
     });
 }
-//function ShowForDriver() {
-//    let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
 
-//    $.ajax({                    //uzimam sve voznje, ali cu priokazati samo od ovog vozaca
-//        method: "GET",
-//        url: "/api/Voznja",
-//        dataType: "json",
-//        success: function (response) {
-//            $("#lbldrives").empty();
-//            $('#lbldrives').append('=================Drives=================');
-
-//            $.each(response, function (index, value) {
-//                let startLoc;
-//                let endLoc;
-//                let comments = [];
-//                if (value.DriverID != null && value.DriverID == loggedUser.Username) {
-//                    $.when(
-//                        $.ajax({                    //za svaku voznju vracam pocetnu lokaciju posebno
-//                            method: "GET",
-//                            url: "/api/Address",
-//                            data: { id: value.StartPointID },
-//                            dataType: "json",
-//                            success: function (loc) {
-//                                startLoc = loc;
-
-//                                if (value.FinalPointID != null) {
-//                                    $.ajax({                    //za svaku voznju vracam krajnju lokaciju posebno, ako postoji
-//                                        method: "GET",
-//                                        url: "/api/Address",
-//                                        data: { id: value.FinalPointID },
-//                                        dataType: "json",
-//                                        success: function (floc) {
-//                                            endLoc = floc;
-//                                        },
-//                                        error: function (msg) {
-//                                            alert("Fail - " + msg.responseText);
-//                                        }
-//                                    });
-//                                }
-//                            },
-//                            error: function (msg) {
-//                                alert("Fail - " + msg.responseText);
-//                            }
-//                        }),
-
-//                        $.ajax({                    //za svaku voznju vracam komentare, ukoliko su npr kom i vozac i musterija
-//                            method: "GET",
-//                            url: "/api/Smart2",
-//                            data: { startLocation: value.StartPointID },
-//                            dataType: "json",
-//                            success: function (loc) {
-//                                comments = loc;
-//                            },
-//                            error: function (msg) {
-//                                alert("Fail - " + msg.responseText);
-//                            }
-//                        }),
-//                    ).then(function () {
-//                        if (value.AdminID != null) {
-//                            $('#lbldrives').append(`<br />Admin: ${value.AdminID}`);
-//                        }
-
-//                        if (value.UserCallerID != null) {
-//                            $('#lbldrives').append(`<br />Customer: ${value.UserCallerID}`);
-//                        }
-//                        $('#lbldrives').append(`<br />From: ${startLoc} - To: ${endLoc}`);
-//                        $('#lbldrives').append(`<br />Status: ${value.StatusString} - Reservation time: ${value.TimeOfReservation}`);
-//                        if (value.Payment != null) {
-//                            $('#lbldrives').append(`<br />Payment: ${value.Payment}`);
-//                        }
-//                        if (comments.length > 0) {
-//                            $.each(comments, function (index, value) {
-//                                $('#lbldrives').append(`<br />Comment posted by: ${value.UserID} - Time: ${value.PostingTime}`);
-//                                $('#lbldrives').append(`<br />Grade for this ride: ${value.Grade}`);
-//                                $('#lbldrives').append(`<br /><br /><textarea readonly rows="8" cols="35">${value.Description}</textarea>`);
-//                            });
-//                        }
-//                        $('#lbldrives').append('<br />===========================================');
-//                    });
-//                }
-//            });
-//            $('#divridescudr').show();
-//        },
-//        error: function (msg) {
-//            //alert("Fail - " + msg.responseText);
-//        }
-//    });
-//}

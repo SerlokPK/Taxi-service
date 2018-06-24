@@ -18,18 +18,28 @@ namespace WebAPI.Controllers
         {
             HttpResponseMessage msg;
             MusterijaRepository repo = new MusterijaRepository();
+            AdminRepository arepo = new AdminRepository();
+            VozacRepository vrepo = new VozacRepository();
 
             try
             {
                 Musterija m = repo.GetOneMusterija(username);
+                Admin a = arepo.GetOneAdmin(username);
+                Vozac v = vrepo.GetOneVozac(username);
 
-                if (m == null)
-                {
-                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Customer is not registered.");
-                }
-                else
+                if (m != null)
                 {
                     msg = Request.CreateResponse(HttpStatusCode.OK, m);
+                }else if(a != null)
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, a);
+                }else if(v != null)
+                {
+                    msg = Request.CreateResponse(HttpStatusCode.OK, v);
+                }
+                else
+                {   
+                    msg = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User is not registered.");
                 }
             }
             catch (Exception e)

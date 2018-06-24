@@ -18,7 +18,7 @@
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -64,7 +64,7 @@
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -103,7 +103,7 @@
                     });
                 },
                 error: function (msg) {
-                    alert("Fail - " + msg.responseText);
+                    alert( msg.responseText);
                 }
             }),
         ).then(function () {
@@ -119,7 +119,7 @@
                             startID = data //moram cuvati ID pocetne lokacije, kako bih stavio u 'voznju'
                         },
                         error: function (msg) {
-                            alert("Fail - " + msg.responseText);
+                            alert( msg.responseText);
                         }
                     }),
                 ).then(function () {
@@ -175,13 +175,13 @@
                                                                     endLoc = floc;
                                                                 },
                                                                 error: function (msg) {
-                                                                    alert("Fail - " + msg.responseText);
+                                                                    alert( msg.responseText);
                                                                 }
                                                             });
                                                         }
                                                     },
                                                     error: function (msg) {
-                                                        alert("Fail - " + msg.responseText);
+                                                        alert( msg.responseText);
                                                     }
                                                 }),
 
@@ -194,7 +194,7 @@
                                                         comments = loc;
                                                     },
                                                     error: function (msg) {
-                                                        alert("Fail - " + msg.responseText);
+                                                        alert( msg.responseText);
                                                     }
                                                 }),
                                             ).then(function () {
@@ -222,7 +222,7 @@
                                     $('#divridescudr').show();
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
 

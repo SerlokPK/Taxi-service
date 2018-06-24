@@ -36,12 +36,12 @@
 
                     },
                     error: function (msg) {
-                        alert("Fail - " + msg.responseText);
+                        alert( msg.responseText);
                     }
                 });
             },
             error: function (msg) {
-                alert("Fail - " + msg.responseText);
+                alert( msg.responseText);
             }
         });
 
@@ -91,6 +91,7 @@
                             dataType: "json",
                             success: function () {
                                 $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - ${role}<button class="helper" id='btnchangerole'>Change</button></li>`);
+                                
                             },
                             error: function (msg) {
                                 $('#listallcustomers').find(`li:eq(${index})`).html(`${value.Username} - Customer<button class="helper" id='btnchangerole'>Change</button></li>`);
@@ -115,7 +116,7 @@
 
                                 },
                                 error: function (msg) {
-                                    alert("Fail - " + msg.responseText);
+                                    alert( msg.responseText);
                                 }
                             });
                         }
