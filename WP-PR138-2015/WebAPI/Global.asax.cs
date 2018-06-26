@@ -25,7 +25,7 @@ namespace WebAPI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //ukoliko menjamo tabelu nakon sto je napravljena, mora da se dropuje i kreira nova
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SystemDBContext>());
+            Database.SetInitializer(new SystemSeeder());
 
             //programsko ucitavanje admina
             string[] info = new string[10];

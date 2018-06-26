@@ -70,82 +70,90 @@
         let voznja;
         let status = true;
 
-        let driver = JSON.parse(sessionStorage.getItem('logged'));
-        let info = temp.split('"');
-        let id = info[5];      //id voznje
-        id = parseInt(id);
+        let logged =  JSON.parse(sessionStorage.getItem('logged'));
+        let driver = GetCustomer(logged.Username);
 
-        $.when(
-            $.ajax({                        //da vratim trenutno stanje ulogovanog 
-                method: "GET",
-                url: "/api/Registration",
-                data: { id: id },
-                dataType: "json",
-                success: function (data) {
-                    if (data.StatusString === 'Created') {
-                        voznja = data;
-                    } else {
-                        status = false;
-                    }
-                    
-                },
-                error: function (msg) {
-                    alert( msg.responseText);
-                }
-            }),
-        ).then(function () {
-            driver = JSON.parse(sessionStorage.getItem('logged'));
+        if (driver.DriveString === 'Accepted' || driver.DriveString === 'InProgress') {
+            alert(`You were assigned in meantime, go to home page to review your drive.`);
+        } else {
+            let info = temp.split('"');
+            let id = info[5];      //id voznje
+            id = parseInt(id);
 
-            if (status) {
-                if (voznja.StatusString !== 'Declined') {
-                    let send = {
-                        Id: id,
-                        Driver: driver.Username
-                    }
-
-                    $.ajax({        //menjamo statuse voznje, vozaca i musterije
-                        method: "PUT",
-                        url: "/api/Registration",
-                        data: JSON.stringify(send),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            alert('Drive accepted, good luck!');
-
-                            $.ajax({
-                                method: "GET",
-                                url: "/api/Address",
-                                data: { id: data.StartPointID },
-                                dataType: "json",
-                                success: function (response) {
-                                    $("#lblfordriver").empty();
-                                    $('#lblfordriver').append(`<br /><br />====Current drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
-                                                            <br /><button id='btnfnsdrv'>Finish</button>`);
-                                    $('#divallreqcreated').hide();
-                                    ShowForDriver();
-                                    $('#divhome').show();
-                                },
-                                error: function (msg) {
-                                    alert( msg.responseText);
-                                }
-                            });
-                        },
-                        error: function (msg) {
-                            alert( msg.responseText);
+            $.when(
+                $.ajax({                        //da vratim trenutno stanje ulogovanog 
+                    method: "GET",
+                    url: "/api/Registration",
+                    data: { id: id },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.StatusString === 'Created') {
+                            voznja = data;
+                        } else {
+                            status = false;
                         }
-                    });
+
+                    },
+                    error: function (msg) {
+                        alert(msg.responseText);
+                    }
+                }),
+            ).then(function () {
+                driver = JSON.parse(sessionStorage.getItem('logged'));
+
+                if (status) {
+                    if (voznja.StatusString !== 'Declined') {
+                        let send = {
+                            Id: id,
+                            Driver: driver.Username
+                        }
+
+                        $.ajax({        //menjamo statuse voznje, vozaca i musterije
+                            method: "PUT",
+                            url: "/api/Registration",
+                            data: JSON.stringify(send),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                alert('Drive accepted, good luck!');
+
+                                $.ajax({
+                                    method: "GET",
+                                    url: "/api/Address",
+                                    data: { id: data.StartPointID },
+                                    dataType: "json",
+                                    success: function (response) {
+                                        $("#lblfordriver").empty();
+                                        $('#lblfordriver').append(`<br /><br />====Current drive===== <br />Location: ${response}<br />Status: ${data.StatusString}<br />Reservation time: ${data.TimeOfReservation}
+                                                            <br /><button id='btnfnsdrv'>Finish</button>`);
+                                        $('#divallreqcreated').hide();
+                                        ShowForDriver();
+                                        $('#divhome').show();
+                                    },
+                                    error: function (msg) {
+                                        alert(msg.responseText);
+                                    }
+                                });
+                            },
+                            error: function (msg) {
+                                alert(msg.responseText);
+                            }
+                        });
+                    } else {
+                        alert('Customer declined this drive in meantime, choose another.');
+                        $('#divallreqcreated').hide();
+                        ShowForDriver();
+                        $('#divhome').show();
+                    }
                 } else {
-                    alert('Customer declined this drive in meantime, choose another.');
-                    $('#divallreqcreated').hide();
-                    ShowForDriver();
-                    $('#divhome').show();
+                    alert('Drive was changed in meantime, choose another.');
+                    $('#btnacptreq').trigger('click');
                 }
-            } else {
-                alert('Drive was changed in meantime, choose another.');
-                $('#btnacptreq').trigger('click');
-            }
-            
-        });
+
+            });
+        }
+
+        
     });
     //div za biranje ishoda voznje
     $('#lblfordriver').on('click', '#btnfnsdrv', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da

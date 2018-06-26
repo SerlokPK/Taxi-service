@@ -53,7 +53,7 @@
         let loggedUser = JSON.parse(sessionStorage.getItem('logged'));
         let startId;
 
-        location = Validation(location);
+        location = ValidationDrive(location);
         let send = { FullAddress: location };
 
         if (location !== "") {
@@ -460,7 +460,7 @@
     });
 });
 
-function Validation(location) {
+function ValidationDrive(location) {
     let radnikStatus = true;
     let status = true;
     let ret = "";
@@ -505,7 +505,7 @@ function Validation(location) {
         temp = info[2].split(' ');
         temp = CheckArray(temp);
 
-        if (temp.length > 1 || isNaN(temp)) {
+        if (temp.length > 1 || isNaN(temp) || info[2] === "") {
             $("#curloc").css('background-color', '#F9D3D3');
             $('#curloc').val("");
             $("#curloc").attr("placeholder", "Incorect format");
@@ -574,7 +574,7 @@ function ValidationForModification() {
         temp = info[2].split(' ');
         temp = CheckArray(temp);
 
-        if (temp.length > 1 || isNaN(temp)) {
+        if (temp.length > 1 || isNaN(temp) || info[2] === "") {
             $("#modloc").css('background-color', '#F9D3D3');
             $('#modloc').val("");
             $("#modloc").attr("placeholder", "Incorect format");
