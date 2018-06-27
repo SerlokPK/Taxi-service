@@ -78,7 +78,7 @@ namespace WebAPI.DBClasses
 
             Komentar k1 = new Komentar()
             {
-                DriveID = 1,
+                DriveID = 2,
                 Description = "Default komentar - customer",
                 Grade = 1,
                 Id = 1,
@@ -90,7 +90,7 @@ namespace WebAPI.DBClasses
 
             Komentar k2 = new Komentar()
             {
-                DriveID = 1,
+                DriveID = 2,
                 Description = "Default komentar - driver",
                 Grade = 0,
                 Id = 2,

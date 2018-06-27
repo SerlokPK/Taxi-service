@@ -44,7 +44,7 @@
                 }
             });
         }
-        
+
     });
 
     $('#btncreatedrive').click(function () {
@@ -68,7 +68,7 @@
                         startID = data //moram cuvati ID pocetne lokacije, kako bih stavio u 'voznju'
                     },
                     error: function (msg) {
-                        alert( msg.responseText);
+                        alert(msg.responseText);
                     }
                 }),
             ).then(function () {
@@ -109,7 +109,7 @@
                                         $('#divhome').show();
                                     },
                                     error: function (msg) {
-                                        alert( msg.responseText);
+                                        alert(msg.responseText);
                                     }
                                 });
 
@@ -120,7 +120,7 @@
                         });
                     },
                     error: function (msg) {
-                        alert( msg.responseText);
+                        alert(msg.responseText);
                     }
                 });
             });
@@ -203,12 +203,12 @@
                         sessionStorage.setItem('logged', JSON.stringify(response));
                     },
                     error: function (msg) {
-                        alert( msg.responseText);
+                        alert(msg.responseText);
                     }
                 });
             },
             error: function (msg) {
-                alert( msg.responseText);
+                alert(msg.responseText);
             }
         });
     });
@@ -270,10 +270,10 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (response) {
-                                    
+
                                 },
                                 error: function (msg) {
-                                    alert( msg.responseText);
+                                    alert(msg.responseText);
                                 }
                             });
 
@@ -286,7 +286,7 @@
                             $('#divhome').show();
                         },
                         error: function (msg) {
-                            alert( msg.responseText);
+                            alert(msg.responseText);
                         }
                     });
 
@@ -309,17 +309,17 @@
                                     sessionStorage.setItem('logged', JSON.stringify(response));
                                 },
                                 error: function (msg) {
-                                    alert( msg.responseText);
+                                    alert(msg.responseText);
                                 }
                             });
                         },
                         error: function (msg) {
-                            alert( msg.responseText);
+                            alert(msg.responseText);
                         }
                     });
                 },
                 error: function (msg) {
-                    alert( msg.responseText);
+                    alert(msg.responseText);
                 }
             });
         }
@@ -327,7 +327,7 @@
 
     //cancel 'created' voznje
     $('#lblhome').on('click', '#btncanceldrive', function () {    //kada se dinamicki pravi, moras preko elementa na koji appendujes da
-        
+
         let temp = $('#lblhome').find('input:hidden').val();
         id = parseInt(temp);
         let voznja;
@@ -342,12 +342,12 @@
                     voznja = data;
                 },
                 error: function (msg) {
-                    alert( msg.responseText);
+                    alert(msg.responseText);
                 }
             }),
         ).then(function () {
             if (voznja.StatusString === 'Created' || voznja.StatusString === 'Accepted') {      // ako je neki od ovih stanja, moze da cancel
-                $('#divcancelride').show();                         
+                $('#divcancelride').show();
                 $('#divhome').hide();
                 $('#divprofile').hide();
                 $('#divupdate').hide();
@@ -420,12 +420,12 @@
 
                                 },
                                 error: function (msg) {
-                                    alert( msg.responseText);
+                                    alert(msg.responseText);
                                 }
                             });
                         },
                         error: function (msg) {
-                            alert( msg.responseText);
+                            alert(msg.responseText);
                         }
                     });
 
@@ -448,12 +448,12 @@
                             $('#divhome').show();
                         },
                         error: function (msg) {
-                            alert( msg.responseText);
+                            alert(msg.responseText);
                         }
                     });
                 },
                 error: function (msg) {
-                    alert( msg.responseText);
+                    alert(msg.responseText);
                 }
             });
         }
@@ -619,7 +619,7 @@ function ValidationForModification() {
                             $('#divhome').show();
                         },
                         error: function (msg) {
-                            alert( msg.responseText);
+                            alert(msg.responseText);
                         }
                     });
                 },
@@ -627,7 +627,7 @@ function ValidationForModification() {
                     alert('Drive was finished, you ca"t modify it now.');
                     $('#divmodifyrequest').hide();
                     $('#modloc').val("");
-                    $("#lblhome").empty(); 
+                    $("#lblhome").empty();
                     ShowForCustomer();
                     $('#divhome').show();
                 }
@@ -696,13 +696,13 @@ function ShowForCustomer() {
                                             endLoc = floc;
                                         },
                                         error: function (msg) {
-                                            alert( msg.responseText);
+                                            alert(msg.responseText);
                                         }
                                     });
                                 }
                             },
                             error: function (msg) {
-                                alert( msg.responseText);
+                                alert(msg.responseText);
                             }
                         }),
 
@@ -715,8 +715,9 @@ function ShowForCustomer() {
                                 comments = loc;
                             },
                             error: function (msg) {
-                                alert( msg.responseText);
-                            }
+                                alert(msg.responseText);
+                            },
+                            async: false
                         }),
                     ).then(function () {
                         if (value.DriverID != null) {

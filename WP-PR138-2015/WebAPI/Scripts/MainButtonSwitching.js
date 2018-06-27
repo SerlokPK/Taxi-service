@@ -787,7 +787,8 @@ function ShowForDriver() {
                             },
                             error: function (msg) {
                                 alert(msg.responseText);
-                            }
+                            },
+                            async: false
                         }),
                     ).then(function () {
                         if (value.AdminID != null) {
